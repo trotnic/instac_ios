@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,9 +12,15 @@
 		73148B1425C0A48E00F91119 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73148B1325C0A48E00F91119 /* Assets.xcassets */; };
 		73148B1725C0A48E00F91119 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73148B1525C0A48E00F91119 /* LaunchScreen.storyboard */; };
 		CA0326C626144C2D002A9B30 /* Recorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0326C526144C2D002A9B30 /* Recorder.swift */; };
+		CA1E3C6B26258FA000D9958D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1E3C6A26258FA000D9958D /* Player.swift */; };
+		CA268F592624865C004C4D35 /* ReactiveCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = CA268F582624865C004C4D35 /* ReactiveCocoa */; };
+		CA324C79261EE9FD00B80798 /* ReactiveSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CA324C78261EE9FD00B80798 /* ReactiveSwift */; };
 		CA3E779A2615A3B0003F0AF3 /* UVButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3E77992615A3B0003F0AF3 /* UVButton.swift */; };
 		CA3E77A72615D7B9003F0AF3 /* UVRecordingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3E77A62615D7B9003F0AF3 /* UVRecordingListViewController.swift */; };
 		CA3E77AB2615DA35003F0AF3 /* UVContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3E77AA2615DA35003F0AF3 /* UVContainerViewController.swift */; };
+		CA3E77AF2615E39F003F0AF3 /* UVRecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3E77AE2615E39F003F0AF3 /* UVRecorderViewModel.swift */; };
+		CA3E77B22615E3ED003F0AF3 /* UVRecordListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3E77B12615E3ED003F0AF3 /* UVRecordListPresenter.swift */; };
+		CA3E77B62615E905003F0AF3 /* UVPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3E77B52615E905003F0AF3 /* UVPlayerViewModel.swift */; };
 		CA4316652611AF6C0024E149 /* UVRecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4316642611AF6C0024E149 /* UVRecordingViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,9 +32,13 @@
 		73148B1625C0A48E00F91119 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		73148B1825C0A48E00F91119 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA0326C526144C2D002A9B30 /* Recorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recorder.swift; sourceTree = "<group>"; };
+		CA1E3C6A26258FA000D9958D /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		CA3E77992615A3B0003F0AF3 /* UVButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVButton.swift; sourceTree = "<group>"; };
 		CA3E77A62615D7B9003F0AF3 /* UVRecordingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVRecordingListViewController.swift; sourceTree = "<group>"; };
 		CA3E77AA2615DA35003F0AF3 /* UVContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVContainerViewController.swift; sourceTree = "<group>"; };
+		CA3E77AE2615E39F003F0AF3 /* UVRecorderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVRecorderViewModel.swift; sourceTree = "<group>"; };
+		CA3E77B12615E3ED003F0AF3 /* UVRecordListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVRecordListPresenter.swift; sourceTree = "<group>"; };
+		CA3E77B52615E905003F0AF3 /* UVPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVPlayerViewModel.swift; sourceTree = "<group>"; };
 		CA4316642611AF6C0024E149 /* UVRecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVRecordingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -37,6 +47,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA324C79261EE9FD00B80798 /* ReactiveSwift in Frameworks */,
+				CA268F592624865C004C4D35 /* ReactiveCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +74,7 @@
 		73148B0925C0A48E00F91119 /* sense-audio */ = {
 			isa = PBXGroup;
 			children = (
+				CA3E77B42615E8F9003F0AF3 /* ViewModels */,
 				CA3E77A92615DA26003F0AF3 /* ViewControllers */,
 				CA3E77A52615D794003F0AF3 /* RecordingsListScene */,
 				CA3E77982615A3A3003F0AF3 /* Views */,
@@ -80,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				CA0326C526144C2D002A9B30 /* Recorder.swift */,
+				CA1E3C6A26258FA000D9958D /* Player.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -88,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				CA4316642611AF6C0024E149 /* UVRecordingViewController.swift */,
+				CA3E77AE2615E39F003F0AF3 /* UVRecorderViewModel.swift */,
 			);
 			path = RecordingScene;
 			sourceTree = "<group>";
@@ -104,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				CA3E77A62615D7B9003F0AF3 /* UVRecordingListViewController.swift */,
+				CA3E77B12615E3ED003F0AF3 /* UVRecordListPresenter.swift */,
 			);
 			path = RecordingsListScene;
 			sourceTree = "<group>";
@@ -114,6 +130,14 @@
 				CA3E77AA2615DA35003F0AF3 /* UVContainerViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		CA3E77B42615E8F9003F0AF3 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CA3E77B52615E905003F0AF3 /* UVPlayerViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,6 +156,10 @@
 			dependencies = (
 			);
 			name = "sense-audio";
+			packageProductDependencies = (
+				CA324C78261EE9FD00B80798 /* ReactiveSwift */,
+				CA268F582624865C004C4D35 /* ReactiveCocoa */,
+			);
 			productName = "sense-audio";
 			productReference = 73148B0725C0A48E00F91119 /* sense-audio.app */;
 			productType = "com.apple.product-type.application";
@@ -159,6 +187,10 @@
 				Base,
 			);
 			mainGroup = 73148AFE25C0A48D00F91119;
+			packageReferences = (
+				CA324C77261EE9FD00B80798 /* XCRemoteSwiftPackageReference "ReactiveSwift" */,
+				CA268F572624865C004C4D35 /* XCRemoteSwiftPackageReference "ReactiveCocoa" */,
+			);
 			productRefGroup = 73148B0825C0A48E00F91119 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -185,11 +217,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA1E3C6B26258FA000D9958D /* Player.swift in Sources */,
+				CA3E77B62615E905003F0AF3 /* UVPlayerViewModel.swift in Sources */,
 				CA3E779A2615A3B0003F0AF3 /* UVButton.swift in Sources */,
+				CA3E77AF2615E39F003F0AF3 /* UVRecorderViewModel.swift in Sources */,
 				CA3E77A72615D7B9003F0AF3 /* UVRecordingListViewController.swift in Sources */,
 				CA4316652611AF6C0024E149 /* UVRecordingViewController.swift in Sources */,
 				73148B0B25C0A48E00F91119 /* AppDelegate.swift in Sources */,
 				73148B0D25C0A48E00F91119 /* SceneDelegate.swift in Sources */,
+				CA3E77B22615E3ED003F0AF3 /* UVRecordListPresenter.swift in Sources */,
 				CA0326C626144C2D002A9B30 /* Recorder.swift in Sources */,
 				CA3E77AB2615DA35003F0AF3 /* UVContainerViewController.swift in Sources */,
 			);
@@ -391,6 +427,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CA268F572624865C004C4D35 /* XCRemoteSwiftPackageReference "ReactiveCocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveCocoa/ReactiveCocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.2.0;
+			};
+		};
+		CA324C77261EE9FD00B80798 /* XCRemoteSwiftPackageReference "ReactiveSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveCocoa/ReactiveSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CA268F582624865C004C4D35 /* ReactiveCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CA268F572624865C004C4D35 /* XCRemoteSwiftPackageReference "ReactiveCocoa" */;
+			productName = ReactiveCocoa;
+		};
+		CA324C78261EE9FD00B80798 /* ReactiveSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CA324C77261EE9FD00B80798 /* XCRemoteSwiftPackageReference "ReactiveSwift" */;
+			productName = ReactiveSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 73148AFF25C0A48D00F91119 /* Project object */;
 }

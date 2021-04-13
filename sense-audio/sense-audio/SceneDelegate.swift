@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // MARK: ⚠️ DEVELOP ZONE ⚠️
         guard let scene = (scene as? UIWindowScene) else { return }
         window = .init(windowScene: scene)
-        let navigationController = UINavigationController(rootViewController: UVRecordingListViewController())
+        let navigationController = UINavigationController(rootViewController: UVRecordingViewController())
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }

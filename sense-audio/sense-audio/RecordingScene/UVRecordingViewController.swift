@@ -8,21 +8,30 @@
 //
 
 import UIKit
-
 import AVFoundation
-
-// MARK: ⚠️ DEVELOP ZONE ⚠️
-
-fileprivate enum State {
-    case recording, playing, paused
-}
+import ReactiveCocoa
 
 
 class UVRecordingViewController: UIViewController {
     
     // MARK: ⚠️ DEVELOP ZONE ⚠️
     
-    private var state: State = .paused
+    private enum RecorderState {
+        case idle, recording, stopped
+    }
+    
+    private enum PlayerState {
+        case idle, playing, paused
+    }
+    
+    private struct Constants {
+        static let fadeDuration: TimeInterval = 0.2
+        static let playIM = "play"
+        static let recordStartIM = "record.circle"
+    }
+    
+    private var recorderState: RecorderState = .idle
+    private var playerState: PlayerState = .idle
     
     // MARK: - Lazy Properties
     
@@ -41,21 +50,36 @@ class UVRecordingViewController: UIViewController {
     lazy var playButton: UIButton = {
         let view = UVButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setImage(UIImage(systemName: "play"), for: .normal)
+        view.setImage(UIImage(systemName: Constants.playIM), for: .normal)
         view.addTarget(self, action: #selector(playBackAction(_:)), for: .touchUpInside)
+        view.isEnabled = false
         return view
     }()
     
     lazy var recordButton: UIButton = {
         let view = UVButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setImage(UIImage(systemName: "record.circle"), for: .normal)
+        view.setImage(UIImage(systemName: Constants.recordStartIM), for: .normal)
         view.addTarget(self, action: #selector(recordAction(_:)), for: .touchUpInside)
         return view
     }()
     
-    lazy var doneButton: UIBarButtonItem = {
-        let item = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(saveAssetAction))
+    /**
+     Saves the actual audio file
+     and returns to the list of tracks
+     */
+    lazy var saveButton: UIBarButtonItem = {
+        let item = UIBarButtonItem(image: UIImage(systemName: "checkmark"), style: .plain, target: self, action: #selector(saveAssetAction))
+        item.isEnabled = false
+        return item
+    }()
+    
+    /**
+     Deletes current audio asset
+     and refreshes VC state to `.idle`
+     */
+    lazy var deleteButton: UIBarButtonItem = {
+        let item = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deleteAssetAction))
         item.isEnabled = false
         return item
     }()
@@ -74,14 +98,14 @@ class UVRecordingViewController: UIViewController {
         return view
     }()
     
-    private var recorder: Recorder = .init()
-//    private var recorder: AVAudioRecorder?
+    lazy var recorderViewModel: UVRecorderViewModelType = {
+        let viewModel = UVRecorderViewModel()
+        return viewModel
+    }()
     
-    
-    private lazy var fileManager: FileManager = {
-        let manager = FileManager.default
-        //
-        return manager
+    lazy var playerViewModel: UVPlayerViewModelType = {
+        let viewModel = UVPlayerViewModel()
+        return viewModel
     }()
     
     // MARK: -
@@ -95,7 +119,10 @@ class UVRecordingViewController: UIViewController {
     
     private func setupAppearance() {
         view.backgroundColor = .systemBackground
-        navigationItem.rightBarButtonItem = doneButton
+        navigationItem.rightBarButtonItems = [
+            saveButton,
+            deleteButton
+        ]
         layoutRecordButton()
         layoutPlayButton()
         layoutTimeLabel()
@@ -132,72 +159,96 @@ class UVRecordingViewController: UIViewController {
     // MARK: - Private Logic
     
     @objc private func recordAction(_ sender: UIButton) {
-        switch state {
-        case .paused:
-            UIView.transition(with: recordButton, duration: 0.2, options: [.transitionCrossDissolve]) {
+        switch recorderState {
+        case .idle:
+            animateTransition(recordButton) {
                 self.recordButton.setImage(UIImage(systemName: "stop.circle"), for: .normal)
             }
-            UIView.transition(with: playButton, duration: 0.2, options: [.transitionCrossDissolve]) {
+            animateTransition(playButton) {
                 self.playButton.isEnabled = false
             }
-            state = .recording
-            // MARK: ⚠️ DEVELOP ZONE ⚠️
-            try? recorder.startRecording()
-        case .playing:
-            break
+            recorderViewModel.startRecording()
+            recorderState = .recording
         case .recording:
-            UIView.transition(with: recordButton, duration: 0.2, options: [.transitionCrossDissolve]) {
+            animateTransition(recordButton) {
+                self.recordButton.setImage(UIImage(systemName: "record.circle"), for: .normal)
                 self.recordButton.isEnabled = false
             }
-            UIView.transition(with: playButton, duration: 0.2, options: [.transitionCrossDissolve]) {
+            animateTransition(playButton) {
                 self.playButton.isEnabled = true
             }
-            UIView.animate(withDuration: 0.2) {
-                self.doneButton.isEnabled = true
-            }
-
-//            UIView.transition(with: doneButton., duration: 0.2, options: [.transitionCrossDissolve]) {
-                
-//            }
-
-            state = .paused
-            recorder.stopRecording()
+            self.deleteButton.isEnabled = true
+            self.saveButton.isEnabled = true
+            recorderViewModel.stopRecording()
+            recorderState = .stopped
+        case .stopped:
+            break
         }
-//        switch recodingState {
-//        case .paused:
-//            try? recorder.startRecording()
-//            recodingState = .recording
-//            break
-//        case .recording:
-//            recorder.stopRecording()
-//            recodingState = .paused
-//        }
     }
     
     @objc private func playBackAction(_ sender: UIButton) {
-//        try? recorder.togglePlay()
-//        switch playbackState {
-//        case .paused:
-//            
-//            playbackState = .playing
-//            break
-//        case .playing:
-//            try? reco
-//        }
+        
+        switch playerState {
+        case .idle:
+            if let audioFileURL = recorderViewModel.audioFileURL {
+                animateTransition(playButton) {
+                    self.playButton.setImage(UIImage(systemName: "pause"), for: .normal)
+                }
+                playerViewModel.play(audioFileURL)
+                playerState = .playing
+            }
+        case .playing:
+            animateTransition(playButton) {
+                self.playButton.setImage(UIImage(systemName: "play"), for: .normal)
+            }
+            playerViewModel.pause()
+            playerState = .paused
+        case .paused:
+            if let audioFileURL = recorderViewModel.audioFileURL {
+                animateTransition(playButton) {
+                    self.playButton.setImage(UIImage(systemName: "pause"), for: .normal)
+                }
+                playerViewModel.play(audioFileURL)
+                playerState = .playing
+            }
+        }
+        
     }
     
     @objc private func saveAssetAction() {
-        if let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
-           let fileURL = recorder.assetURL {
-            let newFileURL = directoryURL.appendingPathComponent(fileURL.lastPathComponent)
-//            print(directoryURL)
-//            FileManager.default.copy
-            print(fileURL)
-            try? FileManager.default.copyItem(at: fileURL, to: newFileURL)
-            try? FileManager.default.removeItem(at: fileURL)
-            print(newFileURL)
-//           let contents = try? FileManager.default.contentsOfDirectory(atPath: directoryURL.path) {
-//            self.contents.append(contentsOf: contents.compactMap({ URL(string: $0) }))
+        // MARK: ♻️ REFACTOR LATER ♻️
+        refreshState()
+    }
+    
+    @objc private func deleteAssetAction() {
+        /** send `pop` action somewhere...
+         */
+        refreshState()
+    }
+    
+    private func refreshState() {
+        recorderState = .idle
+        playerState = .idle
+        
+        playerViewModel.stop()
+        
+        animateTransition(recordButton) {
+            self.recordButton.setImage(UIImage(systemName: "record.circle"), for: .normal)
+            self.recordButton.isEnabled = true
+        }
+        animateTransition(playButton) {
+            self.playButton.isEnabled = false
+            self.playButton.setImage(UIImage(systemName: "play"), for: .normal)
+        }
+        self.deleteButton.isEnabled = false
+        self.saveButton.isEnabled = false
+    }
+}
+
+extension UVRecordingViewController {
+    private func animateTransition(_ with: UIView, callback: @escaping () -> ()) {
+        UIView.transition(with: with, duration: Constants.fadeDuration, options: [.transitionCrossDissolve]) {
+            callback()
         }
     }
 }

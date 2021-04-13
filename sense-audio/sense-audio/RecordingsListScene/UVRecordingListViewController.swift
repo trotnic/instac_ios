@@ -13,7 +13,10 @@ class UVRecordingListViewController: UIViewController {
     
     struct Constants {
         static let reuseIdentifier = "cell"
+        static let addIconName = "plus"
     }
+    
+    var presenter: UVRecordListType = UVRecordListPresenter()
     
     var contents: [URL] = []
     
@@ -28,7 +31,7 @@ class UVRecordingListViewController: UIViewController {
     
     lazy var createAssetButton: UIButton = {
         let view = UIButton()
-        view.setImage(UIImage(systemName: "plus"), for: .normal)
+        view.setImage(UIImage(systemName: Constants.addIconName), for: .normal)
         view.addTarget(self, action: #selector(showCreationController), for: .touchUpInside)
         return view
     }()
@@ -36,7 +39,6 @@ class UVRecordingListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAppearance()
-        setupContents()
     }
     
     private func setupAppearance() {
@@ -56,14 +58,6 @@ class UVRecordingListViewController: UIViewController {
         ])
     }
     
-    private func setupContents() {
-        // MARK: ⚠️ DEVELOP ZONE ⚠️
-        if let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
-           let contents = try? FileManager.default.contentsOfDirectory(atPath: directoryURL.path) {
-            self.contents.append(contentsOf: contents.compactMap({ URL(string: $0) }))
-        }
-    }
-    
 }
 
 extension UVRecordingListViewController {
@@ -74,12 +68,12 @@ extension UVRecordingListViewController {
 
 extension UVRecordingListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        contents.count
+        presenter.numberOfItems
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.reuseIdentifier, for: indexPath)
-        cell.textLabel?.text = contents[indexPath.row].lastPathComponent
+        cell.textLabel?.text = presenter.path(indexPath.row)
         return cell
     }
 }
@@ -90,9 +84,10 @@ extension UVRecordingListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
+        let action = UIContextualAction(style: .destructive, title: "Delete") { [presenter] (action, view, completion) in
         
             // MARK: ⚠️ DEVELOP ZONE ⚠️
+            presenter.delete(indexPath.row)
             tableView.deselectRow(at: indexPath, animated: true)
             completion(true)
         }
