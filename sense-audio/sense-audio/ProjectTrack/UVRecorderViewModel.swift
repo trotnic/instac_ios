@@ -10,7 +10,8 @@
 import Foundation
 
 /**
- Describes an interface for audio recorder view model
+ Describes an interface
+ for audio recorder view model
  */
 
 protocol UVRecorderViewModelType {
@@ -23,10 +24,11 @@ protocol UVRecorderViewModelType {
 }
 
 struct UVRecorderViewModel {
-    private lazy var recorder: VoiceRecorder = {
-        let recorder = VoiceRecorder()
-        return recorder
-    }()
+    
+    private var recorder: VoiceRecorder
+    private var fileManager: UVFileManagerType
+    // MARK: 🗑 DELETE LATER 🗑
+    private let project: String
     
     private(set) var audioFileURL: URL?
     
@@ -37,6 +39,12 @@ struct UVRecorderViewModel {
     private lazy var temporaryURL: URL = {
         FileManager.default.temporaryDirectory
     }()
+    
+    init(recorder: VoiceRecorder, fileManager: UVFileManagerType, project name: String) {
+        self.recorder = recorder
+        self.fileManager = fileManager
+        project = name
+    }
 }
 
 extension UVRecorderViewModel: UVRecorderViewModelType {
@@ -56,12 +64,16 @@ extension UVRecorderViewModel: UVRecorderViewModelType {
     }
     
     mutating func saveRecord() {
-        if let audioFileURL = audioFileURL,
-           let destinationFileURL = documentsURL?.appendingPathComponent(audioFileURL.lastPathComponent) {
-            try? FileManager.default.copyItem(at: audioFileURL, to: destinationFileURL)
-            try? FileManager.default.removeItem(at: audioFileURL)
-            self.audioFileURL = destinationFileURL
+        // MARK: ♻️ REFACTOR LATER ♻️
+        if let audioFileURL = audioFileURL {
+            try? fileManager.move(file: audioFileURL, to: project)
         }
+//        if let audioFileURL = audioFileURL,
+//           let destinationFileURL = documentsURL?.appendingPathComponent(audioFileURL.lastPathComponent) {
+//            try? FileManager.default.copyItem(at: audioFileURL, to: destinationFileURL)
+//            try? FileManager.default.removeItem(at: audioFileURL)
+//            self.audioFileURL = destinationFileURL
+//        }
         //        if let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
         //           let fileURL = recorder.assetURL {
         //            let newFileURL = directoryURL.appendingPathComponent(fileURL.lastPathComponent)

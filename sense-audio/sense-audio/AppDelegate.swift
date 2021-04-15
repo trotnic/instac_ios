@@ -20,10 +20,9 @@ extension AVAudioSession {
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        NotificationCenter.default.addObserver(forName: nil, object: nil, queue: nil) { (_) in }
+        
+        
         
         let session = AVAudioSession.shared
         

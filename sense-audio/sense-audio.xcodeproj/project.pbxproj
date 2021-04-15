@@ -14,14 +14,21 @@
 		CA0326C626144C2D002A9B30 /* Recorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0326C526144C2D002A9B30 /* Recorder.swift */; };
 		CA1E3C6B26258FA000D9958D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1E3C6A26258FA000D9958D /* Player.swift */; };
 		CA268F592624865C004C4D35 /* ReactiveCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = CA268F582624865C004C4D35 /* ReactiveCocoa */; };
+		CA2DD237262812BF00CF2F7E /* UVCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2DD236262812BF00CF2F7E /* UVCoordinator.swift */; };
+		CA2DD23E2628250C00CF2F7E /* UVCoordinatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2DD23D2628250C00CF2F7E /* UVCoordinatorFactory.swift */; };
+		CA2DD24126282E5100CF2F7E /* UVProjectTrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2DD24026282E5100CF2F7E /* UVProjectTrackViewController.swift */; };
+		CA2DD24426282E6000CF2F7E /* UVProjectTrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2DD24326282E6000CF2F7E /* UVProjectTrackViewModel.swift */; };
 		CA324C79261EE9FD00B80798 /* ReactiveSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CA324C78261EE9FD00B80798 /* ReactiveSwift */; };
 		CA3E779A2615A3B0003F0AF3 /* UVButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3E77992615A3B0003F0AF3 /* UVButton.swift */; };
-		CA3E77A72615D7B9003F0AF3 /* UVRecordingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3E77A62615D7B9003F0AF3 /* UVRecordingListViewController.swift */; };
 		CA3E77AB2615DA35003F0AF3 /* UVContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3E77AA2615DA35003F0AF3 /* UVContainerViewController.swift */; };
 		CA3E77AF2615E39F003F0AF3 /* UVRecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3E77AE2615E39F003F0AF3 /* UVRecorderViewModel.swift */; };
-		CA3E77B22615E3ED003F0AF3 /* UVRecordListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3E77B12615E3ED003F0AF3 /* UVRecordListPresenter.swift */; };
 		CA3E77B62615E905003F0AF3 /* UVPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3E77B52615E905003F0AF3 /* UVPlayerViewModel.swift */; };
-		CA4316652611AF6C0024E149 /* UVRecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4316642611AF6C0024E149 /* UVRecordingViewController.swift */; };
+		CA4B499A2626BC5500EE35D3 /* UVProjectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4B49992626BC5500EE35D3 /* UVProjectListViewModel.swift */; };
+		CA4B49A02626BCA700EE35D3 /* UVFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4B499F2626BCA700EE35D3 /* UVFileManager.swift */; };
+		CA4B49C52626F8C600EE35D3 /* UVProjectPipelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4B49C42626F8C600EE35D3 /* UVProjectPipelineViewModel.swift */; };
+		CA4B49C82626F8D200EE35D3 /* UVProjectPipelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4B49C72626F8D200EE35D3 /* UVProjectPipelineViewController.swift */; };
+		CA4B49CD262706F200EE35D3 /* UVPipelineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4B49CC262706F200EE35D3 /* UVPipelineManager.swift */; };
+		CA86DCDA2625A61800547555 /* UVProjectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA86DCD92625A61800547555 /* UVProjectListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,13 +40,20 @@
 		73148B1825C0A48E00F91119 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA0326C526144C2D002A9B30 /* Recorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recorder.swift; sourceTree = "<group>"; };
 		CA1E3C6A26258FA000D9958D /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		CA2DD236262812BF00CF2F7E /* UVCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVCoordinator.swift; sourceTree = "<group>"; };
+		CA2DD23D2628250C00CF2F7E /* UVCoordinatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVCoordinatorFactory.swift; sourceTree = "<group>"; };
+		CA2DD24026282E5100CF2F7E /* UVProjectTrackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectTrackViewController.swift; sourceTree = "<group>"; };
+		CA2DD24326282E6000CF2F7E /* UVProjectTrackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectTrackViewModel.swift; sourceTree = "<group>"; };
 		CA3E77992615A3B0003F0AF3 /* UVButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVButton.swift; sourceTree = "<group>"; };
-		CA3E77A62615D7B9003F0AF3 /* UVRecordingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVRecordingListViewController.swift; sourceTree = "<group>"; };
 		CA3E77AA2615DA35003F0AF3 /* UVContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVContainerViewController.swift; sourceTree = "<group>"; };
 		CA3E77AE2615E39F003F0AF3 /* UVRecorderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVRecorderViewModel.swift; sourceTree = "<group>"; };
-		CA3E77B12615E3ED003F0AF3 /* UVRecordListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVRecordListPresenter.swift; sourceTree = "<group>"; };
 		CA3E77B52615E905003F0AF3 /* UVPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVPlayerViewModel.swift; sourceTree = "<group>"; };
-		CA4316642611AF6C0024E149 /* UVRecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVRecordingViewController.swift; sourceTree = "<group>"; };
+		CA4B49992626BC5500EE35D3 /* UVProjectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectListViewModel.swift; sourceTree = "<group>"; };
+		CA4B499F2626BCA700EE35D3 /* UVFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVFileManager.swift; sourceTree = "<group>"; };
+		CA4B49C42626F8C600EE35D3 /* UVProjectPipelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectPipelineViewModel.swift; sourceTree = "<group>"; };
+		CA4B49C72626F8D200EE35D3 /* UVProjectPipelineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectPipelineViewController.swift; sourceTree = "<group>"; };
+		CA4B49CC262706F200EE35D3 /* UVPipelineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVPipelineManager.swift; sourceTree = "<group>"; };
+		CA86DCD92625A61800547555 /* UVProjectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,12 +88,14 @@
 		73148B0925C0A48E00F91119 /* sense-audio */ = {
 			isa = PBXGroup;
 			children = (
+				CA2DD235262812B400CF2F7E /* Coordinator */,
+				CA86DCD82625A60200547555 /* ProjectTrack */,
+				CA86DCD72625A5FC00547555 /* ProjectPipeline */,
+				CA86DCD62625A4EF00547555 /* ProjectList */,
 				CA3E77B42615E8F9003F0AF3 /* ViewModels */,
 				CA3E77A92615DA26003F0AF3 /* ViewControllers */,
-				CA3E77A52615D794003F0AF3 /* RecordingsListScene */,
 				CA3E77982615A3A3003F0AF3 /* Views */,
 				CA0326C426144C24002A9B30 /* Model */,
-				CA1DEFC7260489C000DFA340 /* RecordingScene */,
 				73148B0A25C0A48E00F91119 /* AppDelegate.swift */,
 				73148B0C25C0A48E00F91119 /* SceneDelegate.swift */,
 				73148B1325C0A48E00F91119 /* Assets.xcassets */,
@@ -92,19 +108,20 @@
 		CA0326C426144C24002A9B30 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CA0326C526144C2D002A9B30 /* Recorder.swift */,
-				CA1E3C6A26258FA000D9958D /* Player.swift */,
+				CA4B49CB262706E600EE35D3 /* Pipeline */,
+				CA4B499E2626BC9900EE35D3 /* FileManager */,
+				CA4B499D2626BC9300EE35D3 /* Audio */,
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		CA1DEFC7260489C000DFA340 /* RecordingScene */ = {
+		CA2DD235262812B400CF2F7E /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
-				CA4316642611AF6C0024E149 /* UVRecordingViewController.swift */,
-				CA3E77AE2615E39F003F0AF3 /* UVRecorderViewModel.swift */,
+				CA2DD236262812BF00CF2F7E /* UVCoordinator.swift */,
+				CA2DD23D2628250C00CF2F7E /* UVCoordinatorFactory.swift */,
 			);
-			path = RecordingScene;
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		CA3E77982615A3A3003F0AF3 /* Views */ = {
@@ -113,15 +130,6 @@
 				CA3E77992615A3B0003F0AF3 /* UVButton.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		CA3E77A52615D794003F0AF3 /* RecordingsListScene */ = {
-			isa = PBXGroup;
-			children = (
-				CA3E77A62615D7B9003F0AF3 /* UVRecordingListViewController.swift */,
-				CA3E77B12615E3ED003F0AF3 /* UVRecordListPresenter.swift */,
-			);
-			path = RecordingsListScene;
 			sourceTree = "<group>";
 		};
 		CA3E77A92615DA26003F0AF3 /* ViewControllers */ = {
@@ -138,6 +146,59 @@
 				CA3E77B52615E905003F0AF3 /* UVPlayerViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CA4B499D2626BC9300EE35D3 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				CA0326C526144C2D002A9B30 /* Recorder.swift */,
+				CA1E3C6A26258FA000D9958D /* Player.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		CA4B499E2626BC9900EE35D3 /* FileManager */ = {
+			isa = PBXGroup;
+			children = (
+				CA4B499F2626BCA700EE35D3 /* UVFileManager.swift */,
+			);
+			path = FileManager;
+			sourceTree = "<group>";
+		};
+		CA4B49CB262706E600EE35D3 /* Pipeline */ = {
+			isa = PBXGroup;
+			children = (
+				CA4B49CC262706F200EE35D3 /* UVPipelineManager.swift */,
+			);
+			path = Pipeline;
+			sourceTree = "<group>";
+		};
+		CA86DCD62625A4EF00547555 /* ProjectList */ = {
+			isa = PBXGroup;
+			children = (
+				CA86DCD92625A61800547555 /* UVProjectListViewController.swift */,
+				CA4B49992626BC5500EE35D3 /* UVProjectListViewModel.swift */,
+			);
+			path = ProjectList;
+			sourceTree = "<group>";
+		};
+		CA86DCD72625A5FC00547555 /* ProjectPipeline */ = {
+			isa = PBXGroup;
+			children = (
+				CA4B49C72626F8D200EE35D3 /* UVProjectPipelineViewController.swift */,
+				CA4B49C42626F8C600EE35D3 /* UVProjectPipelineViewModel.swift */,
+			);
+			path = ProjectPipeline;
+			sourceTree = "<group>";
+		};
+		CA86DCD82625A60200547555 /* ProjectTrack */ = {
+			isa = PBXGroup;
+			children = (
+				CA2DD24026282E5100CF2F7E /* UVProjectTrackViewController.swift */,
+				CA3E77AE2615E39F003F0AF3 /* UVRecorderViewModel.swift */,
+				CA2DD24326282E6000CF2F7E /* UVProjectTrackViewModel.swift */,
+			);
+			path = ProjectTrack;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -217,17 +278,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA2DD24426282E6000CF2F7E /* UVProjectTrackViewModel.swift in Sources */,
+				CA4B49A02626BCA700EE35D3 /* UVFileManager.swift in Sources */,
 				CA1E3C6B26258FA000D9958D /* Player.swift in Sources */,
 				CA3E77B62615E905003F0AF3 /* UVPlayerViewModel.swift in Sources */,
 				CA3E779A2615A3B0003F0AF3 /* UVButton.swift in Sources */,
 				CA3E77AF2615E39F003F0AF3 /* UVRecorderViewModel.swift in Sources */,
-				CA3E77A72615D7B9003F0AF3 /* UVRecordingListViewController.swift in Sources */,
-				CA4316652611AF6C0024E149 /* UVRecordingViewController.swift in Sources */,
+				CA2DD24126282E5100CF2F7E /* UVProjectTrackViewController.swift in Sources */,
+				CA4B49C82626F8D200EE35D3 /* UVProjectPipelineViewController.swift in Sources */,
+				CA4B49CD262706F200EE35D3 /* UVPipelineManager.swift in Sources */,
 				73148B0B25C0A48E00F91119 /* AppDelegate.swift in Sources */,
+				CA4B499A2626BC5500EE35D3 /* UVProjectListViewModel.swift in Sources */,
+				CA86DCDA2625A61800547555 /* UVProjectListViewController.swift in Sources */,
 				73148B0D25C0A48E00F91119 /* SceneDelegate.swift in Sources */,
-				CA3E77B22615E3ED003F0AF3 /* UVRecordListPresenter.swift in Sources */,
 				CA0326C626144C2D002A9B30 /* Recorder.swift in Sources */,
+				CA4B49C52626F8C600EE35D3 /* UVProjectPipelineViewModel.swift in Sources */,
 				CA3E77AB2615DA35003F0AF3 /* UVContainerViewController.swift in Sources */,
+				CA2DD23E2628250C00CF2F7E /* UVCoordinatorFactory.swift in Sources */,
+				CA2DD237262812BF00CF2F7E /* UVCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

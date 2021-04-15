@@ -1,10 +1,10 @@
 //
-//  UVRecordingViewController.swift
+//  UVProjectTrackViewController.swift
 //
 //  Project: sense-audio
 // 
 //  Author:  Uladzislau Volchyk
-//  On:      29.03.21
+//  On:      15.04.21
 //
 
 import UIKit
@@ -12,7 +12,7 @@ import AVFoundation
 import ReactiveCocoa
 
 
-class UVRecordingViewController: UIViewController {
+class UVProjectTrackViewController: UIViewController {
     
     // MARK: ⚠️ DEVELOP ZONE ⚠️
     
@@ -30,10 +30,10 @@ class UVRecordingViewController: UIViewController {
         static let recordStartIM = "record.circle"
     }
     
+    // MARK: - Props
+    
     private var recorderState: RecorderState = .idle
     private var playerState: PlayerState = .idle
-    
-    // MARK: - Lazy Properties
     
     lazy var recordingDurationLabel: UILabel = {
         let view = UILabel()
@@ -98,15 +98,20 @@ class UVRecordingViewController: UIViewController {
         return view
     }()
     
-    lazy var recorderViewModel: UVRecorderViewModelType = {
-        let viewModel = UVRecorderViewModel()
-        return viewModel
-    }()
+    private var recorderViewModel: UVRecorderViewModelType
+    private var playerViewModel: UVPlayerViewModelType
     
-    lazy var playerViewModel: UVPlayerViewModelType = {
-        let viewModel = UVPlayerViewModel()
-        return viewModel
-    }()
+    // MARK: - Initialization
+    
+    init(recorder recorderViewModel: UVRecorderViewModelType, player playerViewModel: UVPlayerViewModelType) {
+        self.recorderViewModel = recorderViewModel
+        self.playerViewModel = playerViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: -
     
@@ -217,6 +222,7 @@ class UVRecordingViewController: UIViewController {
     
     @objc private func saveAssetAction() {
         // MARK: ♻️ REFACTOR LATER ♻️
+        recorderViewModel.saveRecord()
         refreshState()
     }
     
@@ -245,7 +251,7 @@ class UVRecordingViewController: UIViewController {
     }
 }
 
-extension UVRecordingViewController {
+extension UVProjectTrackViewController {
     private func animateTransition(_ with: UIView, callback: @escaping () -> ()) {
         UIView.transition(with: with, duration: Constants.fadeDuration, options: [.transitionCrossDissolve]) {
             callback()
