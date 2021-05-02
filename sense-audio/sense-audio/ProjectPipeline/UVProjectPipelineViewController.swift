@@ -8,48 +8,64 @@
 //
 
 import UIKit
+import ReactiveSwift
 
 class UVProjectPipelineViewController: UIViewController {
 
     private struct Constants {
-        static let cellIdentifier = "cell"
+
     }
-    
+
     // MARK: - Props
-    
+
     private var pipelineViewModel: UVProjectPipelineViewModelType
-    
+    private var dataSource: UVProjectPipelineDatasourceType
+
     private lazy var createTrackButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "plus.circle"), style: .plain, target: self, action: #selector(createTrack(_:)))
         return button
     }()
-    
+
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .insetGrouped)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.register(UITableViewCell.self, forCellReuseIdentifier: Constants.cellIdentifier)
-        view.dataSource = self
+        view.delegate = self
         return view
     }()
-    
+
     // MARK: - Initialization
-    
-    init(pipeline pipeViewModel: UVProjectPipelineViewModelType) {
+
+    init(pipeline pipeViewModel: UVProjectPipelineViewModelType, data source: UVProjectPipelineDatasourceType) {
         pipelineViewModel = pipeViewModel
+        dataSource = source
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("not implemented")
     }
-    
+
     // MARK: -
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAppearance()
+
+        dataSource.setup(tableView: tableView)
     }
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // MARK: ♻️ REFACTOR LATER ♻️
+        pipelineViewModel
+            .contents
+            .on(value: { [tableView] contents in
+                self.dataSource.contents = contents
+                tableView.reloadData()
+            })
+            .start()
+    }
+
 }
 
 private extension UVProjectPipelineViewController {
@@ -59,10 +75,10 @@ private extension UVProjectPipelineViewController {
         ]
         layoutTableView()
     }
-    
+
     func layoutTableView() {
         view.addSubview(tableView)
-        
+
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -70,20 +86,32 @@ private extension UVProjectPipelineViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
+
     @objc func createTrack(_ sender: UIBarButtonItem) {
-        pipelineViewModel.addTrack()
+        pipelineViewModel
+            .addTrack()
+            .on(value: { _ in
+                print("checkcheck")
+            })
+            .start()
     }
 }
 
-extension UVProjectPipelineViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        pipelineViewModel.numberOfElements()
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath)
-        cell.textLabel?.text = pipelineViewModel.content(at: indexPath.row)
-        return cell
+extension UVProjectPipelineViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [pipelineViewModel] (_, _, completion) in
+            // MARK: ♻️ REFACTOR LATER ♻️
+            self.pipelineViewModel
+                .delete(at: indexPath.row)
+                .combineLatest(with: pipelineViewModel.contents.promoteError())
+                .on(value: { _, contents in
+                    self.dataSource.contents = contents
+                    tableView.reloadSections(IndexSet([0]), with: .fade)
+                    completion(true)
+                })
+                .start()
+        }
+
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 }

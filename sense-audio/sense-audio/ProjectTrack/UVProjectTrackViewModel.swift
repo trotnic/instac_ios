@@ -10,13 +10,13 @@
 import Foundation
 
 protocol UVProjectTrackViewModelType {
-    
+
 }
 
 struct UVProjectTrackViewModel {
-    
+
 }
 
 extension UVProjectTrackViewModel: UVProjectTrackViewModelType {
-    
+
 }

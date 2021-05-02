@@ -8,27 +8,35 @@
 //
 
 import Foundation
-
+import ReactiveSwift
 
 ///  Defines an interface for interaction with folders in a projects-like way
 ///
 /// - Note: The structure of folders below
 /// ```
 ///
-/// |--------|         |----------------|         |-------------|
-/// |Projects| <>----> |Project Pipeline| <>----> |Project Track|
-/// |--------|         |----------------|         |-------------|
+///  |---------|     |--------|       |--------|       |-----|
+///  |Documents| --> |Projects| <>--> |Pipeline| <>--> |Track|
+///  |---------|     |--------|       |--------|       |-----|
+///                         \
+///                          \
+///                           \
+///   |---|                   |-------------|
+///   |tmp| - - - - - - - - > |Backing Store|
+///   |---|                   |-------------|
 ///
 /// ```
 
 protocol UVFileManagerType {
-    mutating func contents(for: UVDirectories) throws -> [String]
+    func contents(for: UVDirectories) -> SignalProducer<[String], Never>
     
-    mutating func move(file at: URL, to project: String) throws
+    func buildTemporaryUrl(for fileName: String) -> URL
+    func url(for temporized: String) -> SignalProducer<URL, Error>
+    mutating func temporize(fileAt url: URL) throws
+    mutating func move(fileAt url: URL, to project: String) throws
     mutating func create(project name: String) throws
     mutating func delete(project name: String) throws
-//    mutating func create(in: UVDirectories, name: String) throws
-//    mutating func delete(in: UVDirectories, name: String) throws
+    mutating func delete(track: String, in project: String) throws
 }
 
 enum UVDirectories {
@@ -45,55 +53,112 @@ enum UVDirectories {
  */
 
 struct UVFileManager {
-    private lazy var fileManager: FileManager = { .default }()
+    private let fileManager: FileManager = .default
     
-    init() throws {
-        try fileManager.createDirectory(at: Constants.projectsFolderURL, withIntermediateDirectories: true, attributes: nil)
+    init() {
+        do {
+            try fileManager.createDirectory(at: Constants.projectsFolderURL, withIntermediateDirectories: true, attributes: nil)
+            try fileManager.createDirectory(at: Constants.backingStoreFolderURL, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            assert(false, "FileManager must initialize directories hierarchy, but happened error: \(error)")
+        }
     }
     
     fileprivate struct Constants {
         static let projectsFolderName = "Projects"
+        static let backingStoreFolderName = "BStore"
         static let projectsFolderURL: URL = {
             // MARK: ♻️ REFACTOR LATER ♻️
             FileManager.default
                 .urls(for: .documentDirectory, in: .userDomainMask).first!
                 .appendingPathComponent(projectsFolderName)
         }()
+        static let backingStoreFolderURL: URL = {
+            FileManager.default
+                .urls(for: .documentDirectory, in: .userDomainMask).first!
+                .appendingPathComponent(backingStoreFolderName)
+        }()
+        static let temporaryFolderURL: URL = { FileManager.default.temporaryDirectory }()
     }
 }
 
 extension UVFileManager: UVFileManagerType {
-    mutating func contents(for: UVDirectories) throws -> [String] {
-        switch `for` {
-        case let .project(name):
-            return try fileManager.contentsOfDirectory(atPath: Constants.projectsFolderURL
-                                                        .appendingPathComponent(name).path)
-        case let .track(project, track):
-            return try fileManager.contentsOfDirectory(atPath: Constants.projectsFolderURL
-                                                        .appendingPathComponent(project)
-                                                        .appendingPathComponent(track).path)
-        case .projects:
-            return try fileManager.contentsOfDirectory(atPath: Constants.projectsFolderURL.path)
+    func contents(for: UVDirectories) -> SignalProducer<[String], Never> {
+        SignalProducer { (observer, _) in
+            switch `for` {
+            case let .project(name):
+                if let contents = try? fileManager.contentsOfDirectory(atPath: Constants.projectsFolderURL
+                                                                        .appendingPathComponent(name).path) {
+                    observer.send(value: contents)
+                }
+            case .projects:
+                if let contents = try? fileManager.contentsOfDirectory(atPath: Constants.projectsFolderURL.path) {
+                    observer.send(value: contents)
+                }
+            case let .track(project, track):
+                if let contents = try? fileManager.contentsOfDirectory(atPath: Constants.projectsFolderURL
+                                                                        .appendingPathComponent(project)
+                                                                        .appendingPathComponent(track).path) {
+                    observer.send(value: contents)
+                }
+            }
         }
     }
-    
+
+    func buildTemporaryUrl(for fileName: String) -> URL {
+        Constants.temporaryFolderURL.appendingPathComponent(fileName)
+    }
+
+    func url(for temporized: String) -> SignalProducer<URL, Error> {
+        SignalProducer { (observer, _) in
+            do {
+                if let url = try fileManager.contentsOfDirectory(atPath: Constants.backingStoreFolderURL.path)
+                    .compactMap({ URL(string: $0) })
+                    .filter({ $0.lastPathComponent == temporized })
+                    .first {
+                    observer.send(value: Constants.backingStoreFolderURL.appendingPathComponent(url.path))
+                }
+            } catch {
+                observer.send(error: error)
+            }
+        }
+    }
+
     mutating func create(project name: String) throws {
         // MARK: ♻️ REFACTOR LATER ♻️
         // checking for existing directories
-        try fileManager.createDirectory(at: Constants.projectsFolderURL.appendingPathComponent(name), withIntermediateDirectories: true, attributes: nil)
+
+        let fileUrl = Constants.projectsFolderURL.appendingPathComponent(name)
+        try fileManager.createDirectory(at: fileUrl, withIntermediateDirectories: true, attributes: nil)
     }
-    
+
     mutating func delete(project name: String) throws {
         // MARK: ♻️ REFACTOR LATER ♻️
         try fileManager.removeItem(at: Constants.projectsFolderURL.appendingPathComponent(name))
     }
 
-    mutating func move(file at: URL, to project: String) throws {
+    mutating func temporize(fileAt url: URL) throws {
+        let destinationFileURL = Constants.backingStoreFolderURL
+            .appendingPathComponent(url.lastPathComponent)
+
+        try fileManager.copyItem(at: url, to: destinationFileURL)
+        try fileManager.removeItem(at: url)
+    }
+
+    mutating func move(fileAt url: URL, to project: String) throws {
         let destinationFileURL = Constants.projectsFolderURL
             .appendingPathComponent(project)
-            .appendingPathComponent(at.lastPathComponent)
-        
-        try fileManager.copyItem(at: at, to: destinationFileURL)
-        try fileManager.removeItem(at: at)
+            .appendingPathComponent(url.lastPathComponent)
+
+        try fileManager.copyItem(at: url, to: destinationFileURL)
+        try fileManager.removeItem(at: url)
+    }
+
+    mutating func delete(track: String, in project: String) throws {
+        let destinationFileURL = Constants.projectsFolderURL
+            .appendingPathComponent(project)
+            .appendingPathComponent(track)
+
+        try fileManager.removeItem(at: destinationFileURL)
     }
 }

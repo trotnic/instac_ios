@@ -12,16 +12,19 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
+    var window: UIWindow?
     private var coordinator: UVCoordinatorType?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // MARK: ⚠️ DEVELOP ZONE ⚠️
         guard let scene = (scene as? UIWindowScene) else { return }
-        let window = UIWindow(windowScene: scene)
-        coordinator = UVCoordinator(window: window, factory: UVCoordinatorFactory())
-        coordinator?.start()
+        window = UIWindow(windowScene: scene)
+        let navigationController = UINavigationController()
+        window?.rootViewController = navigationController
+        coordinator = UVCoordinator(navigation: navigationController, factory: UVCoordinatorFactory())
+
         coordinator?.show(route: .projectList)
+        window?.makeKeyAndVisible()
     }
 
 }
-

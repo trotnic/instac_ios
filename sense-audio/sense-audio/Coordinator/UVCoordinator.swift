@@ -13,41 +13,26 @@ import UIKit
 
 protocol UVCoordinatorType {
     func show(route: Route)
-    func start()
 }
 
 enum Route {
     case projectList
-    case projectPipeline
+    case projectPipeline(project: String)
     case projectTrack(project: String)
 }
 
 struct UVCoordinator {
-    let window: UIWindow
+    let navigationController: UINavigationController
     private let factory: UVCoordinatorFactory
-    init(window: UIWindow, factory: UVCoordinatorFactory) {
-        self.window = window
+    init(navigation controller: UINavigationController, factory: UVCoordinatorFactory) {
+        navigationController = controller
         self.factory = factory
     }
 }
 
 extension UVCoordinator: UVCoordinatorType {
     func show(route: Route) {
-        window.rootViewController = factory.block(for: route, coordinator: self)
-//        switch route {
-//        case .projectList:
-//            window.ro
-//            window.rootViewController = UINavigationController(rootViewController: UVProjectListViewController())
-//        case .projectPipeline:
-//
-//            break
-//        case .projectTrack:
-//            break
-//        }
-        
-    }
-    
-    func start() {
-        window.makeKeyAndVisible()
+
+        navigationController.pushViewController(factory.block(for: route, coordinator: self), animated: true)
     }
 }

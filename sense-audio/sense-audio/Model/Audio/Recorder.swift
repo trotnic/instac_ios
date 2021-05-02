@@ -17,40 +17,40 @@ protocol RecorderType {
 }
 
 final class VoiceRecorder {
-    
+
     // MARK: - Private Props
-    
+
     private lazy var engine: AVAudioEngine = {
         let engine = AVAudioEngine()
         engine.attach(playerNode)
         engine.attach(mixerNode)
-        
+
         let inputNode = engine.inputNode
         let inputFormat = inputNode.outputFormat(forBus: 0)
-        
+
         engine.connect(inputNode, to: mixerNode, format: inputFormat)
         engine.connect(mixerNode, to: engine.mainMixerNode, format: inputFormat)
-        
+
         return engine
     }()
-    
-    private lazy var mixerNode: AVAudioMixerNode = {
+
+    private var mixerNode: AVAudioMixerNode = {
         AVAudioMixerNode()
     }()
-    
-    private lazy var playerNode: AVAudioPlayerNode = {
+
+    private var playerNode: AVAudioPlayerNode = {
         AVAudioPlayerNode()
     }()
-    
+
     // MARK: -
-    
+
     init() {
         engine.prepare()
         setupSession()
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func setupSession() {
         let session = AVAudioSession.shared
         // MARK: ♻️ REFACTOR LATER ♻️
@@ -63,33 +63,33 @@ extension VoiceRecorder: RecorderType {
     func record(_ fileURL: URL) throws {
         let tapNode: AVAudioMixerNode = mixerNode
         let recordingFormat = tapNode.outputFormat(forBus: 0)
-        
+
         let audioFile = try AVAudioFile(forWriting: fileURL, settings: recordingFormat.settings)
-        
-        tapNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (pcmBuffer, audioTime) in
+
+        tapNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (pcmBuffer, _) in
             try? audioFile.write(from: pcmBuffer)
         }
-        
+
         try engine.start()
     }
-    
+
     func pause() {
         engine.pause()
     }
-    
+
     func resume() throws {
         try engine.start()
     }
-    
+
     func stop() {
-        
+
         engine.stop()
-        mixerNode.removeTap(onBus: 0) // ❗️
+        let tapNode: AVAudioMixerNode = mixerNode
+        tapNode.removeTap(onBus: 0) // ❗️
     }
 }
 
-
-//class Recorder {
+// class Recorder {
 //    enum State {
 //        case recording, paused, stopped
 //    }
@@ -215,5 +215,5 @@ extension VoiceRecorder: RecorderType {
 //        
 //        engine.connect(playerNode, to: mixerNode, format: mixerFormat)
 //    }
-//}
+// }
 //

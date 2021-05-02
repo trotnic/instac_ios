@@ -8,6 +8,7 @@
 //
 
 import Foundation
+import ReactiveSwift
 
 /**
  Describes an interface
@@ -15,32 +16,24 @@ import Foundation
  */
 
 protocol UVRecorderViewModelType {
-    var audioFileURL: URL? { get }
+    var audioFileName: String? { get }
     
-    mutating func startRecording()
-    mutating func stopRecording()
-    mutating func saveRecord()
-    mutating func deleteRecord()
+    func startRecording() -> SignalProducer<Void, Error>
+    func stopRecording() -> SignalProducer<Void, Error>
+    func saveRecord() -> SignalProducer<Void, Error>
+    func deleteRecord() -> SignalProducer<Void, Error>
 }
 
-struct UVRecorderViewModel {
-    
+final class UVRecorderViewModel {
+
     private var recorder: VoiceRecorder
     private var fileManager: UVFileManagerType
     // MARK: 🗑 DELETE LATER 🗑
     private let project: String
-    
-    private(set) var audioFileURL: URL?
-    
-    private lazy var documentsURL: URL? = {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-    }()
-    
-    private lazy var temporaryURL: URL = {
-        FileManager.default.temporaryDirectory
-    }()
-    
-    init(recorder: VoiceRecorder, fileManager: UVFileManagerType, project name: String) {
+
+    private(set) var audioFileName: String?
+
+    init(recorder: VoiceRecorder, project name: String, fileManager: UVFileManagerType = UVFileManager()) {
         self.recorder = recorder
         self.fileManager = fileManager
         project = name
@@ -48,26 +41,62 @@ struct UVRecorderViewModel {
 }
 
 extension UVRecorderViewModel: UVRecorderViewModelType {
-    
+
     // MARK: ♻️ REFACTOR LATER ♻️
-    mutating func startRecording() {
-        let audioURL = temporaryURL.appendingPathComponent("\(Date().timeIntervalSince1970).m4a")
-        try? recorder.record(audioURL)
-        audioFileURL = audioURL
+    func startRecording() -> SignalProducer<Void, Error> {
+        SignalProducer { [self] (observer, _) in
+            do {
+                let fileName = "\(Date().timeIntervalSince1970).m4a"
+                let audioURL = fileManager.buildTemporaryUrl(for: fileName)
+                try recorder.record(audioURL)
+                audioFileName = fileName
+                observer.send(value: ())
+            } catch {
+                observer.send(error: error)
+            }
+        }
+
     }
-    
-    mutating func stopRecording() {
-        if let audioFileURL = audioFileURL {
-            try? FileManager.default.copyItem(at: audioFileURL, to: audioFileURL)
-            recorder.stop()
+
+    func stopRecording() -> SignalProducer<Void, Error> {
+        SignalProducer<String?, Error> { [self] (observer, _) in
+            observer.send(value: audioFileName)
+        }
+        .skipNil()
+        .map({ self.fileManager.buildTemporaryUrl(for: $0) })
+        .flatMap(.latest) { [self] (fileURL) -> SignalProducer<Void, Error> in
+            SignalProducer { (observer, _) in
+                do {
+                    recorder.stop()
+                    try fileManager.temporize(fileAt: fileURL)
+                    observer.send(value: ())
+                } catch {
+                    observer.send(error: error)
+                }
+            }
         }
     }
-    
-    mutating func saveRecord() {
+
+    func saveRecord() -> SignalProducer<Void, Error> {
+        SignalProducer<String?, Error> { [self] (observer, _) in
+            observer.send(value: audioFileName)
+        }
+        .skipNil()
+        .flatMap(.latest, { self.fileManager.url(for: $0) })
+        .flatMap(.latest) { [self] (fileURL) -> SignalProducer<Void, Error> in
+            SignalProducer { (observer, _) in
+                do {
+                    try fileManager.move(fileAt: fileURL, to: project)
+                    observer.send(value: ())
+                } catch {
+                    observer.send(error: error)
+                }
+            }
+        }
         // MARK: ♻️ REFACTOR LATER ♻️
-        if let audioFileURL = audioFileURL {
-            try? fileManager.move(file: audioFileURL, to: project)
-        }
+//        if let audioFileURL = audioFileURL {
+//            try?
+//        }
 //        if let audioFileURL = audioFileURL,
 //           let destinationFileURL = documentsURL?.appendingPathComponent(audioFileURL.lastPathComponent) {
 //            try? FileManager.default.copyItem(at: audioFileURL, to: destinationFileURL)
@@ -87,11 +116,24 @@ extension UVRecorderViewModel: UVRecorderViewModelType {
         ////            self.contents.append(contentsOf: contents.compactMap({ URL(string: $0) }))
         //        }
     }
-    
-    mutating func deleteRecord() {
-        if let audioFileURL = audioFileURL {
-            try? FileManager.default.removeItem(at: audioFileURL)
-            self.audioFileURL = nil
+
+    func deleteRecord() -> SignalProducer<Void, Error> {
+        SignalProducer<String?, Error> { [self] (observer, _) in
+            observer.send(value: audioFileName)
+        }
+        .skipNil()
+        .flatMap(.latest) { self.fileManager.url(for: $0) }
+        .flatMap(.latest) { [self] (fileURL) -> SignalProducer<Void, Error> in
+            SignalProducer { (observer, _) in
+                do {
+                    // MARK: ♻️ REFACTOR LATER ♻️
+                    try FileManager.default.removeItem(at: fileURL)
+                    audioFileName = nil
+                    observer.send(value: ())
+                } catch {
+                    observer.send(error: error)
+                }
+            }
         }
     }
 }

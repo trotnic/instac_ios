@@ -20,21 +20,26 @@ struct UVCoordinatorFactory {
         switch route {
         case .projectList:
             let listViewModel = UVProjectListViewModel(coordinator: coordinator)
-            let controller = UVProjectListViewController(list: listViewModel)
-            return UINavigationController(rootViewController: controller)
-        case .projectPipeline:
+            let dataSource = UVProjectListDatasource()
+            let controller = UVProjectListViewController(list: listViewModel, data: dataSource)
+            return controller
+        case let .projectPipeline(project):
             let pipeline = UVPipelineManager()
-            let fileManager = try! UVFileManager()
-            let pipeViewModel = UVProjectPipelineViewModel(coordinator: coordinator, pipeline: pipeline, fileManager: fileManager)
-            let controller = UVProjectPipelineViewController(pipeline: pipeViewModel)
-            return UINavigationController(rootViewController: controller)
+            let fileManager = UVFileManager()
+            let dataSource = UVProjectPipelineDatasource()
+            let pipeViewModel = UVProjectPipelineViewModel(coordinator: coordinator,
+                                                           pipeline: pipeline,
+                                                           fileManager: fileManager,
+                                                           project: project)
+            let controller = UVProjectPipelineViewController(pipeline: pipeViewModel, data: dataSource)
+            return controller
         case let .projectTrack(project):
+            let fileManager = UVFileManager()
             let recorder = VoiceRecorder()
-            let fileManager = try! UVFileManager()
-            let recorderViewModel = UVRecorderViewModel(recorder: recorder, fileManager: fileManager, project: project)
-            let playerViewModel = UVPlayerViewModel()
-            let controller = UVProjectTrackViewController(recorder: recorderViewModel, player: playerViewModel)
-            return UINavigationController(rootViewController: controller)
+            let recorderViewModel = UVRecorderViewModel(recorder: recorder, project: project)
+            let playerViewModel = UVPlayerViewModel(fileManager: fileManager)
+            let controller = UVTrackRecorderViewController(recorder: recorderViewModel, player: playerViewModel)
+            return controller
         }
     }
 }

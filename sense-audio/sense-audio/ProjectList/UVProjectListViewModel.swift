@@ -8,43 +8,63 @@
 //
 
 import Foundation
+import ReactiveSwift
 
 protocol UVProjectListViewModelType {
-    mutating func numberOfItems() -> Int
-    mutating func content(at index: Int) -> String
-    
-    mutating func create(project name: String)
-    mutating func delete(at index: Int)
-    
-    func didSelect(itemAt index: Int)
+    var contents: SignalProducer<[String], Never> { get }
+
+    mutating func create(project name: String) -> SignalProducer<Void, Error>
+    mutating func delete(at index: Int) -> SignalProducer<Void, Error>
+
+    mutating func didSelect(itemAt index: Int)
 }
 
-struct UVProjectListViewModel {
+final class UVProjectListViewModel {
+
     let coordinator: UVCoordinatorType
-    private var fileManager: UVFileManagerType? = { try? UVFileManager() }()
-    private lazy var contents: [String] = { (try? fileManager?.contents(for: .projects)) ?? [] }()
-    
+    private var fileManager: UVFileManagerType = UVFileManager()
+
+    lazy var contents: SignalProducer<[String], Never> = { fileManager.contents(for: .projects) }()
+
     init(coordinator: UVCoordinatorType) {
         self.coordinator = coordinator
     }
 }
 
 extension UVProjectListViewModel: UVProjectListViewModelType {
-    mutating func numberOfItems() -> Int { contents.count }
-    mutating func content(at index: Int) -> String { contents[index] }
-    
-    mutating func create(project name: String) {
-        try? fileManager?.create(project: name)
-        contents = (try? fileManager?.contents(for: .projects)) ?? []
+
+    func create(project name: String) -> SignalProducer<Void, Error> {
+        SignalProducer { (observer, _) in
+            do {
+                try self.fileManager.create(project: name)
+                observer.send(value: ())
+            } catch {
+                observer.send(error: error)
+            }
+        }
     }
-    
-    mutating func delete(at index: Int) {
-        let projectName = contents[index]
-        try? fileManager?.delete(project: projectName)
-        contents = (try? fileManager?.contents(for: .projects)) ?? []
+
+    func delete(at index: Int) -> SignalProducer<Void, Error> {
+        contents
+            .map { (contents) -> String in
+                contents[index]
+            }
+            .flatMap(.merge, { (projectName) -> SignalProducer<Void, Error> in
+                SignalProducer { (observer, _) in
+                    do {
+                        try self.fileManager.delete(project: projectName)
+                        observer.send(value: ())
+                    } catch {
+                        observer.send(error: error)
+                    }
+                }
+            })
     }
-    
+
     func didSelect(itemAt index: Int) {
-        coordinator.show(route: .projectPipeline)
+        contents
+            .map { (contents) -> String in contents[index] }
+            .on(value: { self.coordinator.show(route: .projectPipeline(project: $0)) })
+            .start()
     }
 }

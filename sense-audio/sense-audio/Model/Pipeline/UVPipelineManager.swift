@@ -9,7 +9,6 @@
 
 import Foundation
 
-
 /**
  An interface for interacting with a project.
  Defines a work environment for project.
@@ -19,13 +18,13 @@ import Foundation
  */
 
 protocol UVPipelineManagerType {
-    
+
 }
 
 struct UVPipelineManager {
-    
+
 }
 
 extension UVPipelineManager: UVPipelineManagerType {
-    
+
 }
