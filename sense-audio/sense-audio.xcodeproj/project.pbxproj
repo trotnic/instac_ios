@@ -1,0 +1,582 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		73148B0B25C0A48E00F91119 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73148B0A25C0A48E00F91119 /* AppDelegate.swift */; };
+		73148B0D25C0A48E00F91119 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73148B0C25C0A48E00F91119 /* SceneDelegate.swift */; };
+		73148B1425C0A48E00F91119 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73148B1325C0A48E00F91119 /* Assets.xcassets */; };
+		73148B1725C0A48E00F91119 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73148B1525C0A48E00F91119 /* LaunchScreen.storyboard */; };
+		73180E66263ECB210084957B /* UVTrackEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73180E65263ECB210084957B /* UVTrackEditorViewController.swift */; };
+		73180E69263ECB2A0084957B /* UVTrackEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73180E68263ECB2A0084957B /* UVTrackEditorViewModel.swift */; };
+		737A4EB3263E82E900EB43DC /* UVProjectListDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737A4EB2263E82E900EB43DC /* UVProjectListDatasource.swift */; };
+		737A4EBB263EA56F00EB43DC /* UVProjectPipelineDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737A4EBA263EA56F00EB43DC /* UVProjectPipelineDatasource.swift */; };
+		73C53EBB2643BF8600033839 /* Editor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C53EBA2643BF8600033839 /* Editor.swift */; };
+		CA0326C626144C2D002A9B30 /* Recorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0326C526144C2D002A9B30 /* Recorder.swift */; };
+		CA1E3C6B26258FA000D9958D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1E3C6A26258FA000D9958D /* Player.swift */; };
+		CA268F592624865C004C4D35 /* ReactiveCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = CA268F582624865C004C4D35 /* ReactiveCocoa */; };
+		CA2DD237262812BF00CF2F7E /* UVCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2DD236262812BF00CF2F7E /* UVCoordinator.swift */; };
+		CA2DD23E2628250C00CF2F7E /* UVCoordinatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2DD23D2628250C00CF2F7E /* UVCoordinatorFactory.swift */; };
+		CA2DD24126282E5100CF2F7E /* UVTrackRecorderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2DD24026282E5100CF2F7E /* UVTrackRecorderViewController.swift */; };
+		CA2DD24426282E6000CF2F7E /* UVProjectTrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2DD24326282E6000CF2F7E /* UVProjectTrackViewModel.swift */; };
+		CA324C79261EE9FD00B80798 /* ReactiveSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CA324C78261EE9FD00B80798 /* ReactiveSwift */; };
+		CA3E779A2615A3B0003F0AF3 /* UVButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3E77992615A3B0003F0AF3 /* UVButton.swift */; };
+		CA3E77AB2615DA35003F0AF3 /* UVContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3E77AA2615DA35003F0AF3 /* UVContainerViewController.swift */; };
+		CA3E77AF2615E39F003F0AF3 /* UVRecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3E77AE2615E39F003F0AF3 /* UVRecorderViewModel.swift */; };
+		CA3E77B62615E905003F0AF3 /* UVPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3E77B52615E905003F0AF3 /* UVPlayerViewModel.swift */; };
+		CA4B499A2626BC5500EE35D3 /* UVProjectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4B49992626BC5500EE35D3 /* UVProjectListViewModel.swift */; };
+		CA4B49A02626BCA700EE35D3 /* UVFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4B499F2626BCA700EE35D3 /* UVFileManager.swift */; };
+		CA4B49C52626F8C600EE35D3 /* UVProjectPipelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4B49C42626F8C600EE35D3 /* UVProjectPipelineViewModel.swift */; };
+		CA4B49C82626F8D200EE35D3 /* UVProjectPipelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4B49C72626F8D200EE35D3 /* UVProjectPipelineViewController.swift */; };
+		CA4B49CD262706F200EE35D3 /* UVPipelineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4B49CC262706F200EE35D3 /* UVPipelineManager.swift */; };
+		CA86DCDA2625A61800547555 /* UVProjectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA86DCD92625A61800547555 /* UVProjectListViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		73148B0725C0A48E00F91119 /* sense-audio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sense-audio.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		73148B0A25C0A48E00F91119 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		73148B0C25C0A48E00F91119 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		73148B1325C0A48E00F91119 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		73148B1625C0A48E00F91119 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		73148B1825C0A48E00F91119 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		73180E65263ECB210084957B /* UVTrackEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVTrackEditorViewController.swift; sourceTree = "<group>"; };
+		73180E68263ECB2A0084957B /* UVTrackEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVTrackEditorViewModel.swift; sourceTree = "<group>"; };
+		737A4EB2263E82E900EB43DC /* UVProjectListDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectListDatasource.swift; sourceTree = "<group>"; };
+		737A4EBA263EA56F00EB43DC /* UVProjectPipelineDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectPipelineDatasource.swift; sourceTree = "<group>"; };
+		73C53EBA2643BF8600033839 /* Editor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editor.swift; sourceTree = "<group>"; };
+		CA0326C526144C2D002A9B30 /* Recorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recorder.swift; sourceTree = "<group>"; };
+		CA1E3C6A26258FA000D9958D /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		CA2DD236262812BF00CF2F7E /* UVCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVCoordinator.swift; sourceTree = "<group>"; };
+		CA2DD23D2628250C00CF2F7E /* UVCoordinatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVCoordinatorFactory.swift; sourceTree = "<group>"; };
+		CA2DD24026282E5100CF2F7E /* UVTrackRecorderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVTrackRecorderViewController.swift; sourceTree = "<group>"; };
+		CA2DD24326282E6000CF2F7E /* UVProjectTrackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectTrackViewModel.swift; sourceTree = "<group>"; };
+		CA3E77992615A3B0003F0AF3 /* UVButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVButton.swift; sourceTree = "<group>"; };
+		CA3E77AA2615DA35003F0AF3 /* UVContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVContainerViewController.swift; sourceTree = "<group>"; };
+		CA3E77AE2615E39F003F0AF3 /* UVRecorderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVRecorderViewModel.swift; sourceTree = "<group>"; };
+		CA3E77B52615E905003F0AF3 /* UVPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVPlayerViewModel.swift; sourceTree = "<group>"; };
+		CA4B49992626BC5500EE35D3 /* UVProjectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectListViewModel.swift; sourceTree = "<group>"; };
+		CA4B499F2626BCA700EE35D3 /* UVFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVFileManager.swift; sourceTree = "<group>"; };
+		CA4B49C42626F8C600EE35D3 /* UVProjectPipelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectPipelineViewModel.swift; sourceTree = "<group>"; };
+		CA4B49C72626F8D200EE35D3 /* UVProjectPipelineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectPipelineViewController.swift; sourceTree = "<group>"; };
+		CA4B49CC262706F200EE35D3 /* UVPipelineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVPipelineManager.swift; sourceTree = "<group>"; };
+		CA86DCD92625A61800547555 /* UVProjectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectListViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		73148B0425C0A48E00F91119 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA324C79261EE9FD00B80798 /* ReactiveSwift in Frameworks */,
+				CA268F592624865C004C4D35 /* ReactiveCocoa in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		73148AFE25C0A48D00F91119 = {
+			isa = PBXGroup;
+			children = (
+				73148B0925C0A48E00F91119 /* sense-audio */,
+				73148B0825C0A48E00F91119 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		73148B0825C0A48E00F91119 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				73148B0725C0A48E00F91119 /* sense-audio.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		73148B0925C0A48E00F91119 /* sense-audio */ = {
+			isa = PBXGroup;
+			children = (
+				CA2DD235262812B400CF2F7E /* Coordinator */,
+				73180E64263ECAA90084957B /* TrackEditor */,
+				CA86DCD82625A60200547555 /* TrackRecorder */,
+				CA86DCD72625A5FC00547555 /* ProjectPipeline */,
+				CA86DCD62625A4EF00547555 /* ProjectList */,
+				CA3E77B42615E8F9003F0AF3 /* ViewModels */,
+				CA3E77A92615DA26003F0AF3 /* ViewControllers */,
+				CA3E77982615A3A3003F0AF3 /* Views */,
+				CA0326C426144C24002A9B30 /* Model */,
+				73148B0A25C0A48E00F91119 /* AppDelegate.swift */,
+				73148B0C25C0A48E00F91119 /* SceneDelegate.swift */,
+				73148B1325C0A48E00F91119 /* Assets.xcassets */,
+				73148B1525C0A48E00F91119 /* LaunchScreen.storyboard */,
+				73148B1825C0A48E00F91119 /* Info.plist */,
+			);
+			path = "sense-audio";
+			sourceTree = "<group>";
+		};
+		73180E64263ECAA90084957B /* TrackEditor */ = {
+			isa = PBXGroup;
+			children = (
+				73180E65263ECB210084957B /* UVTrackEditorViewController.swift */,
+				73180E68263ECB2A0084957B /* UVTrackEditorViewModel.swift */,
+			);
+			path = TrackEditor;
+			sourceTree = "<group>";
+		};
+		CA0326C426144C24002A9B30 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CA4B49CB262706E600EE35D3 /* Pipeline */,
+				CA4B499E2626BC9900EE35D3 /* FileManager */,
+				CA4B499D2626BC9300EE35D3 /* Audio */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CA2DD235262812B400CF2F7E /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				CA2DD236262812BF00CF2F7E /* UVCoordinator.swift */,
+				CA2DD23D2628250C00CF2F7E /* UVCoordinatorFactory.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		CA3E77982615A3A3003F0AF3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CA3E77992615A3B0003F0AF3 /* UVButton.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CA3E77A92615DA26003F0AF3 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				CA3E77AA2615DA35003F0AF3 /* UVContainerViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		CA3E77B42615E8F9003F0AF3 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CA4B499D2626BC9300EE35D3 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				CA0326C526144C2D002A9B30 /* Recorder.swift */,
+				CA1E3C6A26258FA000D9958D /* Player.swift */,
+				73C53EBA2643BF8600033839 /* Editor.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		CA4B499E2626BC9900EE35D3 /* FileManager */ = {
+			isa = PBXGroup;
+			children = (
+				CA4B499F2626BCA700EE35D3 /* UVFileManager.swift */,
+			);
+			path = FileManager;
+			sourceTree = "<group>";
+		};
+		CA4B49CB262706E600EE35D3 /* Pipeline */ = {
+			isa = PBXGroup;
+			children = (
+				CA4B49CC262706F200EE35D3 /* UVPipelineManager.swift */,
+			);
+			path = Pipeline;
+			sourceTree = "<group>";
+		};
+		CA86DCD62625A4EF00547555 /* ProjectList */ = {
+			isa = PBXGroup;
+			children = (
+				CA86DCD92625A61800547555 /* UVProjectListViewController.swift */,
+				CA4B49992626BC5500EE35D3 /* UVProjectListViewModel.swift */,
+				737A4EB2263E82E900EB43DC /* UVProjectListDatasource.swift */,
+			);
+			path = ProjectList;
+			sourceTree = "<group>";
+		};
+		CA86DCD72625A5FC00547555 /* ProjectPipeline */ = {
+			isa = PBXGroup;
+			children = (
+				CA4B49C72626F8D200EE35D3 /* UVProjectPipelineViewController.swift */,
+				CA4B49C42626F8C600EE35D3 /* UVProjectPipelineViewModel.swift */,
+				737A4EBA263EA56F00EB43DC /* UVProjectPipelineDatasource.swift */,
+			);
+			path = ProjectPipeline;
+			sourceTree = "<group>";
+		};
+		CA86DCD82625A60200547555 /* TrackRecorder */ = {
+			isa = PBXGroup;
+			children = (
+				CA2DD24026282E5100CF2F7E /* UVTrackRecorderViewController.swift */,
+				CA3E77AE2615E39F003F0AF3 /* UVRecorderViewModel.swift */,
+				CA3E77B52615E905003F0AF3 /* UVPlayerViewModel.swift */,
+				CA2DD24326282E6000CF2F7E /* UVProjectTrackViewModel.swift */,
+			);
+			path = TrackRecorder;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		73148B0625C0A48E00F91119 /* sense-audio */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 73148B1B25C0A48E00F91119 /* Build configuration list for PBXNativeTarget "sense-audio" */;
+			buildPhases = (
+				738ED626263EBE4C00F0142C /* Run Script */,
+				73148B0325C0A48E00F91119 /* Sources */,
+				73148B0425C0A48E00F91119 /* Frameworks */,
+				73148B0525C0A48E00F91119 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "sense-audio";
+			packageProductDependencies = (
+				CA324C78261EE9FD00B80798 /* ReactiveSwift */,
+				CA268F582624865C004C4D35 /* ReactiveCocoa */,
+			);
+			productName = "sense-audio";
+			productReference = 73148B0725C0A48E00F91119 /* sense-audio.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		73148AFF25C0A48D00F91119 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1220;
+				LastUpgradeCheck = 1220;
+				TargetAttributes = {
+					73148B0625C0A48E00F91119 = {
+						CreatedOnToolsVersion = 12.2;
+					};
+				};
+			};
+			buildConfigurationList = 73148B0225C0A48D00F91119 /* Build configuration list for PBXProject "sense-audio" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 73148AFE25C0A48D00F91119;
+			packageReferences = (
+				CA324C77261EE9FD00B80798 /* XCRemoteSwiftPackageReference "ReactiveSwift" */,
+				CA268F572624865C004C4D35 /* XCRemoteSwiftPackageReference "ReactiveCocoa" */,
+			);
+			productRefGroup = 73148B0825C0A48E00F91119 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				73148B0625C0A48E00F91119 /* sense-audio */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		73148B0525C0A48E00F91119 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73148B1725C0A48E00F91119 /* LaunchScreen.storyboard in Resources */,
+				73148B1425C0A48E00F91119 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		738ED626263EBE4C00F0142C /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n   if [ ! -z \"$BITRISE_PROJECT_PATH\" ] || [ \"$CONFIGURATION\" = \"Release\" ]; then\n       #swiftlint lint --strict\n       swiftlint autocorrect\n       if [ $? -ne 0 ]; then\n           echo \"error: SwiftLint validation failed.\"\n           exit 1\n       fi\n   else\n       swiftlint autocorrect\n   fi\nelse\n   echo \"error: SwiftLint not installed. Install using \\`brew install swiftlint\\`\"\n   exit 1\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		73148B0325C0A48E00F91119 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA2DD24426282E6000CF2F7E /* UVProjectTrackViewModel.swift in Sources */,
+				737A4EB3263E82E900EB43DC /* UVProjectListDatasource.swift in Sources */,
+				73C53EBB2643BF8600033839 /* Editor.swift in Sources */,
+				CA4B49A02626BCA700EE35D3 /* UVFileManager.swift in Sources */,
+				CA1E3C6B26258FA000D9958D /* Player.swift in Sources */,
+				CA3E77B62615E905003F0AF3 /* UVPlayerViewModel.swift in Sources */,
+				CA3E779A2615A3B0003F0AF3 /* UVButton.swift in Sources */,
+				CA3E77AF2615E39F003F0AF3 /* UVRecorderViewModel.swift in Sources */,
+				73180E66263ECB210084957B /* UVTrackEditorViewController.swift in Sources */,
+				CA2DD24126282E5100CF2F7E /* UVTrackRecorderViewController.swift in Sources */,
+				CA4B49C82626F8D200EE35D3 /* UVProjectPipelineViewController.swift in Sources */,
+				737A4EBB263EA56F00EB43DC /* UVProjectPipelineDatasource.swift in Sources */,
+				CA4B49CD262706F200EE35D3 /* UVPipelineManager.swift in Sources */,
+				73180E69263ECB2A0084957B /* UVTrackEditorViewModel.swift in Sources */,
+				73148B0B25C0A48E00F91119 /* AppDelegate.swift in Sources */,
+				CA4B499A2626BC5500EE35D3 /* UVProjectListViewModel.swift in Sources */,
+				CA86DCDA2625A61800547555 /* UVProjectListViewController.swift in Sources */,
+				73148B0D25C0A48E00F91119 /* SceneDelegate.swift in Sources */,
+				CA0326C626144C2D002A9B30 /* Recorder.swift in Sources */,
+				CA4B49C52626F8C600EE35D3 /* UVProjectPipelineViewModel.swift in Sources */,
+				CA3E77AB2615DA35003F0AF3 /* UVContainerViewController.swift in Sources */,
+				CA2DD23E2628250C00CF2F7E /* UVCoordinatorFactory.swift in Sources */,
+				CA2DD237262812BF00CF2F7E /* UVCoordinator.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		73148B1525C0A48E00F91119 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				73148B1625C0A48E00F91119 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		73148B1925C0A48E00F91119 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		73148B1A25C0A48E00F91119 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		73148B1C25C0A48E00F91119 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7YP67DVLV3;
+				INFOPLIST_FILE = "sense-audio/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.uvolchyk.sendio;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		73148B1D25C0A48E00F91119 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7YP67DVLV3;
+				INFOPLIST_FILE = "sense-audio/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.uvolchyk.sendio;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		73148B0225C0A48D00F91119 /* Build configuration list for PBXProject "sense-audio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73148B1925C0A48E00F91119 /* Debug */,
+				73148B1A25C0A48E00F91119 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		73148B1B25C0A48E00F91119 /* Build configuration list for PBXNativeTarget "sense-audio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73148B1C25C0A48E00F91119 /* Debug */,
+				73148B1D25C0A48E00F91119 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CA268F572624865C004C4D35 /* XCRemoteSwiftPackageReference "ReactiveCocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveCocoa/ReactiveCocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.2.0;
+			};
+		};
+		CA324C77261EE9FD00B80798 /* XCRemoteSwiftPackageReference "ReactiveSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveCocoa/ReactiveSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CA268F582624865C004C4D35 /* ReactiveCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CA268F572624865C004C4D35 /* XCRemoteSwiftPackageReference "ReactiveCocoa" */;
+			productName = ReactiveCocoa;
+		};
+		CA324C78261EE9FD00B80798 /* ReactiveSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CA324C77261EE9FD00B80798 /* XCRemoteSwiftPackageReference "ReactiveSwift" */;
+			productName = ReactiveSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 73148AFF25C0A48D00F91119 /* Project object */;
+}
