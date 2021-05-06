@@ -10,7 +10,6 @@
 import AVFoundation
 import ReactiveSwift
 
-
 protocol UVPlayerType {
     func play(_ url: URL) -> SignalProducer<Void, Error>
     func pause()
@@ -21,20 +20,20 @@ final class UVVoicePlayer {
         let engine = AVAudioEngine()
         engine.attach(playerNode)
         engine.attach(mixerNode)
-        
+
         let format = playerNode.outputFormat(forBus: 0)
-        
+
         engine.connect(playerNode, to: mixerNode, format: format)
         engine.connect(mixerNode, to: engine.mainMixerNode, format: format)
-        
+
         return engine
     }()
-    
+
     private let mixerNode: AVAudioMixerNode = AVAudioMixerNode()
     private let playerNode: AVAudioPlayerNode = AVAudioPlayerNode()
-    
+
     // MARK: -
-    
+
     init() {
         engine.prepare()
     }
@@ -58,7 +57,7 @@ extension UVVoicePlayer: UVPlayerType {
             }
         }
     }
-    
+
     func pause() {
         playerNode.pause()
         engine.pause()

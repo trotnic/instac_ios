@@ -13,41 +13,41 @@ import ReactiveCocoa
 import ReactiveSwift
 
 class UVTrackRecorderViewController: UIViewController {
-    
+
     // MARK: ⚠️ DEVELOP ZONE ⚠️
-    
+
     private enum RecorderState {
         case idle, recording, stopped
     }
-    
+
     private enum PlayerState {
         case idle, playing, paused
     }
-    
+
     private struct Constants {
         static let fadeDuration: TimeInterval = 0.2
         static let playIM = "play"
         static let recordStartIM = "record.circle"
     }
-    
+
     // MARK: - Props
-    
+
     private var recorderState: RecorderState = .idle
     private var playerState: PlayerState = .idle
-    
-    lazy var recordingDurationLabel: UILabel = {
+
+    let recordingDurationLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    lazy var playingDurationLabel: UILabel = {
+
+    let playingDurationLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    lazy var playButton: UIButton = {
+
+    let playButton: UIButton = {
         let view = UVButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setImage(UIImage(systemName: Constants.playIM), for: .normal)
@@ -55,15 +55,15 @@ class UVTrackRecorderViewController: UIViewController {
         view.isEnabled = false
         return view
     }()
-    
-    lazy var recordButton: UIButton = {
+
+    let recordButton: UIButton = {
         let view = UVButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setImage(UIImage(systemName: Constants.recordStartIM), for: .normal)
         view.addTarget(self, action: #selector(recordAction(_:)), for: .touchUpInside)
         return view
     }()
-    
+
     /**
      Saves the actual audio file
      and returns to the list of tracks
@@ -73,7 +73,7 @@ class UVTrackRecorderViewController: UIViewController {
         item.isEnabled = false
         return item
     }()
-    
+
     /**
      Deletes current audio asset
      and refreshes VC state to `.idle`
@@ -83,57 +83,57 @@ class UVTrackRecorderViewController: UIViewController {
         item.isEnabled = false
         return item
     }()
-    
+
     lazy var timeLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.text = "00:00"
         return view
     }()
-    
+
     lazy var locationLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        
+
         return view
     }()
-    
+
     private var recorderViewModel: UVRecorderViewModelType
     private var playerViewModel: UVPlayerViewModelType
-    
+
     // MARK: - Initialization
-    
+
     init(recorder recorderViewModel: UVRecorderViewModelType, player playerViewModel: UVPlayerViewModelType) {
         self.recorderViewModel = recorderViewModel
         self.playerViewModel = playerViewModel
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: -
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAppearance()
     }
-    
+
     // MARK: - Private Layout
-    
+
     private func setupAppearance() {
         view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItems = [
             saveButton,
             deleteButton
         ]
-        
+
         layoutRecordButton()
         layoutPlayButton()
         layoutTimeLabel()
     }
-    
+
     private func layoutPlayButton() {
         view.addSubview(playButton)
         NSLayoutConstraint.activate([
@@ -143,7 +143,7 @@ class UVTrackRecorderViewController: UIViewController {
             playButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
-    
+
     private func layoutRecordButton() {
         view.addSubview(recordButton)
         NSLayoutConstraint.activate([
@@ -153,7 +153,7 @@ class UVTrackRecorderViewController: UIViewController {
             recordButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
-    
+
     private func layoutTimeLabel() {
         view.addSubview(timeLabel)
         NSLayoutConstraint.activate([
@@ -161,19 +161,19 @@ class UVTrackRecorderViewController: UIViewController {
             timeLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
-    
+
     // MARK: - Private Logic
-    
+
     @objc private func recordAction(_ sender: UIButton) {
         switch recorderState {
         case .idle:
             recorderViewModel
                 .startRecording()
                 .on(value: { [self] _ in
-                    animateTransition(recordButton) {
+                    animateTransition(of: recordButton) {
                         recordButton.setImage(UIImage(systemName: "stop.circle"), for: .normal)
                     }
-                    animateTransition(playButton) {
+                    animateTransition(of: playButton) {
                         playButton.isEnabled = false
                     }
                     recorderState = .recording
@@ -183,11 +183,11 @@ class UVTrackRecorderViewController: UIViewController {
             recorderViewModel
                 .stopRecording()
                 .on(value: { [self] _ in
-                    animateTransition(recordButton) {
+                    animateTransition(of: recordButton) {
                         recordButton.setImage(UIImage(systemName: "record.circle"), for: .normal)
                         recordButton.isEnabled = false
                     }
-                    animateTransition(playButton) {
+                    animateTransition(of: playButton) {
                         playButton.isEnabled = true
                     }
                     deleteButton.isEnabled = true
@@ -199,9 +199,9 @@ class UVTrackRecorderViewController: UIViewController {
             break
         }
     }
-    
+
     @objc private func playBackAction(_ sender: UIButton) {
-        
+
         switch playerState {
         case .idle,
              .paused:
@@ -216,7 +216,7 @@ class UVTrackRecorderViewController: UIViewController {
                     .on(event: { (event) in
                         switch event {
                         case .value:
-                            animateTransition(playButton) {
+                            animateTransition(of: playButton) {
                                 playButton.setImage(UIImage(systemName: "pause"), for: .normal)
                             }
                             playerState = .playing
@@ -224,7 +224,7 @@ class UVTrackRecorderViewController: UIViewController {
                             playerViewModel
                                 .pause()
                                 .on(value: { _ in
-                                    animateTransition(playButton) {
+                                    animateTransition(of: playButton) {
                                         playButton.setImage(UIImage(systemName: "play"), for: .normal)
                                     }
                                     playerState = .paused
@@ -233,34 +233,34 @@ class UVTrackRecorderViewController: UIViewController {
                         default:
                             break
                         }
-                    })                    
+                    })
                     .start()
             })
             .start()
-            
+
         case .playing:
             playerViewModel
                 .pause()
                 .on(value: { [self] _ in
-                    animateTransition(playButton) {
+                    animateTransition(of: playButton) {
                         playButton.setImage(UIImage(systemName: "play"), for: .normal)
                     }
                     playerState = .paused
                 })
                 .start()
         }
-        
+
     }
-    
+
     @objc private func saveAssetAction() {
         // MARK: ♻️ REFACTOR LATER ♻️
         recorderViewModel.saveRecord()
-            .on(value: { [self] _ in
-                refreshState()
-            })
-            .start()
+//            .on(value: { [self] _ in
+//                refreshState()
+//            })
+//            .start()
     }
-    
+
     @objc private func deleteAssetAction() {
         recorderViewModel.deleteRecord()
             .on(value: { [self] _ in
@@ -268,18 +268,18 @@ class UVTrackRecorderViewController: UIViewController {
             })
             .start()
     }
-    
+
     private func refreshState() {
         recorderState = .idle
         playerState = .idle
-        
+
         playerViewModel.stop()
-        
-        animateTransition(recordButton) {
+
+        animateTransition(of: recordButton) {
             self.recordButton.setImage(UIImage(systemName: "record.circle"), for: .normal)
             self.recordButton.isEnabled = true
         }
-        animateTransition(playButton) {
+        animateTransition(of: playButton) {
             self.playButton.isEnabled = false
             self.playButton.setImage(UIImage(systemName: "play"), for: .normal)
         }
@@ -288,9 +288,9 @@ class UVTrackRecorderViewController: UIViewController {
     }
 }
 
-extension UVTrackRecorderViewController {
-    private func animateTransition(_ with: UIView, callback: @escaping () -> Void) {
-        UIView.transition(with: with, duration: Constants.fadeDuration, options: [.transitionCrossDissolve]) {
+private extension UVTrackRecorderViewController {
+    func animateTransition(of view: UIView, callback: @escaping () -> Void) {
+        UIView.transition(with: view, duration: Constants.fadeDuration, options: [.transitionCrossDissolve]) {
             callback()
         }
     }

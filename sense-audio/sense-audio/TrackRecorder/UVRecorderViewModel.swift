@@ -17,10 +17,10 @@ import ReactiveSwift
 
 protocol UVRecorderViewModelType {
     var audioFileName: String? { get }
-    
+
     func startRecording() -> SignalProducer<Void, Error>
     func stopRecording() -> SignalProducer<Void, Error>
-    func saveRecord() -> SignalProducer<Void, Error>
+    func saveRecord()
     func deleteRecord() -> SignalProducer<Void, Error>
 }
 
@@ -28,12 +28,14 @@ final class UVRecorderViewModel {
 
     private var recorder: VoiceRecorder
     private var fileManager: UVFileManagerType
+    private let coordinator: UVCoordinatorType
     // MARK: 🗑 DELETE LATER 🗑
     private let project: String
 
     private(set) var audioFileName: String?
 
-    init(recorder: VoiceRecorder, project name: String, fileManager: UVFileManagerType = UVFileManager()) {
+    init(coordinator: UVCoordinatorType, recorder: VoiceRecorder, project name: String, fileManager: UVFileManagerType = UVFileManager()) {
+        self.coordinator = coordinator
         self.recorder = recorder
         self.fileManager = fileManager
         project = name
@@ -77,22 +79,27 @@ extension UVRecorderViewModel: UVRecorderViewModelType {
         }
     }
 
-    func saveRecord() -> SignalProducer<Void, Error> {
+    func saveRecord() {
         SignalProducer<String?, Error> { [self] (observer, _) in
             observer.send(value: audioFileName)
         }
         .skipNil()
         .flatMap(.latest, { self.fileManager.url(for: $0) })
-        .flatMap(.latest) { [self] (fileURL) -> SignalProducer<Void, Error> in
+        .flatMap(.latest) { [self] (fileURL) -> SignalProducer<String, Error> in
             SignalProducer { (observer, _) in
                 do {
                     try fileManager.move(fileAt: fileURL, to: project)
-                    observer.send(value: ())
+                    observer.send(value: fileURL.lastPathComponent)
                 } catch {
                     observer.send(error: error)
                 }
             }
         }
+        .on(value: { [self] track in
+            coordinator.show(route: .projectTrackEditor(project: project, track: track))
+        })
+        .start()
+
         // MARK: ♻️ REFACTOR LATER ♻️
 //        if let audioFileURL = audioFileURL {
 //            try?

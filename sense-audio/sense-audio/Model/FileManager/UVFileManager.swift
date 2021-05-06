@@ -29,7 +29,7 @@ import ReactiveSwift
 
 protocol UVFileManagerType {
     func contents(for: UVDirectories) -> SignalProducer<[String], Never>
-    
+
     func buildTemporaryUrl(for fileName: String) -> URL
     func url(for temporized: String) -> SignalProducer<URL, Error>
     mutating func temporize(fileAt url: URL) throws
@@ -54,7 +54,7 @@ enum UVDirectories {
 
 struct UVFileManager {
     private let fileManager: FileManager = .default
-    
+
     init() {
         do {
             try fileManager.createDirectory(at: Constants.projectsFolderURL, withIntermediateDirectories: true, attributes: nil)
@@ -63,7 +63,7 @@ struct UVFileManager {
             assert(false, "FileManager must initialize directories hierarchy, but happened error: \(error)")
         }
     }
-    
+
     fileprivate struct Constants {
         static let projectsFolderName = "Projects"
         static let backingStoreFolderName = "BStore"

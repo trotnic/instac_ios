@@ -13,9 +13,10 @@ import ReactiveSwift
 
 protocol UVProjectPipelineViewModelType {
     var contents: SignalProducer<[String], Never> { get }
-    
+
     func addTrack() -> SignalProducer<Void, Never>
     func delete(at index: Int) -> SignalProducer<Void, Error>
+    func didSelect(at index: Int) -> SignalProducer<Void, Never>
 }
 
 final class UVProjectPipelineViewModel {
@@ -53,7 +54,7 @@ extension UVProjectPipelineViewModel: UVProjectPipelineViewModelType {
     func addTrack() -> SignalProducer<Void, Never> {
         // MARK: ♻️ REFACTOR LATER ♻️
         SignalProducer { [coordinator, project] (observer, _) in
-            coordinator.show(route: .projectTrack(project: project))
+            coordinator.show(route: .projectTrackRecorder(project: project))
             observer.send(value: ())
         }
     }
@@ -61,7 +62,7 @@ extension UVProjectPipelineViewModel: UVProjectPipelineViewModelType {
     func delete(at index: Int) -> SignalProducer<Void, Error> {
         contents
             .map { (contents) -> String in contents[index] }
-            .flatMap(.latest, { (track) -> SignalProducer<Void, Error> in
+            .flatMap(.latest, { track -> SignalProducer<Void, Error> in
                 SignalProducer { [self] (observer, _) in
                     do {
                         try fileManager.delete(track: track, in: project)
@@ -71,5 +72,16 @@ extension UVProjectPipelineViewModel: UVProjectPipelineViewModelType {
                     }
                 }
             })
+    }
+
+    func didSelect(at index: Int) -> SignalProducer<Void, Never> {
+        contents
+            .map({ $0[index] })
+            .flatMap(.latest) { track -> SignalProducer<Void, Never> in
+                SignalProducer { [self] (observer, _) in
+                    coordinator.show(route: .projectTrackEditor(project: project, track: track))
+                    observer.send(value: ())
+                }
+            }
     }
 }

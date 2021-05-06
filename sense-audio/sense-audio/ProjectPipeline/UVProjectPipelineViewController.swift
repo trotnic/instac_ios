@@ -97,6 +97,8 @@ private extension UVProjectPipelineViewController {
     }
 }
 
+// MARK: - UITableViewDelegate
+
 extension UVProjectPipelineViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [pipelineViewModel] (_, _, completion) in
@@ -113,5 +115,12 @@ extension UVProjectPipelineViewController: UITableViewDelegate {
         }
 
         return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        pipelineViewModel
+            .didSelect(at: indexPath.row)
+            .start()
     }
 }

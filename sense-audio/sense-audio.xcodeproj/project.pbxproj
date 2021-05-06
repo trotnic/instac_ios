@@ -15,6 +15,7 @@
 		73180E69263ECB2A0084957B /* UVTrackEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73180E68263ECB2A0084957B /* UVTrackEditorViewModel.swift */; };
 		737A4EB3263E82E900EB43DC /* UVProjectListDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737A4EB2263E82E900EB43DC /* UVProjectListDatasource.swift */; };
 		737A4EBB263EA56F00EB43DC /* UVProjectPipelineDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737A4EBA263EA56F00EB43DC /* UVProjectPipelineDatasource.swift */; };
+		73C53EBB2643BF8600033839 /* Editor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C53EBA2643BF8600033839 /* Editor.swift */; };
 		CA0326C626144C2D002A9B30 /* Recorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0326C526144C2D002A9B30 /* Recorder.swift */; };
 		CA1E3C6B26258FA000D9958D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1E3C6A26258FA000D9958D /* Player.swift */; };
 		CA268F592624865C004C4D35 /* ReactiveCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = CA268F582624865C004C4D35 /* ReactiveCocoa */; };
@@ -46,6 +47,7 @@
 		73180E68263ECB2A0084957B /* UVTrackEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVTrackEditorViewModel.swift; sourceTree = "<group>"; };
 		737A4EB2263E82E900EB43DC /* UVProjectListDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectListDatasource.swift; sourceTree = "<group>"; };
 		737A4EBA263EA56F00EB43DC /* UVProjectPipelineDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectPipelineDatasource.swift; sourceTree = "<group>"; };
+		73C53EBA2643BF8600033839 /* Editor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editor.swift; sourceTree = "<group>"; };
 		CA0326C526144C2D002A9B30 /* Recorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recorder.swift; sourceTree = "<group>"; };
 		CA1E3C6A26258FA000D9958D /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		CA2DD236262812BF00CF2F7E /* UVCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVCoordinator.swift; sourceTree = "<group>"; };
@@ -98,7 +100,7 @@
 			children = (
 				CA2DD235262812B400CF2F7E /* Coordinator */,
 				73180E64263ECAA90084957B /* TrackEditor */,
-				CA86DCD82625A60200547555 /* ProjectTrack */,
+				CA86DCD82625A60200547555 /* TrackRecorder */,
 				CA86DCD72625A5FC00547555 /* ProjectPipeline */,
 				CA86DCD62625A4EF00547555 /* ProjectList */,
 				CA3E77B42615E8F9003F0AF3 /* ViewModels */,
@@ -170,6 +172,7 @@
 			children = (
 				CA0326C526144C2D002A9B30 /* Recorder.swift */,
 				CA1E3C6A26258FA000D9958D /* Player.swift */,
+				73C53EBA2643BF8600033839 /* Editor.swift */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -210,7 +213,7 @@
 			path = ProjectPipeline;
 			sourceTree = "<group>";
 		};
-		CA86DCD82625A60200547555 /* ProjectTrack */ = {
+		CA86DCD82625A60200547555 /* TrackRecorder */ = {
 			isa = PBXGroup;
 			children = (
 				CA2DD24026282E5100CF2F7E /* UVTrackRecorderViewController.swift */,
@@ -218,7 +221,7 @@
 				CA3E77B52615E905003F0AF3 /* UVPlayerViewModel.swift */,
 				CA2DD24326282E6000CF2F7E /* UVProjectTrackViewModel.swift */,
 			);
-			path = ProjectTrack;
+			path = TrackRecorder;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -311,7 +314,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n   if [ ! -z \"$BITRISE_PROJECT_PATH\" ] || [ \"$CONFIGURATION\" = \"Release\" ]; then\n       swiftlint lint --strict\n       if [ $? -ne 0 ]; then\n           echo \"error: SwiftLint validation failed.\"\n           exit 1\n       fi\n   else\n       swiftlint lint\n   fi\nelse\n   echo \"error: SwiftLint not installed. Install using \\`brew install swiftlint\\`\"\n   exit 1\nfi\n";
+			shellScript = "if which swiftlint >/dev/null; then\n   if [ ! -z \"$BITRISE_PROJECT_PATH\" ] || [ \"$CONFIGURATION\" = \"Release\" ]; then\n       #swiftlint lint --strict\n       swiftlint autocorrect\n       if [ $? -ne 0 ]; then\n           echo \"error: SwiftLint validation failed.\"\n           exit 1\n       fi\n   else\n       swiftlint autocorrect\n   fi\nelse\n   echo \"error: SwiftLint not installed. Install using \\`brew install swiftlint\\`\"\n   exit 1\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -322,6 +325,7 @@
 			files = (
 				CA2DD24426282E6000CF2F7E /* UVProjectTrackViewModel.swift in Sources */,
 				737A4EB3263E82E900EB43DC /* UVProjectListDatasource.swift in Sources */,
+				73C53EBB2643BF8600033839 /* Editor.swift in Sources */,
 				CA4B49A02626BCA700EE35D3 /* UVFileManager.swift in Sources */,
 				CA1E3C6B26258FA000D9958D /* Player.swift in Sources */,
 				CA3E77B62615E905003F0AF3 /* UVPlayerViewModel.swift in Sources */,

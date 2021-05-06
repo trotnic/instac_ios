@@ -27,18 +27,20 @@ struct UVCoordinatorFactory {
             let pipeline = UVPipelineManager()
             let fileManager = UVFileManager()
             let dataSource = UVProjectPipelineDatasource()
-            let pipeViewModel = UVProjectPipelineViewModel(coordinator: coordinator,
-                                                           pipeline: pipeline,
-                                                           fileManager: fileManager,
-                                                           project: project)
+            let pipeViewModel = UVProjectPipelineViewModel(coordinator: coordinator, pipeline: pipeline, fileManager: fileManager, project: project)
             let controller = UVProjectPipelineViewController(pipeline: pipeViewModel, data: dataSource)
             return controller
-        case let .projectTrack(project):
+        case let .projectTrackRecorder(project):
             let fileManager = UVFileManager()
             let recorder = VoiceRecorder()
-            let recorderViewModel = UVRecorderViewModel(recorder: recorder, project: project)
+            let recorderViewModel = UVRecorderViewModel(coordinator: coordinator, recorder: recorder, project: project)
             let playerViewModel = UVPlayerViewModel(fileManager: fileManager)
             let controller = UVTrackRecorderViewController(recorder: recorderViewModel, player: playerViewModel)
+            return controller
+        case let .projectTrackEditor(project, track):
+            let editor = UVEditor()
+            let editorViewModel = UVTrackEditorViewModel(coordinator: coordinator, editor: editor, project: project, track: track)
+            let controller = UVTrackEditorViewController(editor: editorViewModel)
             return controller
         }
     }

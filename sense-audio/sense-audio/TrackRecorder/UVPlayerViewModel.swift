@@ -10,7 +10,6 @@
 import Foundation
 import ReactiveSwift
 
-
 /**
  This type is used for playback
  of just recorded assets
@@ -25,7 +24,7 @@ protocol UVPlayerViewModelType {
 struct UVPlayerViewModel {
     private let player: UVPlayerType = UVVoicePlayer()
     private let fileManager: UVFileManagerType
-    
+
     init(fileManager: UVFileManagerType) {
         self.fileManager = fileManager
     }
@@ -54,15 +53,15 @@ extension UVPlayerViewModel: UVPlayerViewModelType {
                 .start()
         }
     }
-    
+
     func pause() -> SignalProducer<Void, Never> {
         SignalProducer { (observer, _) in
             player.pause()
             observer.send(value: ())
         }
     }
-    
+
     func stop() {
-        
+
     }
 }
