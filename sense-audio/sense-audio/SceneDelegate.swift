@@ -23,7 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = navigationController
         coordinator = UVCoordinator(navigation: navigationController, factory: UVCoordinatorFactory())
 
-        coordinator?.show(route: .projectList)
+//        coordinator?.show(route: .projectList)
+        coordinator?.show(route: .projectPipeline(project: "123"))
         window?.makeKeyAndVisible()
     }
 

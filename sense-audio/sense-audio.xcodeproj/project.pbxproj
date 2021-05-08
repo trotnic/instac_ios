@@ -14,7 +14,14 @@
 		73180E66263ECB210084957B /* UVTrackEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73180E65263ECB210084957B /* UVTrackEditorViewController.swift */; };
 		73180E69263ECB2A0084957B /* UVTrackEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73180E68263ECB2A0084957B /* UVTrackEditorViewModel.swift */; };
 		737A4EB3263E82E900EB43DC /* UVProjectListDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737A4EB2263E82E900EB43DC /* UVProjectListDatasource.swift */; };
-		737A4EBB263EA56F00EB43DC /* UVProjectPipelineDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737A4EBA263EA56F00EB43DC /* UVProjectPipelineDatasource.swift */; };
+		73BBF9EE2646542D0064CD21 /* UVPipelineTrackCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BBF9ED2646542C0064CD21 /* UVPipelineTrackCollectionCell.swift */; };
+		73BBF9F22646546D0064CD21 /* UVPipelineTrackCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73BBF9F12646546D0064CD21 /* UVPipelineTrackCollectionCell.xib */; };
+		73BBFA1E26465F5B0064CD21 /* Pipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BBFA1D26465F5B0064CD21 /* Pipeline.swift */; };
+		73BBFA23264697A10064CD21 /* UVPipelineTrackTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BBFA21264697A10064CD21 /* UVPipelineTrackTableCell.swift */; };
+		73BBFA24264697A10064CD21 /* UVPipelineTrackTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73BBFA22264697A10064CD21 /* UVPipelineTrackTableCell.xib */; };
+		73BBFA2B2646ADCA0064CD21 /* Entities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BBFA2A2646ADCA0064CD21 /* Entities.swift */; };
+		73BBFA352646FA3E0064CD21 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73BBFA342646FA3E0064CD21 /* AudioToolbox.framework */; };
+		73BBFA3B264724FE0064CD21 /* UVAudioSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BBFA3A264724FE0064CD21 /* UVAudioSettings.swift */; };
 		73C53EBB2643BF8600033839 /* Editor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C53EBA2643BF8600033839 /* Editor.swift */; };
 		CA0326C626144C2D002A9B30 /* Recorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0326C526144C2D002A9B30 /* Recorder.swift */; };
 		CA1E3C6B26258FA000D9958D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1E3C6A26258FA000D9958D /* Player.swift */; };
@@ -46,7 +53,14 @@
 		73180E65263ECB210084957B /* UVTrackEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVTrackEditorViewController.swift; sourceTree = "<group>"; };
 		73180E68263ECB2A0084957B /* UVTrackEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVTrackEditorViewModel.swift; sourceTree = "<group>"; };
 		737A4EB2263E82E900EB43DC /* UVProjectListDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectListDatasource.swift; sourceTree = "<group>"; };
-		737A4EBA263EA56F00EB43DC /* UVProjectPipelineDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectPipelineDatasource.swift; sourceTree = "<group>"; };
+		73BBF9ED2646542C0064CD21 /* UVPipelineTrackCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVPipelineTrackCollectionCell.swift; sourceTree = "<group>"; };
+		73BBF9F12646546D0064CD21 /* UVPipelineTrackCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVPipelineTrackCollectionCell.xib; sourceTree = "<group>"; };
+		73BBFA1D26465F5B0064CD21 /* Pipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pipeline.swift; sourceTree = "<group>"; };
+		73BBFA21264697A10064CD21 /* UVPipelineTrackTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVPipelineTrackTableCell.swift; sourceTree = "<group>"; };
+		73BBFA22264697A10064CD21 /* UVPipelineTrackTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVPipelineTrackTableCell.xib; sourceTree = "<group>"; };
+		73BBFA2A2646ADCA0064CD21 /* Entities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entities.swift; sourceTree = "<group>"; };
+		73BBFA342646FA3E0064CD21 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		73BBFA3A264724FE0064CD21 /* UVAudioSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVAudioSettings.swift; sourceTree = "<group>"; };
 		73C53EBA2643BF8600033839 /* Editor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editor.swift; sourceTree = "<group>"; };
 		CA0326C526144C2D002A9B30 /* Recorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recorder.swift; sourceTree = "<group>"; };
 		CA1E3C6A26258FA000D9958D /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -73,6 +87,7 @@
 			files = (
 				CA324C79261EE9FD00B80798 /* ReactiveSwift in Frameworks */,
 				CA268F592624865C004C4D35 /* ReactiveCocoa in Frameworks */,
+				73BBFA352646FA3E0064CD21 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +99,7 @@
 			children = (
 				73148B0925C0A48E00F91119 /* sense-audio */,
 				73148B0825C0A48E00F91119 /* Products */,
+				73BBFA332646FA3E0064CD21 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -125,9 +141,45 @@
 			path = TrackEditor;
 			sourceTree = "<group>";
 		};
+		73BBF9EC264653F80064CD21 /* PipelineViews */ = {
+			isa = PBXGroup;
+			children = (
+				73BBFA20264697890064CD21 /* TableCell */,
+				73BBF9ED2646542C0064CD21 /* UVPipelineTrackCollectionCell.swift */,
+				73BBF9F12646546D0064CD21 /* UVPipelineTrackCollectionCell.xib */,
+			);
+			path = PipelineViews;
+			sourceTree = "<group>";
+		};
+		73BBFA20264697890064CD21 /* TableCell */ = {
+			isa = PBXGroup;
+			children = (
+				73BBFA21264697A10064CD21 /* UVPipelineTrackTableCell.swift */,
+				73BBFA22264697A10064CD21 /* UVPipelineTrackTableCell.xib */,
+			);
+			path = TableCell;
+			sourceTree = "<group>";
+		};
+		73BBFA292646ADBE0064CD21 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				73BBFA2A2646ADCA0064CD21 /* Entities.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		73BBFA332646FA3E0064CD21 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				73BBFA342646FA3E0064CD21 /* AudioToolbox.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		CA0326C426144C24002A9B30 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				73BBFA292646ADBE0064CD21 /* Entities */,
 				CA4B49CB262706E600EE35D3 /* Pipeline */,
 				CA4B499E2626BC9900EE35D3 /* FileManager */,
 				CA4B499D2626BC9300EE35D3 /* Audio */,
@@ -173,6 +225,8 @@
 				CA0326C526144C2D002A9B30 /* Recorder.swift */,
 				CA1E3C6A26258FA000D9958D /* Player.swift */,
 				73C53EBA2643BF8600033839 /* Editor.swift */,
+				73BBFA1D26465F5B0064CD21 /* Pipeline.swift */,
+				73BBFA3A264724FE0064CD21 /* UVAudioSettings.swift */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -206,9 +260,9 @@
 		CA86DCD72625A5FC00547555 /* ProjectPipeline */ = {
 			isa = PBXGroup;
 			children = (
+				73BBF9EC264653F80064CD21 /* PipelineViews */,
 				CA4B49C72626F8D200EE35D3 /* UVProjectPipelineViewController.swift */,
 				CA4B49C42626F8C600EE35D3 /* UVProjectPipelineViewModel.swift */,
-				737A4EBA263EA56F00EB43DC /* UVProjectPipelineDatasource.swift */,
 			);
 			path = ProjectPipeline;
 			sourceTree = "<group>";
@@ -290,8 +344,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73BBFA24264697A10064CD21 /* UVPipelineTrackTableCell.xib in Resources */,
 				73148B1725C0A48E00F91119 /* LaunchScreen.storyboard in Resources */,
 				73148B1425C0A48E00F91119 /* Assets.xcassets in Resources */,
+				73BBF9F22646546D0064CD21 /* UVPipelineTrackCollectionCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,16 +381,19 @@
 			files = (
 				CA2DD24426282E6000CF2F7E /* UVProjectTrackViewModel.swift in Sources */,
 				737A4EB3263E82E900EB43DC /* UVProjectListDatasource.swift in Sources */,
+				73BBFA23264697A10064CD21 /* UVPipelineTrackTableCell.swift in Sources */,
 				73C53EBB2643BF8600033839 /* Editor.swift in Sources */,
 				CA4B49A02626BCA700EE35D3 /* UVFileManager.swift in Sources */,
 				CA1E3C6B26258FA000D9958D /* Player.swift in Sources */,
 				CA3E77B62615E905003F0AF3 /* UVPlayerViewModel.swift in Sources */,
 				CA3E779A2615A3B0003F0AF3 /* UVButton.swift in Sources */,
+				73BBFA3B264724FE0064CD21 /* UVAudioSettings.swift in Sources */,
 				CA3E77AF2615E39F003F0AF3 /* UVRecorderViewModel.swift in Sources */,
+				73BBF9EE2646542D0064CD21 /* UVPipelineTrackCollectionCell.swift in Sources */,
 				73180E66263ECB210084957B /* UVTrackEditorViewController.swift in Sources */,
+				73BBFA2B2646ADCA0064CD21 /* Entities.swift in Sources */,
 				CA2DD24126282E5100CF2F7E /* UVTrackRecorderViewController.swift in Sources */,
 				CA4B49C82626F8D200EE35D3 /* UVProjectPipelineViewController.swift in Sources */,
-				737A4EBB263EA56F00EB43DC /* UVProjectPipelineDatasource.swift in Sources */,
 				CA4B49CD262706F200EE35D3 /* UVPipelineManager.swift in Sources */,
 				73180E69263ECB2A0084957B /* UVTrackEditorViewModel.swift in Sources */,
 				73148B0B25C0A48E00F91119 /* AppDelegate.swift in Sources */,
@@ -342,6 +401,7 @@
 				CA86DCDA2625A61800547555 /* UVProjectListViewController.swift in Sources */,
 				73148B0D25C0A48E00F91119 /* SceneDelegate.swift in Sources */,
 				CA0326C626144C2D002A9B30 /* Recorder.swift in Sources */,
+				73BBFA1E26465F5B0064CD21 /* Pipeline.swift in Sources */,
 				CA4B49C52626F8C600EE35D3 /* UVProjectPipelineViewModel.swift in Sources */,
 				CA3E77AB2615DA35003F0AF3 /* UVContainerViewController.swift in Sources */,
 				CA2DD23E2628250C00CF2F7E /* UVCoordinatorFactory.swift in Sources */,

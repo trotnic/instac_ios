@@ -40,8 +40,8 @@ final class UVTrackEditorViewModel {
 
 extension UVTrackEditorViewModel: UVTrackEditorViewModelType {
     func play() -> SignalProducer<Void, Never> {
-        SignalProducer { (observer, _) in
-            print("playing!")
+        SignalProducer { [self] (observer, _) in
+//            editor.load(asset: <#T##URL#>)
             observer.send(value: ())
         }
     }

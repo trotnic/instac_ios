@@ -23,11 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
 
-        let session = AVAudioSession.shared
+        let session = AVAudioSession.sharedInstance()
 
         do {
             try session.setCategory(.playAndRecord, mode: .measurement, options: [.allowBluetooth])
-
+            try session.setActive(true, options: .notifyOthersOnDeactivation)
         } catch let error {
             print("Failed to set the audio session category and mode: \(error.localizedDescription)")
         }
