@@ -15,7 +15,8 @@ protocol UVProjectPipelineViewModelType {
     var contents: SignalProducer<[UVTrackModel], Never> { get }
 
     func addTrack() -> SignalProducer<Void, Never>
-    func delete(at index: Int) -> SignalProducer<Void, Error>
+    func deleteTrack(at index: Int) -> SignalProducer<Void, Error>
+    func editTrack(at index: Int)
     func didSelect(at index: Int) -> SignalProducer<Void, Never>
 
     func play()
@@ -37,7 +38,7 @@ final class UVProjectPipelineViewModel {
                     contents.forEach { fileName in
                         self.fileManager.sampleURL(for: fileName, in: self.project)
                             .on(value: { value in
-                                result.append(UVTrackModel(project: self.project, name: fileName, url: value, volume: 0.1))
+                                result.append(UVTrackModel(project: self.project, name: fileName, url: value))
                             })
                             .start()
                     }
@@ -103,7 +104,7 @@ extension UVProjectPipelineViewModel: UVProjectPipelineViewModelType {
         }
     }
 
-    func delete(at index: Int) -> SignalProducer<Void, Error> {
+    func deleteTrack(at index: Int) -> SignalProducer<Void, Error> {
         assets
             .map { (contents) -> String in contents[index].name }
             .flatMap(.latest, { track -> SignalProducer<Void, Error> in
@@ -116,6 +117,15 @@ extension UVProjectPipelineViewModel: UVProjectPipelineViewModelType {
                     }
                 }
             })
+    }
+
+    func editTrack(at index: Int) {
+        assets
+            .map({ $0[index].name })
+            .on(value: { [self] track in
+                coordinator.show(route: .projectTrackEditor(project: project, track: track))
+            })
+            .start()
     }
 
     func didSelect(at index: Int) -> SignalProducer<Void, Never> {

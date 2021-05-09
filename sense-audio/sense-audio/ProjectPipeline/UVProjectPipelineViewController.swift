@@ -145,14 +145,15 @@ extension UVProjectPipelineViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as? UVPipelineTrackTableCell {
             let track = contents.value[indexPath.row]
-//            cell.volumeSlider.reactive.value <~ track.volume
-            track.volume.bindingTarget <~ cell.volumeSlider.reactive.values
+            track.isOn <~ cell.switcher
 
             cell.trackLabel.text = track.name
-//            track.volume.signal.observeValues { (value) in
-//                print(value)
-//            }
-//            cell.trackLabel.text = contents.value[indexPath.row]
+
+            cell.editButton.reactive
+                .controlEvents(.touchUpInside)
+                .observeValues { (_) in
+                    self.pipelineViewModel.editTrack(at: indexPath.row)
+                }
             return cell
         }
         return UITableViewCell()

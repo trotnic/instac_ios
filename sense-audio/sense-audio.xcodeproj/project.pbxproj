@@ -13,9 +13,19 @@
 		73148B1725C0A48E00F91119 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73148B1525C0A48E00F91119 /* LaunchScreen.storyboard */; };
 		73180E66263ECB210084957B /* UVTrackEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73180E65263ECB210084957B /* UVTrackEditorViewController.swift */; };
 		73180E69263ECB2A0084957B /* UVTrackEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73180E68263ECB2A0084957B /* UVTrackEditorViewModel.swift */; };
+		732761282647D43600445A29 /* TrackModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 732761262647D43600445A29 /* TrackModel.xcdatamodeld */; };
+		7327612B2647D50100445A29 /* Track in Resources */ = {isa = PBXBuildFile; fileRef = 7327612A2647D50100445A29 /* Track */; };
+		7327612E2647D69E00445A29 /* UVDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7327612D2647D69E00445A29 /* UVDataManager.swift */; };
+		73276151264801DE00445A29 /* UVTrackEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73276150264801DE00445A29 /* UVTrackEditorViewController.xib */; };
+		732761552648104700445A29 /* UVEqualizerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732761542648104700445A29 /* UVEqualizerViewController.swift */; };
+		7327615D2648175A00445A29 /* UVEqualizerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7327615C2648175A00445A29 /* UVEqualizerViewController.xib */; };
+		73276161264819FE00445A29 /* UVDistortionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73276160264819FE00445A29 /* UVDistortionViewController.swift */; };
+		7327616526481A1000445A29 /* UVDelayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7327616426481A1000445A29 /* UVDelayViewController.swift */; };
+		7327616A26481A2000445A29 /* UVReverbViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7327616926481A2000445A29 /* UVReverbViewController.swift */; };
+		7327616D26481A6700445A29 /* UVDistortionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7327616C26481A6700445A29 /* UVDistortionViewController.xib */; };
+		7327617026481A7800445A29 /* UVDelayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7327616F26481A7800445A29 /* UVDelayViewController.xib */; };
+		7327617326481A8400445A29 /* UVReverbViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7327617226481A8400445A29 /* UVReverbViewController.xib */; };
 		737A4EB3263E82E900EB43DC /* UVProjectListDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737A4EB2263E82E900EB43DC /* UVProjectListDatasource.swift */; };
-		73BBF9EE2646542D0064CD21 /* UVPipelineTrackCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BBF9ED2646542C0064CD21 /* UVPipelineTrackCollectionCell.swift */; };
-		73BBF9F22646546D0064CD21 /* UVPipelineTrackCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73BBF9F12646546D0064CD21 /* UVPipelineTrackCollectionCell.xib */; };
 		73BBFA1E26465F5B0064CD21 /* Pipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BBFA1D26465F5B0064CD21 /* Pipeline.swift */; };
 		73BBFA23264697A10064CD21 /* UVPipelineTrackTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BBFA21264697A10064CD21 /* UVPipelineTrackTableCell.swift */; };
 		73BBFA24264697A10064CD21 /* UVPipelineTrackTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73BBFA22264697A10064CD21 /* UVPipelineTrackTableCell.xib */; };
@@ -52,9 +62,19 @@
 		73148B1825C0A48E00F91119 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		73180E65263ECB210084957B /* UVTrackEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVTrackEditorViewController.swift; sourceTree = "<group>"; };
 		73180E68263ECB2A0084957B /* UVTrackEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVTrackEditorViewModel.swift; sourceTree = "<group>"; };
+		732761272647D43600445A29 /* TrackModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TrackModel.xcdatamodel; sourceTree = "<group>"; };
+		7327612A2647D50100445A29 /* Track */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Track; sourceTree = "<group>"; };
+		7327612D2647D69E00445A29 /* UVDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVDataManager.swift; sourceTree = "<group>"; };
+		73276150264801DE00445A29 /* UVTrackEditorViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVTrackEditorViewController.xib; sourceTree = "<group>"; };
+		732761542648104700445A29 /* UVEqualizerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVEqualizerViewController.swift; sourceTree = "<group>"; };
+		7327615C2648175A00445A29 /* UVEqualizerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVEqualizerViewController.xib; sourceTree = "<group>"; };
+		73276160264819FE00445A29 /* UVDistortionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVDistortionViewController.swift; sourceTree = "<group>"; };
+		7327616426481A1000445A29 /* UVDelayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVDelayViewController.swift; sourceTree = "<group>"; };
+		7327616926481A2000445A29 /* UVReverbViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVReverbViewController.swift; sourceTree = "<group>"; };
+		7327616C26481A6700445A29 /* UVDistortionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVDistortionViewController.xib; sourceTree = "<group>"; };
+		7327616F26481A7800445A29 /* UVDelayViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVDelayViewController.xib; sourceTree = "<group>"; };
+		7327617226481A8400445A29 /* UVReverbViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVReverbViewController.xib; sourceTree = "<group>"; };
 		737A4EB2263E82E900EB43DC /* UVProjectListDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectListDatasource.swift; sourceTree = "<group>"; };
-		73BBF9ED2646542C0064CD21 /* UVPipelineTrackCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVPipelineTrackCollectionCell.swift; sourceTree = "<group>"; };
-		73BBF9F12646546D0064CD21 /* UVPipelineTrackCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVPipelineTrackCollectionCell.xib; sourceTree = "<group>"; };
 		73BBFA1D26465F5B0064CD21 /* Pipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pipeline.swift; sourceTree = "<group>"; };
 		73BBFA21264697A10064CD21 /* UVPipelineTrackTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVPipelineTrackTableCell.swift; sourceTree = "<group>"; };
 		73BBFA22264697A10064CD21 /* UVPipelineTrackTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVPipelineTrackTableCell.xib; sourceTree = "<group>"; };
@@ -135,18 +155,75 @@
 		73180E64263ECAA90084957B /* TrackEditor */ = {
 			isa = PBXGroup;
 			children = (
+				732761532648101300445A29 /* Tool Controllers */,
 				73180E65263ECB210084957B /* UVTrackEditorViewController.swift */,
 				73180E68263ECB2A0084957B /* UVTrackEditorViewModel.swift */,
+				73276150264801DE00445A29 /* UVTrackEditorViewController.xib */,
 			);
 			path = TrackEditor;
+			sourceTree = "<group>";
+		};
+		732761252647D41700445A29 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				7327612A2647D50100445A29 /* Track */,
+				732761262647D43600445A29 /* TrackModel.xcdatamodeld */,
+				7327612D2647D69E00445A29 /* UVDataManager.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		732761532648101300445A29 /* Tool Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				7327616826481A1300445A29 /* Reverb */,
+				7327616326481A0600445A29 /* Delay */,
+				7327615F264819F000445A29 /* Distortion */,
+				7327615A2648172600445A29 /* Equalizer */,
+			);
+			path = "Tool Controllers";
+			sourceTree = "<group>";
+		};
+		7327615A2648172600445A29 /* Equalizer */ = {
+			isa = PBXGroup;
+			children = (
+				732761542648104700445A29 /* UVEqualizerViewController.swift */,
+				7327615C2648175A00445A29 /* UVEqualizerViewController.xib */,
+			);
+			path = Equalizer;
+			sourceTree = "<group>";
+		};
+		7327615F264819F000445A29 /* Distortion */ = {
+			isa = PBXGroup;
+			children = (
+				73276160264819FE00445A29 /* UVDistortionViewController.swift */,
+				7327616C26481A6700445A29 /* UVDistortionViewController.xib */,
+			);
+			path = Distortion;
+			sourceTree = "<group>";
+		};
+		7327616326481A0600445A29 /* Delay */ = {
+			isa = PBXGroup;
+			children = (
+				7327616426481A1000445A29 /* UVDelayViewController.swift */,
+				7327616F26481A7800445A29 /* UVDelayViewController.xib */,
+			);
+			path = Delay;
+			sourceTree = "<group>";
+		};
+		7327616826481A1300445A29 /* Reverb */ = {
+			isa = PBXGroup;
+			children = (
+				7327616926481A2000445A29 /* UVReverbViewController.swift */,
+				7327617226481A8400445A29 /* UVReverbViewController.xib */,
+			);
+			path = Reverb;
 			sourceTree = "<group>";
 		};
 		73BBF9EC264653F80064CD21 /* PipelineViews */ = {
 			isa = PBXGroup;
 			children = (
 				73BBFA20264697890064CD21 /* TableCell */,
-				73BBF9ED2646542C0064CD21 /* UVPipelineTrackCollectionCell.swift */,
-				73BBF9F12646546D0064CD21 /* UVPipelineTrackCollectionCell.xib */,
 			);
 			path = PipelineViews;
 			sourceTree = "<group>";
@@ -179,6 +256,7 @@
 		CA0326C426144C24002A9B30 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				732761252647D41700445A29 /* CoreData */,
 				73BBFA292646ADBE0064CD21 /* Entities */,
 				CA4B49CB262706E600EE35D3 /* Pipeline */,
 				CA4B499E2626BC9900EE35D3 /* FileManager */,
@@ -344,10 +422,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7327616D26481A6700445A29 /* UVDistortionViewController.xib in Resources */,
 				73BBFA24264697A10064CD21 /* UVPipelineTrackTableCell.xib in Resources */,
+				7327617326481A8400445A29 /* UVReverbViewController.xib in Resources */,
 				73148B1725C0A48E00F91119 /* LaunchScreen.storyboard in Resources */,
+				7327617026481A7800445A29 /* UVDelayViewController.xib in Resources */,
+				7327612B2647D50100445A29 /* Track in Resources */,
 				73148B1425C0A48E00F91119 /* Assets.xcassets in Resources */,
-				73BBF9F22646546D0064CD21 /* UVPipelineTrackCollectionCell.xib in Resources */,
+				7327615D2648175A00445A29 /* UVEqualizerViewController.xib in Resources */,
+				73276151264801DE00445A29 /* UVTrackEditorViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,18 +469,22 @@
 				CA4B49A02626BCA700EE35D3 /* UVFileManager.swift in Sources */,
 				CA1E3C6B26258FA000D9958D /* Player.swift in Sources */,
 				CA3E77B62615E905003F0AF3 /* UVPlayerViewModel.swift in Sources */,
+				7327616A26481A2000445A29 /* UVReverbViewController.swift in Sources */,
 				CA3E779A2615A3B0003F0AF3 /* UVButton.swift in Sources */,
 				73BBFA3B264724FE0064CD21 /* UVAudioSettings.swift in Sources */,
+				7327616526481A1000445A29 /* UVDelayViewController.swift in Sources */,
+				732761552648104700445A29 /* UVEqualizerViewController.swift in Sources */,
 				CA3E77AF2615E39F003F0AF3 /* UVRecorderViewModel.swift in Sources */,
-				73BBF9EE2646542D0064CD21 /* UVPipelineTrackCollectionCell.swift in Sources */,
 				73180E66263ECB210084957B /* UVTrackEditorViewController.swift in Sources */,
 				73BBFA2B2646ADCA0064CD21 /* Entities.swift in Sources */,
 				CA2DD24126282E5100CF2F7E /* UVTrackRecorderViewController.swift in Sources */,
+				73276161264819FE00445A29 /* UVDistortionViewController.swift in Sources */,
 				CA4B49C82626F8D200EE35D3 /* UVProjectPipelineViewController.swift in Sources */,
 				CA4B49CD262706F200EE35D3 /* UVPipelineManager.swift in Sources */,
 				73180E69263ECB2A0084957B /* UVTrackEditorViewModel.swift in Sources */,
 				73148B0B25C0A48E00F91119 /* AppDelegate.swift in Sources */,
 				CA4B499A2626BC5500EE35D3 /* UVProjectListViewModel.swift in Sources */,
+				7327612E2647D69E00445A29 /* UVDataManager.swift in Sources */,
 				CA86DCDA2625A61800547555 /* UVProjectListViewController.swift in Sources */,
 				73148B0D25C0A48E00F91119 /* SceneDelegate.swift in Sources */,
 				CA0326C626144C2D002A9B30 /* Recorder.swift in Sources */,
@@ -406,6 +493,7 @@
 				CA3E77AB2615DA35003F0AF3 /* UVContainerViewController.swift in Sources */,
 				CA2DD23E2628250C00CF2F7E /* UVCoordinatorFactory.swift in Sources */,
 				CA2DD237262812BF00CF2F7E /* UVCoordinator.swift in Sources */,
+				732761282647D43600445A29 /* TrackModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,6 +725,19 @@
 			productName = ReactiveSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		732761262647D43600445A29 /* TrackModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				732761272647D43600445A29 /* TrackModel.xcdatamodel */,
+			);
+			currentVersion = 732761272647D43600445A29 /* TrackModel.xcdatamodel */;
+			path = TrackModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 73148AFF25C0A48D00F91119 /* Project object */;
 }
