@@ -122,7 +122,7 @@ private extension UVTrackEditorViewController {
 
 private extension UVTrackEditorViewController {
     func pushChild() {
-        let childViewController = UVDistortionViewController(nibName: "UVDistortionViewController", bundle: nil)
+        let childViewController = UVEqualizerViewController(nibName: "UVEqualizerViewController", bundle: nil)
         childViewController.view.translatesAutoresizingMaskIntoConstraints = false
         addChild(childViewController)
 
