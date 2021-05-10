@@ -35,7 +35,7 @@ final class UVDistortion {
 final class UVDelay {
     let isOn: MutableProperty<Bool> = MutableProperty(false)
     
-    let delayTime: MutableProperty<Float> = MutableProperty(1)
+    let delayTime: MutableProperty<TimeInterval> = MutableProperty(1)
     let feedback: MutableProperty<Float> = MutableProperty(0)
     let lowPassCutoff: MutableProperty<Float> = MutableProperty(15000)
     let wetDryMix: MutableProperty<Float> = MutableProperty(100)

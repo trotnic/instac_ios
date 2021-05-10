@@ -25,7 +25,7 @@ struct UVPlayerViewModel {
     private let player: UVPlayerType = UVVoicePlayer()
     private let fileManager: UVFileManagerType
 
-    init(fileManager: UVFileManagerType) {
+    init(fileManager: UVFileManagerType = UVFileManager()) {
         self.fileManager = fileManager
     }
 }

@@ -78,7 +78,7 @@ private extension UVReverbViewController {
         switcher.reactive.isOn <~ reverb.isOn
         reverb.isOn <~ switcher.reactive.isOnValues
         
-        preset <~ reverb.preset.map({ $0.representation })
+        preset.value = reverb.preset.value.representation
         reverb.preset <~ preset.map({ $0.representation })
         
         wetDrySlider.reactive.value <~ reverb.wetDryMix

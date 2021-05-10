@@ -73,8 +73,8 @@ private extension UVDelayViewController {
         switcher.reactive.isOn <~ delay.isOn
         delay.isOn <~ switcher.reactive.isOnValues
         
-        delayTimeSlider.reactive.value <~ delay.delayTime
-        delay.delayTime <~ delayTimeSlider.reactive.values
+        delayTimeSlider.reactive.value <~ delay.delayTime.map({ Float($0) })
+        delay.delayTime <~ delayTimeSlider.reactive.values.map({ TimeInterval($0) })
         
         feedbackSlider.reactive.value <~ delay.feedback
         delay.feedback <~ feedbackSlider.reactive.values

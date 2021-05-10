@@ -87,7 +87,7 @@ private extension UVDistortionViewController {
         wetDryMixSlider.reactive.value <~ distortion.wetDryMix
         distortion.wetDryMix <~ wetDryMixSlider.reactive.values
         
-        preset <~ distortion.preset.map({ $0.representation })
+        preset.value = distortion.preset.value.representation
         distortion.preset <~ preset.map({ $0.representation })
     }
 
@@ -149,7 +149,6 @@ extension UVDistortionViewController: UITableViewDelegate {
         } else {
             allPresetsTableViewLeadingConstraint.isActive = false
             mainViewTrailingConstraint.isActive = true
-
             preset.value = UVDistortionPreset.allCases[indexPath.row]
             UIView.animateKeyframes(withDuration: 0.6, delay: 0, options: []) { [self] in
                 UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.4) {
