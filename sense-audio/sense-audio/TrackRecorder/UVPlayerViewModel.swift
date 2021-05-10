@@ -33,7 +33,7 @@ struct UVPlayerViewModel {
 extension UVPlayerViewModel: UVPlayerViewModelType {
     func play(track name: String) -> SignalProducer<Void, Error> {
         SignalProducer { [self] (observer, _) in
-            fileManager.url(for: name)
+            fileManager.temporizedURL(for: name)
                 .on(value: { fileURL in
                     player.play(fileURL)
                         .on(event: { event in

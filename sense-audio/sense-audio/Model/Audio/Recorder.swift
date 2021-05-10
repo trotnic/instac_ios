@@ -16,31 +16,20 @@ protocol RecorderType {
     func stop()
 }
 
-final class VoiceRecorder {
+final class VoiceRecorder: UVAudioSettings {
 
     // MARK: - Private Props
 
     private lazy var engine: AVAudioEngine = {
         let engine = AVAudioEngine()
-        engine.attach(playerNode)
         engine.attach(mixerNode)
-
-        let inputNode = engine.inputNode
-        let inputFormat = inputNode.outputFormat(forBus: 0)
-
-        engine.connect(inputNode, to: mixerNode, format: inputFormat)
-        engine.connect(mixerNode, to: engine.mainMixerNode, format: inputFormat)
-
+        engine.connect(engine.inputNode, to: mixerNode, format: format)
+        engine.connect(mixerNode, to: engine.mainMixerNode, format: format)
         return engine
     }()
 
-    private var mixerNode: AVAudioMixerNode = {
-        AVAudioMixerNode()
-    }()
-
-    private var playerNode: AVAudioPlayerNode = {
-        AVAudioPlayerNode()
-    }()
+    private let mixerNode = AVAudioMixerNode()
+    private var audioFile: AVAudioFile?
 
     // MARK: -
 
@@ -53,24 +42,21 @@ final class VoiceRecorder {
 
     private func setupSession() {
         let session = AVAudioSession.shared
-        // MARK: ♻️ REFACTOR LATER ♻️
-        try? session.setCategory(.record)
+        try? session.setCategory(.playAndRecord)
         try? session.setActive(true, options: .notifyOthersOnDeactivation)
     }
 }
 
 extension VoiceRecorder: RecorderType {
     func record(_ fileURL: URL) throws {
-        let tapNode: AVAudioMixerNode = mixerNode
-        let recordingFormat = tapNode.outputFormat(forBus: 0)
-
-        let audioFile = try AVAudioFile(forWriting: fileURL, settings: recordingFormat.settings)
-
-        tapNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (pcmBuffer, _) in
-            try? audioFile.write(from: pcmBuffer)
+        audioFile = try AVAudioFile(forWriting: fileURL, settings: format.settings)
+        mixerNode.installTap(onBus: 0, bufferSize: bufferSize, format: format) { [self] (pcmBuffer, _) in
+            // MARK: ⚠️ DEVELOP ZONE ⚠️
+            print(pcmBuffer)
+            try? audioFile?.write(from: pcmBuffer)
         }
 
-        try engine.start()
+        try? engine.start()
     }
 
     func pause() {
@@ -86,6 +72,8 @@ extension VoiceRecorder: RecorderType {
         engine.stop()
         let tapNode: AVAudioMixerNode = mixerNode
         tapNode.removeTap(onBus: 0) // ❗️
+        // MARK: ⚠️ DEVELOP ZONE ⚠️
+        print(audioFile?.length as Any)
     }
 }
 

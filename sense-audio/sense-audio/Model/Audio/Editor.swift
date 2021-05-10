@@ -10,7 +10,7 @@
 import Foundation
 
 protocol UVEditorType {
-
+    func load(asset: URL)
 }
 
 final class UVEditor {
@@ -18,5 +18,7 @@ final class UVEditor {
 }
 
 extension UVEditor: UVEditorType {
-
+    func load(asset: URL) {
+        
+    }
 }

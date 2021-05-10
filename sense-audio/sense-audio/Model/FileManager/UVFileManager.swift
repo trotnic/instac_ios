@@ -30,8 +30,10 @@ import ReactiveSwift
 protocol UVFileManagerType {
     func contents(for: UVDirectories) -> SignalProducer<[String], Never>
 
-    func buildTemporaryUrl(for fileName: String) -> URL
-    func url(for temporized: String) -> SignalProducer<URL, Error>
+    func temporaryURL(for fileName: String) -> URL
+    func temporizedURL(for temporized: String) -> SignalProducer<URL, Error>
+    func sampleURL(for track: String, in project: String) -> SignalProducer<URL, Error>
+
     mutating func temporize(fileAt url: URL) throws
     mutating func move(fileAt url: URL, to project: String) throws
     mutating func create(project name: String) throws
@@ -105,11 +107,21 @@ extension UVFileManager: UVFileManagerType {
         }
     }
 
-    func buildTemporaryUrl(for fileName: String) -> URL {
+    /**
+     This method provides a URL for a file in the __/tmp__ folder
+     
+     */
+
+    func temporaryURL(for fileName: String) -> URL {
         Constants.temporaryFolderURL.appendingPathComponent(fileName)
     }
 
-    func url(for temporized: String) -> SignalProducer<URL, Error> {
+    /**
+     This method provides a URL for a file in the __/Backing Store__ folder
+     
+     */
+
+    func temporizedURL(for temporized: String) -> SignalProducer<URL, Error> {
         SignalProducer { (observer, _) in
             do {
                 if let url = try fileManager.contentsOfDirectory(atPath: Constants.backingStoreFolderURL.path)
@@ -121,6 +133,15 @@ extension UVFileManager: UVFileManagerType {
             } catch {
                 observer.send(error: error)
             }
+        }
+    }
+
+    func sampleURL(for track: String, in project: String) -> SignalProducer<URL, Error> {
+        SignalProducer { (observer, _) in
+            let result = Constants.projectsFolderURL.appendingPathComponent(project)
+                .appendingPathComponent(track)
+
+            observer.send(value: result)
         }
     }
 

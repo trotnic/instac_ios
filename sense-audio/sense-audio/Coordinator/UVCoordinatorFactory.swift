@@ -26,9 +26,8 @@ struct UVCoordinatorFactory {
         case let .projectPipeline(project):
             let pipeline = UVPipelineManager()
             let fileManager = UVFileManager()
-            let dataSource = UVProjectPipelineDatasource()
             let pipeViewModel = UVProjectPipelineViewModel(coordinator: coordinator, pipeline: pipeline, fileManager: fileManager, project: project)
-            let controller = UVProjectPipelineViewController(pipeline: pipeViewModel, data: dataSource)
+            let controller = UVProjectPipelineViewController(pipeline: pipeViewModel)
             return controller
         case let .projectTrackRecorder(project):
             let fileManager = UVFileManager()
@@ -40,7 +39,8 @@ struct UVCoordinatorFactory {
         case let .projectTrackEditor(project, track):
             let editor = UVEditor()
             let editorViewModel = UVTrackEditorViewModel(coordinator: coordinator, editor: editor, project: project, track: track)
-            let controller = UVTrackEditorViewController(editor: editorViewModel)
+            let controller = UVTrackEditorViewController(nibName: "UVTrackEditorViewController", bundle: nil)
+            controller.attach(editor: editorViewModel)
             return controller
         }
     }
