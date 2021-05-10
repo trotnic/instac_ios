@@ -20,6 +20,14 @@ class UVEqualizerViewController: UIViewController {
 
 }
 
+// MARK: - Public interface
+
+extension UVEqualizerViewController {
+    static func instantiate() -> UVEqualizerViewController {
+        UVEqualizerViewController(nibName: "UVEqualizerViewController", bundle: nil)
+    }
+}
+
 // MARK: - UIViewController overrides
 
 extension UVEqualizerViewController {
@@ -35,10 +43,5 @@ extension UVEqualizerViewController {
 private extension UVEqualizerViewController {
     func bindViews() {
         currentValueLabel.reactive.text <~ gainSlider.reactive.values.map({ "\($0) db" })
-//        gainSlider.reactive
-//            .values
-//            .observeValues { [self] gain in
-//                currentValueLabel.text = "\(gain)"
-//            }
     }
 }

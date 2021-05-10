@@ -30,6 +30,7 @@ final class UVTrackEditorViewModel {
          manager: UVFileManagerType = UVFileManager()) {
         self.coordinator = coordinator
         self.editor = editor
+
         self.project = project
         self.track = track
         fileManager = manager

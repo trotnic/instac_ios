@@ -11,7 +11,16 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UVReverbViewController" customModule="sense_audio" customModuleProvider="target">
             <connections>
+                <outlet property="allPresetsTableView" destination="Mfi-KV-e65" id="GDe-Ht-GGf"/>
+                <outlet property="allPresetsTableViewLeadingConstraint" destination="tMw-aa-4w8" id="qjV-jy-H2c"/>
+                <outlet property="mainView" destination="Drp-LC-CY2" id="ZHI-i4-iwF"/>
+                <outlet property="mainViewTrailingConstraint" destination="EWq-6M-gSY" id="LLS-Ro-CYa"/>
+                <outlet property="presetTableView" destination="HDD-ig-EgS" id="8MS-Tq-vSs"/>
+                <outlet property="saveButton" destination="uUc-Al-igH" id="Ogi-7A-Wlr"/>
+                <outlet property="switcher" destination="oJI-ic-zag" id="aL8-7l-Bkx"/>
                 <outlet property="view" destination="TgV-cS-xoe" id="mGH-bu-T5b"/>
+                <outlet property="wetDryCurrentValueLabel" destination="lvY-xr-eAn" id="WoM-dk-3zw"/>
+                <outlet property="wetDrySlider" destination="KMW-bL-lgV" id="Emk-fa-D1D"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -19,6 +28,14 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <tableView clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Mfi-KV-e65">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="ZyP-fJ-4xH"/>
+                        <outlet property="delegate" destination="-1" id="7uR-j8-OV5"/>
+                    </connections>
+                </tableView>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Drp-LC-CY2">
                     <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                     <subviews>
@@ -59,6 +76,10 @@
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="3vM-aR-PEB"/>
                                     </constraints>
+                                    <connections>
+                                        <outlet property="dataSource" destination="-1" id="cac-0K-jSb"/>
+                                        <outlet property="delegate" destination="-1" id="dU8-Cm-Zhc"/>
+                                    </connections>
                                 </tableView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Presset" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GXX-AX-WBi">
                                     <rect key="frame" x="20" y="141.5" width="58" height="21"/>
@@ -113,10 +134,14 @@
             <viewLayoutGuide key="safeArea" id="fIB-ln-1nQ"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="Mfi-KV-e65" firstAttribute="top" secondItem="fIB-ln-1nQ" secondAttribute="top" id="4CK-ZJ-ndo"/>
+                <constraint firstItem="fIB-ln-1nQ" firstAttribute="trailing" secondItem="Mfi-KV-e65" secondAttribute="trailing" id="4rC-5m-WYu"/>
+                <constraint firstItem="fIB-ln-1nQ" firstAttribute="bottom" secondItem="Mfi-KV-e65" secondAttribute="bottom" id="7RL-KF-vkA"/>
                 <constraint firstItem="fIB-ln-1nQ" firstAttribute="trailing" secondItem="Drp-LC-CY2" secondAttribute="trailing" id="EWq-6M-gSY"/>
                 <constraint firstItem="Drp-LC-CY2" firstAttribute="leading" secondItem="fIB-ln-1nQ" secondAttribute="leading" id="I8c-6I-IKj"/>
                 <constraint firstItem="fIB-ln-1nQ" firstAttribute="bottom" secondItem="Drp-LC-CY2" secondAttribute="bottom" id="SMA-C6-1Dj"/>
                 <constraint firstItem="Drp-LC-CY2" firstAttribute="top" secondItem="fIB-ln-1nQ" secondAttribute="top" id="UzO-ZE-Eyo"/>
+                <constraint firstItem="Mfi-KV-e65" firstAttribute="leading" secondItem="fIB-ln-1nQ" secondAttribute="leading" id="tMw-aa-4w8"/>
             </constraints>
             <point key="canvasLocation" x="919" y="90"/>
         </view>

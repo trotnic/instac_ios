@@ -33,8 +33,11 @@ class UVTrackEditorViewController: UIViewController {
     // MARK: - Properties
 
     @IBOutlet weak var mainStackView: UIStackView!
-    @IBOutlet weak var mainStackBottomConstraint: NSLayoutConstraint!
+    @IBOutlet var mainStackBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var equalizerToolButton: UIButton!
+    @IBOutlet weak var distortionToolButton: UIButton!
+    @IBOutlet weak var delayToolButton: UIButton!
+    @IBOutlet weak var reverbToolButton: UIButton!
 
 //    private let playButton: UIButton = {
 //        let view = UVButton()
@@ -58,18 +61,39 @@ extension UVTrackEditorViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAppearance()
-
-        equalizerToolButton.reactive
-            .controlEvents(.touchUpInside)
-            .observeValues { _ in
-                self.pushChild()
-            }
+        bindToolButtons()
     }
 }
 
 // MARK: - Private interface
 
 private extension UVTrackEditorViewController {
+    func bindToolButtons() {
+        equalizerToolButton.reactive
+            .controlEvents(.touchUpInside)
+            .observeValues { _ in
+                self.pushChild(UVEqualizerViewController.instantiate())
+            }
+
+        distortionToolButton.reactive
+            .controlEvents(.touchUpInside)
+            .observeValues { _ in
+                self.pushChild(UVDistortionViewController.instantiate())
+            }
+
+        delayToolButton.reactive
+            .controlEvents(.touchUpInside)
+            .observeValues { _ in
+                self.pushChild(UVDelayViewController.instantiate())
+            }
+
+        reverbToolButton.reactive
+            .controlEvents(.touchUpInside)
+            .observeValues { _ in
+                self.pushChild(UVReverbViewController.instantiate())
+            }
+    }
+
     @objc func playBackAction(_ sender: UIButton) {
 //        switch state {
 //        case .paused:
@@ -121,8 +145,8 @@ private extension UVTrackEditorViewController {
 }
 
 private extension UVTrackEditorViewController {
-    func pushChild() {
-        let childViewController = UVEqualizerViewController(nibName: "UVEqualizerViewController", bundle: nil)
+    func pushChild(_ childViewController: UIViewController) {
+//        let childViewController = UVEqualizerViewController(nibName: "UVEqualizerViewController", bundle: nil)
         childViewController.view.translatesAutoresizingMaskIntoConstraints = false
         addChild(childViewController)
 

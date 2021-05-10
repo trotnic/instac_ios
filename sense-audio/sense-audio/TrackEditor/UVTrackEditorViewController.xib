@@ -11,9 +11,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UVTrackEditorViewController" customModule="sense_audio" customModuleProvider="target">
             <connections>
+                <outlet property="delayToolButton" destination="dMA-ll-iLj" id="Arw-FQ-bTe"/>
+                <outlet property="distortionToolButton" destination="Hlx-tp-aQA" id="BjR-tm-8Ba"/>
                 <outlet property="equalizerToolButton" destination="gKp-Wa-hGR" id="GQ4-HZ-j8L"/>
                 <outlet property="mainStackBottomConstraint" destination="NgF-BD-QM3" id="MQF-9t-Mub"/>
                 <outlet property="mainStackView" destination="Kp3-0f-3JY" id="QOZ-pY-jsg"/>
+                <outlet property="reverbToolButton" destination="ZpE-Bp-iuG" id="3Gz-G1-1lO"/>
                 <outlet property="view" destination="iN0-l3-epB" id="hq5-jQ-l1h"/>
             </connections>
         </placeholder>

@@ -11,7 +11,17 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UVDelayViewController" customModule="sense_audio" customModuleProvider="target">
             <connections>
+                <outlet property="cufoffSlider" destination="wWO-Q3-xOd" id="aBC-9o-8Oy"/>
+                <outlet property="cutoffCurrentVallueLabel" destination="RKj-tX-mSv" id="PLQ-sq-LDZ"/>
+                <outlet property="delayTimeCurrentValueLabel" destination="dj5-hf-MIs" id="yRH-IQ-Js8"/>
+                <outlet property="delayTimeSlider" destination="p5n-ew-0tz" id="Tp2-O1-R7O"/>
+                <outlet property="feedbackCurrentValueLabel" destination="wTp-bE-vSW" id="hI0-f1-Oqo"/>
+                <outlet property="feedbackSlider" destination="yeM-lB-EiT" id="It9-a9-uWU"/>
+                <outlet property="saveButton" destination="7VS-tl-Wf6" id="icC-dU-yS3"/>
+                <outlet property="switcher" destination="5HH-hJ-Z0d" id="Cgh-Ec-Ier"/>
                 <outlet property="view" destination="iN0-l3-epB" id="tzd-tP-t5p"/>
+                <outlet property="wetDryCurrentValueLabel" destination="jbO-0Z-D0U" id="AON-Tx-tgK"/>
+                <outlet property="wetDrySlider" destination="KnL-2c-hzn" id="q4Y-B2-hpe"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

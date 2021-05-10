@@ -36,6 +36,14 @@ class UVDistortionViewController: UIViewController {
     @IBOutlet private weak var saveButton: UIButton!
 }
 
+// MARK: - Public interface
+
+extension UVDistortionViewController {
+    static func instantiate() -> UVDistortionViewController {
+        UVDistortionViewController(nibName: "UVDistortionViewController", bundle: nil)
+    }
+}
+
 // MARK: - UIViewController overrides
 
 extension UVDistortionViewController {
@@ -125,7 +133,6 @@ extension UVDistortionViewController: UITableViewDelegate {
             } completion: { _ in
                 tableView.reloadData()
             }
-
         }
     }
 }
@@ -251,7 +258,6 @@ extension AVAudioUnitDistortionPreset {
             self = .speechRadioTower
         case .speechWaves:
             self = .speechWaves
-
         }
     }
 }
