@@ -25,6 +25,7 @@
 		7327616D26481A6700445A29 /* UVDistortionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7327616C26481A6700445A29 /* UVDistortionViewController.xib */; };
 		7327617026481A7800445A29 /* UVDelayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7327616F26481A7800445A29 /* UVDelayViewController.xib */; };
 		7327617326481A8400445A29 /* UVReverbViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7327617226481A8400445A29 /* UVReverbViewController.xib */; };
+		7347598F264919FD00866496 /* UIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7347598E264919FD00866496 /* UIHelpers.swift */; };
 		737A4EB3263E82E900EB43DC /* UVProjectListDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737A4EB2263E82E900EB43DC /* UVProjectListDatasource.swift */; };
 		73BBFA1E26465F5B0064CD21 /* Pipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BBFA1D26465F5B0064CD21 /* Pipeline.swift */; };
 		73BBFA23264697A10064CD21 /* UVPipelineTrackTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BBFA21264697A10064CD21 /* UVPipelineTrackTableCell.swift */; };
@@ -74,6 +75,7 @@
 		7327616C26481A6700445A29 /* UVDistortionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVDistortionViewController.xib; sourceTree = "<group>"; };
 		7327616F26481A7800445A29 /* UVDelayViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVDelayViewController.xib; sourceTree = "<group>"; };
 		7327617226481A8400445A29 /* UVReverbViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVReverbViewController.xib; sourceTree = "<group>"; };
+		7347598E264919FD00866496 /* UIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelpers.swift; sourceTree = "<group>"; };
 		737A4EB2263E82E900EB43DC /* UVProjectListDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVProjectListDatasource.swift; sourceTree = "<group>"; };
 		73BBFA1D26465F5B0064CD21 /* Pipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pipeline.swift; sourceTree = "<group>"; };
 		73BBFA21264697A10064CD21 /* UVPipelineTrackTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVPipelineTrackTableCell.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				CA3E77992615A3B0003F0AF3 /* UVButton.swift */,
+				7347598E264919FD00866496 /* UIHelpers.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -453,7 +456,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n   if [ ! -z \"$BITRISE_PROJECT_PATH\" ] || [ \"$CONFIGURATION\" = \"Release\" ]; then\n       #swiftlint lint --strict\n       swiftlint autocorrect\n       if [ $? -ne 0 ]; then\n           echo \"error: SwiftLint validation failed.\"\n           exit 1\n       fi\n   else\n       swiftlint autocorrect\n   fi\nelse\n   echo \"error: SwiftLint not installed. Install using \\`brew install swiftlint\\`\"\n   exit 1\nfi\n";
+			shellScript = "#if which swiftlint >/dev/null; then\n#   if [ ! -z \"$BITRISE_PROJECT_PATH\" ] || [ \"$CONFIGURATION\" = \"Release\" ]; then\n#       #swiftlint lint --strict\n#       swiftlint autocorrect\n#       if [ $? -ne 0 ]; then\n#           echo \"error: SwiftLint validation failed.\"\n#           exit 1\n#       fi\n#   else\n#       swiftlint autocorrect\n#   fi\n#else\n#   echo \"error: SwiftLint not installed. Install using \\`brew install swiftlint\\`\"\n#   exit 1\n#fi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -480,6 +483,7 @@
 				CA2DD24126282E5100CF2F7E /* UVTrackRecorderViewController.swift in Sources */,
 				73276161264819FE00445A29 /* UVDistortionViewController.swift in Sources */,
 				CA4B49C82626F8D200EE35D3 /* UVProjectPipelineViewController.swift in Sources */,
+				7347598F264919FD00866496 /* UIHelpers.swift in Sources */,
 				CA4B49CD262706F200EE35D3 /* UVPipelineManager.swift in Sources */,
 				73180E69263ECB2A0084957B /* UVTrackEditorViewModel.swift in Sources */,
 				73148B0B25C0A48E00F91119 /* AppDelegate.swift in Sources */,

@@ -77,7 +77,7 @@ extension UVReverbViewController: UITableViewDataSource {
         if tableView.tag == Constants.singlePresetTableTag {
             return 1
         } else {
-            return UVDistortionPreset.allCases.count
+            return UVReverbPresset.allCases.count
         }
     }
 
