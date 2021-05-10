@@ -19,6 +19,6 @@ final class UVEditor {
 
 extension UVEditor: UVEditorType {
     func load(asset: URL) {
-
+        
     }
 }

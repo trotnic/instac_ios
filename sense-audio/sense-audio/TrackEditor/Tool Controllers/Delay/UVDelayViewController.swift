@@ -13,18 +13,18 @@ import ReactiveCocoa
 
 class UVDelayViewController: UIViewController, UVTrackToolController {
 
-    @IBOutlet weak var delayTimeCurrentValueLabel: UILabel!
-    @IBOutlet weak var feedbackCurrentValueLabel: UILabel!
-    @IBOutlet weak var cutoffCurrentVallueLabel: UILabel!
-    @IBOutlet weak var wetDryCurrentValueLabel: UILabel!
+    @IBOutlet private weak var delayTimeCurrentValueLabel: UILabel!
+    @IBOutlet private weak var feedbackCurrentValueLabel: UILabel!
+    @IBOutlet private weak var cutoffCurrentVallueLabel: UILabel!
+    @IBOutlet private weak var wetDryCurrentValueLabel: UILabel!
 
-    @IBOutlet weak var delayTimeSlider: UISlider!
-    @IBOutlet weak var feedbackSlider: UISlider!
-    @IBOutlet weak var cutoffSlider: UISlider!
-    @IBOutlet weak var wetDrySlider: UISlider!
+    @IBOutlet private weak var delayTimeSlider: UISlider!
+    @IBOutlet private weak var feedbackSlider: UISlider!
+    @IBOutlet private weak var cutoffSlider: UISlider!
+    @IBOutlet private weak var wetDrySlider: UISlider!
 
-    @IBOutlet weak var switcher: UISwitch!
-    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet private weak var saveButton: UIButton!
+    @IBOutlet private weak var switcher: UISwitch!
     
     private var delay: UVDelay!
     

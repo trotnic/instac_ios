@@ -17,7 +17,7 @@ protocol UVProjectPipelineViewModelType {
     func addTrack() -> SignalProducer<Void, Never>
     func deleteTrack(at index: Int) -> SignalProducer<Void, Error>
     func editTrack(at index: Int)
-    func didSelect(at index: Int) -> SignalProducer<Void, Never>
+//    func didSelect(at index: Int) -> SignalProducer<Void, Never>
 
     func play()
 }
@@ -121,23 +121,23 @@ extension UVProjectPipelineViewModel: UVProjectPipelineViewModelType {
 
     func editTrack(at index: Int) {
         assets
-            .map({ $0[index].name })
+            .map({ $0[index] })
             .on(value: { [self] track in
                 coordinator.show(route: .projectTrackEditor(project: project, track: track))
             })
             .start()
     }
 
-    func didSelect(at index: Int) -> SignalProducer<Void, Never> {
-        contents
-            .map({ $0[index].name })
-            .flatMap(.latest) { track -> SignalProducer<Void, Never> in
-                SignalProducer { [self] (observer, _) in
-                    coordinator.show(route: .projectTrackEditor(project: project, track: track))
-                    observer.send(value: ())
-                }
-            }
-    }
+//    func didSelect(at index: Int) -> SignalProducer<Void, Never> {
+//        contents
+//            .map({ $0[index] })
+//            .flatMap(.latest) { track -> SignalProducer<Void, Never> in
+//                SignalProducer { [self] (observer, _) in
+//                    coordinator.show(route: .projectTrackEditor(project: project, track: track))
+//                    observer.send(value: ())
+//                }
+//            }
+//    }
 
     func play() {
         contents.on(value: { [self] contents in

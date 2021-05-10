@@ -13,13 +13,13 @@ import ReactiveSwift
 
 class UVEqualizerViewController: UIViewController, UVTrackToolController {
     
-    @IBOutlet weak var gainSlider: UISlider!
-    @IBOutlet weak var currentValueLabel: UILabel!
-    @IBOutlet weak var minValueLabel: UILabel!
-    @IBOutlet weak var maxValueLabel: UILabel!
+    @IBOutlet private weak var gainSlider: UISlider!
+    @IBOutlet private weak var currentValueLabel: UILabel!
+    @IBOutlet private weak var minValueLabel: UILabel!
+    @IBOutlet private weak var maxValueLabel: UILabel!
 
-    @IBOutlet weak var saveButton: UIButton!
-    @IBOutlet weak var switcher: UISwitch!
+    @IBOutlet private weak var saveButton: UIButton!
+    @IBOutlet private weak var switcher: UISwitch!
     
     private var equalizer: UVEqualizer!
     

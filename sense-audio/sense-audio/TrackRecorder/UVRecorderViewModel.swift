@@ -85,17 +85,22 @@ extension UVRecorderViewModel: UVRecorderViewModelType {
         }
         .skipNil()
         .flatMap(.latest, { self.fileManager.temporizedURL(for: $0) })
-        .flatMap(.latest) { [self] (fileURL) -> SignalProducer<String, Error> in
+        .flatMap(.latest) { [self] (fileURL) -> SignalProducer<URL, Error> in
             SignalProducer { (observer, _) in
                 do {
                     try fileManager.move(fileAt: fileURL, to: project)
-                    observer.send(value: fileURL.lastPathComponent)
+                    observer.send(value: fileURL)
                 } catch {
                     observer.send(error: error)
                 }
             }
         }
-        .on(value: { [self] track in
+        .on(value: { [self] url in
+            // MARK: ♻️ REFACTOR LATER ♻️
+            /**
+             store in CoreData
+             */
+            let track = UVTrackModel(project: project, name: url.lastPathComponent, url: url)
             coordinator.show(route: .projectTrackEditor(project: project, track: track))
         })
         .start()

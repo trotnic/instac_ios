@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,6 +17,7 @@
                 <outlet property="equalizerToolButton" destination="gKp-Wa-hGR" id="GQ4-HZ-j8L"/>
                 <outlet property="mainStackView" destination="Kp3-0f-3JY" id="QOZ-pY-jsg"/>
                 <outlet property="pageViewController" destination="NOc-jg-Ue3" id="FYT-Yh-dK0"/>
+                <outlet property="playButton" destination="oMq-HX-htj" id="mhT-wN-cQy"/>
                 <outlet property="reverbToolButton" destination="ZpE-Bp-iuG" id="3Gz-G1-1lO"/>
                 <outlet property="toolboxHiddenHeightConstraint" destination="zpZ-fe-RdN" id="JIg-L6-Bxu"/>
                 <outlet property="toolboxHorizontalStackView" destination="hji-4S-Vii" id="tET-5B-Qom"/>
@@ -33,39 +35,56 @@
                     <rect key="frame" x="10" y="582.5" width="394" height="207.5"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="5GV-lo-GKc">
-                            <rect key="frame" x="0.0" y="0.0" width="394" height="100"/>
+                            <rect key="frame" x="0.0" y="0.0" width="394" height="54"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Fuu-Rn-P5L">
-                                    <rect key="frame" x="0.0" y="0.0" width="394" height="100"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="394" height="54"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="uA9-QT-LKV">
-                                            <rect key="frame" x="0.0" y="0.0" width="394" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="394" height="27"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gKp-Wa-hGR">
-                                                    <rect key="frame" x="0.0" y="0.0" width="98.5" height="50"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="98.5" height="27"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <state key="normal" title="Equalizer"/>
+                                                    <state key="normal" title="Equalizer">
+                                                        <color key="titleColor" name="AccentColor"/>
+                                                    </state>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hlx-tp-aQA">
-                                                    <rect key="frame" x="98.5" y="0.0" width="98.5" height="50"/>
+                                                    <rect key="frame" x="98.5" y="0.0" width="98.5" height="27"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <state key="normal" title="Distortion"/>
+                                                    <state key="normal" title="Distortion">
+                                                        <color key="titleColor" name="AccentColor"/>
+                                                    </state>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dMA-ll-iLj">
-                                                    <rect key="frame" x="197" y="0.0" width="98.5" height="50"/>
+                                                    <rect key="frame" x="197" y="0.0" width="98.5" height="27"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <state key="normal" title="Delay"/>
+                                                    <state key="normal" title="Delay">
+                                                        <color key="titleColor" name="AccentColor"/>
+                                                    </state>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZpE-Bp-iuG">
-                                                    <rect key="frame" x="295.5" y="0.0" width="98.5" height="50"/>
+                                                    <rect key="frame" x="295.5" y="0.0" width="98.5" height="27"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <state key="normal" title="Reverb"/>
+                                                    <state key="normal" title="Reverb">
+                                                        <color key="titleColor" name="AccentColor"/>
+                                                    </state>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemGrayColor"/>
                                         </stackView>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="dVn-y0-llS">
-                                            <rect key="frame" x="0.0" y="50" width="394" height="50"/>
+                                            <rect key="frame" x="0.0" y="27" width="394" height="27"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oMq-HX-htj">
+                                                    <rect key="frame" x="0.0" y="0.0" width="394" height="27"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <state key="normal" title="Play">
+                                                        <color key="titleColor" name="AccentColor"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
                                             <color key="backgroundColor" systemColor="systemGrayColor"/>
                                         </stackView>
                                     </subviews>
@@ -75,7 +94,7 @@
                             <color key="backgroundColor" systemColor="systemGray2Color"/>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hji-4S-Vii">
-                            <rect key="frame" x="0.0" y="100" width="394" height="107.5"/>
+                            <rect key="frame" x="0.0" y="54" width="394" height="153.5"/>
                         </stackView>
                     </subviews>
                     <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
@@ -123,6 +142,9 @@
         </pageViewController>
     </objects>
     <resources>
+        <namedColor name="AccentColor">
+            <color red="1" green="0.58399999141693115" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

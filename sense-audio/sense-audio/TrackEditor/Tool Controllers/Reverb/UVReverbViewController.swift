@@ -19,12 +19,12 @@ class UVReverbViewController: UIViewController, UVTrackToolController {
         static let allPresetsTableTag = 2
     }
 
-    @IBOutlet weak var wetDryCurrentValueLabel: UILabel!
-    @IBOutlet weak var wetDrySlider: UISlider!
-    @IBOutlet weak var switcher: UISwitch!
-    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet private weak var wetDryCurrentValueLabel: UILabel!
+    @IBOutlet private weak var wetDrySlider: UISlider!
+    @IBOutlet private weak var switcher: UISwitch!
+    @IBOutlet private weak var saveButton: UIButton!
 
-    @IBOutlet weak var mainView: UIView!
+    @IBOutlet private weak var mainView: UIView!
 
     @IBOutlet private weak var presetTableView: UITableView!
     @IBOutlet private weak var allPresetsTableView: UITableView!

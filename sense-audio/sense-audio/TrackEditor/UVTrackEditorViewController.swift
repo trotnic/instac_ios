@@ -49,6 +49,8 @@ class UVTrackEditorViewController: UIViewController {
     @IBOutlet weak var distortionToolButton: UIButton!
     @IBOutlet weak var delayToolButton: UIButton!
     @IBOutlet weak var reverbToolButton: UIButton!
+    
+    @IBOutlet weak var playButton: UIButton!
 
     @IBOutlet weak var toolboxMainViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var toolboxHorizontalStackView: UIStackView!
@@ -121,6 +123,7 @@ class UVTrackEditorViewController: UIViewController {
 extension UVTrackEditorViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        bindViews()
         setupAppearance()
         bindToolButtons()
     }
@@ -129,6 +132,21 @@ extension UVTrackEditorViewController {
 // MARK: - Private interface
 
 private extension UVTrackEditorViewController {
+    func bindViews() {
+        playButton.reactive
+            .controlEvents(.touchUpInside)
+            .observeValues { [self] _ in
+                switch playerState {
+                case .playing:
+                    editorViewModel?.play().start()
+                    playerState = .paused
+                case .paused:
+                    editorViewModel?.pause().start()
+                    playerState = .playing
+                }
+            }
+    }
+    
     func bindToolButtons() {
         equalizerToolButton.reactive
             .controlEvents(.touchUpInside)

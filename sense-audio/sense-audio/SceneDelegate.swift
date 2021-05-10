@@ -24,8 +24,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         coordinator = UVCoordinator(navigation: navigationController, factory: UVCoordinatorFactory())
 
 //        coordinator?.show(route: .projectList)
-//        coordinator?.show(route: .projectPipeline(project: "123"))
-        coordinator!.show(route: .projectTrackEditor(project: "123", track: "1620506546.18793.caf"))
+        coordinator?.show(route: .projectPipeline(project: "123"))
+//        coordinator!.show(route: .projectTrackEditor(project: "123", track: "1620506546.18793.caf"))
         window?.makeKeyAndVisible()
     }
 

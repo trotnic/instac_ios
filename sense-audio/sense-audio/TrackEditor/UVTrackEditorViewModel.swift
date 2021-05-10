@@ -23,13 +23,13 @@ final class UVTrackEditorViewModel {
     private let coordinator: UVCoordinatorType
     private let editor: UVEditorType
     private let project: String
-    private let track: String
+    private let track: UVTrackModel
     private let fileManager: UVFileManagerType
 
     init(coordinator: UVCoordinatorType,
          editor: UVEditorType,
          project: String,
-         track: String,
+         track: UVTrackModel,
          manager: UVFileManagerType = UVFileManager()) {
         self.coordinator = coordinator
         self.editor = editor
@@ -37,6 +37,9 @@ final class UVTrackEditorViewModel {
         self.project = project
         self.track = track
         fileManager = manager
+        
+        
+        editor.load(asset: track.url)
     }
 }
 
@@ -45,7 +48,6 @@ final class UVTrackEditorViewModel {
 extension UVTrackEditorViewModel: UVTrackEditorViewModelType {
     func play() -> SignalProducer<Void, Never> {
         SignalProducer { [self] (observer, _) in
-//            editor.load(asset: <#T##URL#>)
             observer.send(value: ())
         }
     }
