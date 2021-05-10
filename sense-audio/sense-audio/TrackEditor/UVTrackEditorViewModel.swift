@@ -11,12 +11,15 @@ import Foundation
 import ReactiveSwift
 
 protocol UVTrackEditorViewModelType {
+    var toolbox: UVToolbox { get }
     func play() -> SignalProducer<Void, Never>
     func pause() -> SignalProducer<Void, Never>
 }
 
 final class UVTrackEditorViewModel {
-
+    
+    let toolbox: UVToolbox = UVToolbox()
+    
     private let coordinator: UVCoordinatorType
     private let editor: UVEditorType
     private let project: String

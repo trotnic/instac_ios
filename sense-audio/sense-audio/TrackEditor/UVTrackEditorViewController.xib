@@ -17,7 +17,6 @@
                 <outlet property="mainStackView" destination="Kp3-0f-3JY" id="QOZ-pY-jsg"/>
                 <outlet property="pageViewController" destination="NOc-jg-Ue3" id="FYT-Yh-dK0"/>
                 <outlet property="reverbToolButton" destination="ZpE-Bp-iuG" id="3Gz-G1-1lO"/>
-                <outlet property="toolboxContainerView" destination="x9v-DX-6Ky" id="aTY-gA-25M"/>
                 <outlet property="toolboxHiddenHeightConstraint" destination="zpZ-fe-RdN" id="JIg-L6-Bxu"/>
                 <outlet property="toolboxHorizontalStackView" destination="hji-4S-Vii" id="tET-5B-Qom"/>
                 <outlet property="toolboxMainViewHeightConstraint" destination="rpi-jJ-DMb" id="p8K-Pn-sEX"/>
@@ -98,7 +97,7 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Kp3-0f-3JY" secondAttribute="trailing" constant="10" id="I0T-Lh-n6m"/>
                 <constraint firstItem="Kp3-0f-3JY" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="MzR-9x-H2R"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="x9v-DX-6Ky" secondAttribute="trailing" constant="10" id="PiK-Ls-J1E"/>
-                <constraint firstItem="x9v-DX-6Ky" firstAttribute="height" secondItem="4Jo-Tw-rLN" secondAttribute="height" multiplier="1.5" id="W0t-he-HMI"/>
+                <constraint firstItem="x9v-DX-6Ky" firstAttribute="height" secondItem="4Jo-Tw-rLN" secondAttribute="height" multiplier="1.2" id="W0t-he-HMI"/>
                 <constraint firstItem="x9v-DX-6Ky" firstAttribute="top" secondItem="hji-4S-Vii" secondAttribute="bottom" constant="10" id="cMb-gU-MPw"/>
                 <constraint firstItem="x9v-DX-6Ky" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="ebH-5o-mNW"/>
                 <constraint firstItem="4Jo-Tw-rLN" firstAttribute="height" secondItem="Kp3-0f-3JY" secondAttribute="height" multiplier="2.5" id="rpi-jJ-DMb"/>

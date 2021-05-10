@@ -15,6 +15,8 @@
                 <outlet property="gainSlider" destination="NXP-q4-36f" id="AwJ-5o-k7C"/>
                 <outlet property="maxValueLabel" destination="22d-nH-D0m" id="PJu-tN-3uq"/>
                 <outlet property="minValueLabel" destination="BT3-NM-1Am" id="H9H-Ho-jDK"/>
+                <outlet property="saveButton" destination="bhB-7u-d64" id="LgP-VH-PVL"/>
+                <outlet property="switcher" destination="EXu-da-5W8" id="jEb-GT-Lzn"/>
                 <outlet property="view" destination="8Mq-1h-fIT" id="RGQ-q0-q95"/>
             </connections>
         </placeholder>
@@ -27,7 +29,7 @@
                     <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ec3-Fk-52o">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="241.5"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="171.5"/>
                             <subviews>
                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-24" maxValue="24" translatesAutoresizingMaskIntoConstraints="NO" id="NXP-q4-36f">
                                     <rect key="frame" x="18" y="111.5" width="378" height="31"/>
@@ -71,11 +73,11 @@
                                 <constraint firstItem="NXP-q4-36f" firstAttribute="top" secondItem="22d-nH-D0m" secondAttribute="bottom" constant="5" id="FR1-0K-dIU"/>
                                 <constraint firstItem="BT3-NM-1Am" firstAttribute="leading" secondItem="NXP-q4-36f" secondAttribute="leading" id="G5a-qR-g5h"/>
                                 <constraint firstAttribute="trailing" secondItem="NXP-q4-36f" secondAttribute="trailing" constant="20" id="HAe-yv-8mU"/>
+                                <constraint firstAttribute="bottom" secondItem="NXP-q4-36f" secondAttribute="bottom" constant="30" id="Mra-EM-hVd"/>
                                 <constraint firstItem="NXP-q4-36f" firstAttribute="top" secondItem="2MS-mK-neV" secondAttribute="bottom" constant="20" id="TVN-8g-vbF"/>
                                 <constraint firstItem="NXP-q4-36f" firstAttribute="top" secondItem="BT3-NM-1Am" secondAttribute="bottom" constant="5" id="a2b-wh-6Qd"/>
                                 <constraint firstItem="NXP-q4-36f" firstAttribute="leading" secondItem="ec3-Fk-52o" secondAttribute="leading" constant="20" id="aZD-XV-Fzm"/>
                                 <constraint firstItem="BT3-NM-1Am" firstAttribute="top" secondItem="sfl-n0-GpP" secondAttribute="bottom" constant="10" id="ccK-kL-Lg4"/>
-                                <constraint firstAttribute="bottom" secondItem="NXP-q4-36f" secondAttribute="bottom" constant="100" id="eQI-KA-V0l"/>
                                 <constraint firstItem="sfl-n0-GpP" firstAttribute="leading" secondItem="BT3-NM-1Am" secondAttribute="leading" id="eka-il-21j"/>
                                 <constraint firstItem="bhB-7u-d64" firstAttribute="leading" secondItem="EXu-da-5W8" secondAttribute="trailing" constant="30" id="l8Q-0f-fes"/>
                                 <constraint firstAttribute="trailing" secondItem="bhB-7u-d64" secondAttribute="trailing" constant="30" id="nRp-fL-0Gu"/>

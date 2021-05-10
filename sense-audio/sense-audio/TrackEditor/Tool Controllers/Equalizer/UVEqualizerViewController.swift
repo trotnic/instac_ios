@@ -11,20 +11,29 @@ import UIKit
 import ReactiveCocoa
 import ReactiveSwift
 
-class UVEqualizerViewController: UIViewController {
-
+class UVEqualizerViewController: UIViewController, UVTrackToolController {
+    
     @IBOutlet weak var gainSlider: UISlider!
     @IBOutlet weak var currentValueLabel: UILabel!
     @IBOutlet weak var minValueLabel: UILabel!
     @IBOutlet weak var maxValueLabel: UILabel!
 
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var switcher: UISwitch!
+    
+    private var equalizer: UVEqualizer!
+    
+    var saveSignal: Signal<Void, Never> { _saveSignal }
+    private let (_saveSignal, _saveObserver) = Signal<Void, Never>.pipe()
 }
 
 // MARK: - Public interface
 
 extension UVEqualizerViewController {
-    static func instantiate() -> UVEqualizerViewController {
-        UVEqualizerViewController(nibName: "UVEqualizerViewController", bundle: nil)
+    static func instantiate(_ equalizer: UVEqualizer?) -> UVEqualizerViewController {
+        let controller = UVEqualizerViewController(nibName: "UVEqualizerViewController", bundle: nil)
+        controller.equalizer = equalizer
+        return controller
     }
 }
 
@@ -35,6 +44,7 @@ extension UVEqualizerViewController {
         super.viewDidLoad()
         view.backgroundColor = .red
         bindViews()
+        bindEqualizer()
     }
 }
 
@@ -43,5 +53,19 @@ extension UVEqualizerViewController {
 private extension UVEqualizerViewController {
     func bindViews() {
         currentValueLabel.reactive.text <~ gainSlider.reactive.values.map({ "\($0) db" })
+        
+        saveButton.reactive
+            .controlEvents(.touchUpInside)
+            .observeValues { _ in
+                self._saveObserver.send(value: ())
+            }
+    }
+    
+    func bindEqualizer() {
+        switcher.reactive.isOn <~ equalizer.isOn
+        equalizer.isOn <~ switcher.reactive.isOnValues
+        
+        gainSlider.reactive.value <~ equalizer.globalGain
+        equalizer.globalGain <~ gainSlider.reactive.values
     }
 }

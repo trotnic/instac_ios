@@ -8,19 +8,16 @@
 //
 
 import UIKit
-import AVFoundation
 import ReactiveCocoa
 import ReactiveSwift
 
-class UVReverbViewController: UIViewController {
+class UVReverbViewController: UIViewController, UVTrackToolController {
 
     private struct Constants {
         static let reuseIdentifier = "cell"
         static let singlePresetTableTag = 1
         static let allPresetsTableTag = 2
     }
-
-    private let preset: MutableProperty<UVReverbPresset> = MutableProperty(.mediumRoom)
 
     @IBOutlet weak var wetDryCurrentValueLabel: UILabel!
     @IBOutlet weak var wetDrySlider: UISlider!
@@ -34,13 +31,22 @@ class UVReverbViewController: UIViewController {
 
     @IBOutlet private var mainViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet private var allPresetsTableViewLeadingConstraint: NSLayoutConstraint!
+    
+    private let preset: MutableProperty<UVReverbPresset> = MutableProperty(.mediumHall)
+    private var reverb: UVReverb!
+    
+    var saveSignal: Signal<Void, Never> { _saveSignal }
+    private let (_saveSignal, _saveObserver) = Signal<Void, Never>.pipe()
+
 }
 
 // MARK: - Public interface
 
 extension UVReverbViewController {
-    static func instantiate() -> UVReverbViewController {
-        UVReverbViewController(nibName: "UVReverbViewController", bundle: nil)
+    static func instantiate(_ reverb: UVReverb?) -> UVReverbViewController {
+        let controller = UVReverbViewController(nibName: "UVReverbViewController", bundle: nil)
+        controller.reverb = reverb
+        return controller
     }
 }
 
@@ -50,6 +56,7 @@ extension UVReverbViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViews()
+        bindReverb()
         setupTableViews()
     }
 }
@@ -59,7 +66,25 @@ extension UVReverbViewController {
 private extension UVReverbViewController {
     func bindViews() {
         wetDryCurrentValueLabel.reactive.text <~ wetDrySlider.reactive.values.map({ "\($0)%" })
+        
+        saveButton.reactive
+            .controlEvents(.touchUpInside)
+            .observeValues { _ in
+                self._saveObserver.send(value: ())
+            }
     }
+    
+    func bindReverb() {
+        switcher.reactive.isOn <~ reverb.isOn
+        reverb.isOn <~ switcher.reactive.isOnValues
+        
+        preset <~ reverb.preset.map({ $0.representation })
+        reverb.preset <~ preset.map({ $0.representation })
+        
+        wetDrySlider.reactive.value <~ reverb.wetDryMix
+        reverb.wetDryMix <~ wetDrySlider.reactive.values
+    }
+
 
     func setupTableViews() {
         presetTableView.register(UITableViewCell.self, forCellReuseIdentifier: Constants.reuseIdentifier)
@@ -134,87 +159,6 @@ extension UVReverbViewController: UITableViewDelegate {
             } completion: { _ in
                 tableView.reloadData()
             }
-        }
-    }
-
-}
-
-enum UVReverbPresset: String, CaseIterable {
-    case smallRoom = "Small Room"
-    case mediumRoom = "Medium Room"
-    case largeRoom = "Large Room"
-    case mediumHall = "Medium Hall"
-    case largeHall = "Large Hall"
-    case plate = "Plate"
-    case mediumChamber = "Medium Chamber"
-    case largeChamber = "Large Chamber"
-    case cathedral = "Cathedral"
-    case largeRoom2 = "Large Room (2)"
-    case mediumHall2 = "Medium Hall (2)"
-    case mediumHall3 = "Medium Hall (3)"
-    case largeHall2 = "Large Hall (2)"
-
-    var representation: AVAudioUnitReverbPreset {
-        switch self {
-        case .smallRoom:
-            return .smallRoom
-        case .mediumRoom:
-            return .mediumRoom
-        case .largeRoom:
-            return .largeRoom
-        case .mediumHall:
-            return .mediumHall
-        case .largeHall:
-            return .largeHall
-        case .plate:
-            return .plate
-        case .mediumChamber:
-            return .mediumChamber
-        case .largeChamber:
-            return .largeChamber
-        case .cathedral:
-            return .cathedral
-        case .largeRoom2:
-            return .largeRoom2
-        case .mediumHall2:
-            return .mediumHall2
-        case .mediumHall3:
-            return .mediumHall3
-        case .largeHall2:
-            return .largeHall2
-        }
-    }
-}
-
-extension AVAudioUnitReverbPreset {
-    init(_ type: UVReverbPresset) {
-        switch type {
-        case .smallRoom:
-            self = .smallRoom
-        case .mediumRoom:
-            self = .mediumRoom
-        case .largeRoom:
-            self = .largeRoom
-        case .mediumHall:
-            self = .mediumHall
-        case .largeHall:
-            self = .largeHall
-        case .plate:
-            self = .plate
-        case .mediumChamber:
-            self = .mediumChamber
-        case .largeChamber:
-            self = .largeChamber
-        case .cathedral:
-            self = .cathedral
-        case .largeRoom2:
-            self = .largeRoom2
-        case .mediumHall2:
-            self = .mediumHall2
-        case .mediumHall3:
-            self = .mediumHall3
-        case .largeHall2:
-            self = .largeHall2
         }
     }
 }

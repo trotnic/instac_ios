@@ -16,6 +16,10 @@ import ReactiveSwift
  for presentint editor interface
  */
 
+protocol UVTrackToolController {
+    var saveSignal: Signal<Void, Never> { get }
+}
+
 class UVTrackEditorViewController: UIViewController {
 
     // MARK: ⚠️ DEVELOP ZONE ⚠️
@@ -33,7 +37,7 @@ class UVTrackEditorViewController: UIViewController {
     }
 
     private struct Constants {
-        static let fadeDuration: TimeInterval = 0.2
+        static let fadeDuration: TimeInterval = 0.3
         static let playIM = "play"
         static let recordStartIM = "record.circle"
     }
@@ -41,7 +45,6 @@ class UVTrackEditorViewController: UIViewController {
     // MARK: - Properties
 
     @IBOutlet weak var mainStackView: UIStackView!
-    @IBOutlet var mainStackBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var equalizerToolButton: UIButton!
     @IBOutlet weak var distortionToolButton: UIButton!
     @IBOutlet weak var delayToolButton: UIButton!
@@ -50,21 +53,50 @@ class UVTrackEditorViewController: UIViewController {
     @IBOutlet weak var toolboxMainViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var toolboxHorizontalStackView: UIStackView!
 
-    private weak var lastToolboxController: UIViewController?
-    private var lastToolboxLeadingConstraint: NSLayoutConstraint?
-    private var lastToolboxTrailingConstraint: NSLayoutConstraint?
-    private var lastToolboxTopConstraint: NSLayoutConstraint?
-    private var lastToolboxBottomConstraint: NSLayoutConstraint?
-    private var lastToolboxHeightConstraint: NSLayoutConstraint?
-    @IBOutlet weak var toolboxContainerView: UIView!
     @IBOutlet weak var toolboxHiddenHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var toolboxPresentedHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet var pageViewController: UIPageViewController!
     
-    var toolboxConstraints: [NSLayoutConstraint] {
-        [lastToolboxLeadingConstraint, lastToolboxTopConstraint, lastToolboxTrailingConstraint, lastToolboxBottomConstraint, lastToolboxHeightConstraint].compactMap({  $0 })
-    }
+    private lazy var equalizerController: UVEqualizerViewController = {
+        let controller = UVEqualizerViewController.instantiate(editorViewModel?.toolbox.equalizer)
+
+        controller.saveSignal
+            .observeValues { _ in
+                self.keep(tool: .none)
+            }
+        return controller
+    }()
+    
+    private lazy var distortionController: UVDistortionViewController = {
+        let controller = UVDistortionViewController.instantiate(editorViewModel?.toolbox.distortion)
+        
+        controller.saveSignal
+            .observeValues { _ in
+                self.keep(tool: .none)
+            }
+        return controller
+    }()
+    
+    private lazy var delayController: UVDelayViewController = {
+        let controller = UVDelayViewController.instantiate(editorViewModel?.toolbox.delay)
+        
+        controller.saveSignal
+            .observeValues { _ in
+                self.keep(tool: .none)
+            }
+        return controller
+    }()
+    
+    private lazy var reverbController: UVReverbViewController = {
+        let controller = UVReverbViewController.instantiate(editorViewModel?.toolbox.reverb)
+        
+        controller.saveSignal
+            .observeValues { _ in
+                self.keep(tool: .none)
+            }
+        return controller
+    }()
 
 //    private let playButton: UIButton = {
 //        let view = UVButton()
@@ -91,8 +123,6 @@ extension UVTrackEditorViewController {
         super.viewDidLoad()
         setupAppearance()
         bindToolButtons()
-
-        toolboxMainViewHeightConstraint.constant = 0
     }
 }
 
@@ -104,28 +134,24 @@ private extension UVTrackEditorViewController {
             .controlEvents(.touchUpInside)
             .observeValues { _ in
                 self.keep(tool: .equalizer)
-//                self.pushChild(UVEqualizerViewController.instantiate())
             }
 
         distortionToolButton.reactive
             .controlEvents(.touchUpInside)
             .observeValues { _ in
                 self.keep(tool: .distortion)
-//                self.pushChild(UVDistortionViewController.instantiate())
             }
 
         delayToolButton.reactive
             .controlEvents(.touchUpInside)
             .observeValues { _ in
                 self.keep(tool: .delay)
-//                self.pushChild(UVDelayViewController.instantiate())
             }
 
         reverbToolButton.reactive
             .controlEvents(.touchUpInside)
             .observeValues { _ in
                 self.keep(tool: .reverb)
-//                self.pushChild(UVReverbViewController.instantiate())
             }
     }
 
@@ -186,29 +212,31 @@ private extension UVTrackEditorViewController {
             toolboxPresentedHeightConstraint.isActive = true
             UIView.animate(withDuration: 0.3) {
                 self.view.layoutIfNeeded()
+                self.pageViewController.view.alpha = 1
             }
+        }
+        
+        guard currentTool != tool else {
+            return
         }
         
         currentTool = tool
         
         switch tool {
         case .equalizer:
-            pageViewController.setViewControllers([UVEqualizerViewController.instantiate()], direction: .forward, animated: false)
-            break
+            pageViewController.setViewControllers([equalizerController], direction: .forward, animated: false)
         case .distortion:
-            pageViewController.setViewControllers([UVDistortionViewController.instantiate()], direction: .forward, animated: false)
-            break
+            pageViewController.setViewControllers([distortionController], direction: .forward, animated: false)
         case .delay:
-            pageViewController.setViewControllers([UVDelayViewController.instantiate()], direction: .forward, animated: false)
-            break
+            pageViewController.setViewControllers([delayController], direction: .forward, animated: false)
         case .reverb:
-            pageViewController.setViewControllers([UVReverbViewController.instantiate()], direction: .forward, animated: false)
-            break
+            pageViewController.setViewControllers([reverbController], direction: .forward, animated: false)
         case .none:
             toolboxHiddenHeightConstraint.isActive = true
             toolboxPresentedHeightConstraint.isActive = false
             UIView.animate(withDuration: 0.3) {
                 self.view.layoutIfNeeded()
+                self.pageViewController.view.alpha = 0
             }
         }
     }
