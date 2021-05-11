@@ -13,7 +13,7 @@ import ReactiveSwift
 
 /**
  This one is responsible
- for presentint editor interface
+ for presenting editor interface
  */
 
 protocol UVTrackToolController {
@@ -100,22 +100,20 @@ class UVTrackEditorViewController: UIViewController {
             }
         return controller
     }()
-
-//    private let playButton: UIButton = {
-//        let view = UVButton()
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        view.setImage(UIImage(systemName: Constants.playIM), for: .normal)
-//        view.addTarget(self, action: #selector(playBackAction(_:)), for: .touchUpInside)
-//        return view
-//    }()
-
+    
     private var editorViewModel: UVTrackEditorViewModelType?
     private var playerState: State = .paused
     private var toolboxState: ToolboxState = .hidden
     private var currentTool: Tool = .none
+}
 
-    func attach(editor: UVTrackEditorViewModelType) {
-        editorViewModel = editor
+// MARK: - Public interface
+
+extension UVTrackEditorViewController {
+    static func instantiate(_ viewModel: UVTrackEditorViewModelType) -> UVTrackEditorViewController {
+        let controller = UVTrackEditorViewController(nibName: String(describing: self), bundle: nil)
+        controller.editorViewModel = viewModel
+        return controller
     }
 }
 
@@ -146,6 +144,8 @@ private extension UVTrackEditorViewController {
                     playerState = .playing
                 }
             }
+        
+        
     }
     
     func bindToolButtons() {

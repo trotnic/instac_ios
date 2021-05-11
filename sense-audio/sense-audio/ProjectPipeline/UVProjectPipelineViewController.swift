@@ -22,7 +22,7 @@ class UVProjectPipelineViewController: UIViewController {
     private let numberOfItems: MutableProperty<Int> = MutableProperty(0)
     private let contents: MutableProperty<[UVTrackModel]> = MutableProperty([])
 
-    private var pipelineViewModel: UVProjectPipelineViewModelType
+    private var pipelineViewModel: UVProjectPipelineViewModelType!
 
     private lazy var createTrackButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "plus.circle"), style: .plain, target: self, action: #selector(createTrack(_:)))
@@ -45,17 +45,29 @@ class UVProjectPipelineViewController: UIViewController {
 
     // MARK: - Initialization
 
-    init(pipeline pipeViewModel: UVProjectPipelineViewModelType) {
-        pipelineViewModel = pipeViewModel
-        super.init(nibName: nil, bundle: nil)
+//    init(pipeline pipeViewModel: UVProjectPipelineViewModelType) {
+//        pipelineViewModel = pipeViewModel
+//        super.init(nibName: nil, bundle: nil)
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        fatalError("not implemented")
+//    }
+}
+
+// MARK: - Public interface
+
+extension UVProjectPipelineViewController {
+    static func instantiate(_ viewModel: UVProjectPipelineViewModelType) -> UVProjectPipelineViewController {
+        let controller = UVProjectPipelineViewController(nibName: "UVProjectPipelineViewController", bundle: nil)
+        controller.pipelineViewModel = viewModel
+        return controller
     }
+}
 
-    required init?(coder: NSCoder) {
-        fatalError("not implemented")
-    }
+// MARK: - UIViewController overrides
 
-    // MARK: -
-
+extension UVProjectPipelineViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAppearance()
@@ -65,8 +77,9 @@ class UVProjectPipelineViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
-
 }
+
+// MARK: - Private interface
 
 private extension UVProjectPipelineViewController {
     func bindToViewModel() {

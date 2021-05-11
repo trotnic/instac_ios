@@ -39,6 +39,8 @@ protocol UVFileManagerType {
     mutating func create(project name: String) throws
     mutating func delete(project name: String) throws
     mutating func delete(track: String, in project: String) throws
+    
+    mutating func rename(project oldName: String, to newName: String) throws
 }
 
 enum UVDirectories {
@@ -181,5 +183,12 @@ extension UVFileManager: UVFileManagerType {
             .appendingPathComponent(track)
 
         try fileManager.removeItem(at: destinationFileURL)
+    }
+    
+    func rename(project oldName: String, to newName: String) throws {
+        let oldURL = Constants.projectsFolderURL.appendingPathComponent(oldName)
+        let newURL = Constants.projectsFolderURL.appendingPathComponent(newName)
+        
+        try fileManager.moveItem(at: oldURL, to: newURL)
     }
 }

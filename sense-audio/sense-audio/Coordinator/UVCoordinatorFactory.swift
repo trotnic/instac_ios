@@ -20,14 +20,13 @@ struct UVCoordinatorFactory {
         switch route {
         case .projectList:
             let listViewModel = UVProjectListViewModel(coordinator: coordinator)
-            let dataSource = UVProjectListDatasource()
-            let controller = UVProjectListViewController(list: listViewModel, data: dataSource)
+            let controller = UVProjectListViewController.instantiate(listViewModel)
             return controller
         case let .projectPipeline(project):
             let pipeline = UVPipelineManager()
             let fileManager = UVFileManager()
-            let pipeViewModel = UVProjectPipelineViewModel(coordinator: coordinator, pipeline: pipeline, fileManager: fileManager, project: project)
-            let controller = UVProjectPipelineViewController(pipeline: pipeViewModel)
+            let pipelineViewModel = UVProjectPipelineViewModel(coordinator: coordinator, pipeline: pipeline, fileManager: fileManager, project: project)
+            let controller = UVProjectPipelineViewController.instantiate(pipelineViewModel)
             return controller
         case let .projectTrackRecorder(project):
             let recorder = VoiceRecorder()
@@ -38,8 +37,7 @@ struct UVCoordinatorFactory {
         case let .projectTrackEditor(project, track):
             let editor = UVEditor(track: track)
             let editorViewModel = UVTrackEditorViewModel(coordinator: coordinator, editor: editor, project: project, track: track)
-            let controller = UVTrackEditorViewController(nibName: "UVTrackEditorViewController", bundle: nil)
-            controller.attach(editor: editorViewModel)
+            let controller = UVTrackEditorViewController.instantiate(editorViewModel)
             return controller
         }
     }
