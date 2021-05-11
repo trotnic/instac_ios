@@ -30,21 +30,24 @@ final class UVProjectPipelineViewModel {
     private var fileManager: UVFileManagerType
     private let pipelineManager: UVPipelineManagerType
     private lazy var assets: SignalProducer<[UVTrackModel], Never> = {
-        fileManager
-            .contents(for: .project(name: project))
-            .flatMap(.latest, { (contents) -> SignalProducer<[UVTrackModel], Never> in
-                SignalProducer { (observer, _) in
-                    var result: [UVTrackModel] = []
-                    contents.forEach { fileName in
-                        self.fileManager.sampleURL(for: fileName, in: self.project)
-                            .on(value: { value in
-                                result.append(UVTrackModel(project: self.project, name: fileName, url: value))
-                            })
-                            .start()
-                    }
-                    observer.send(value: result)
-                }
-            })
+        SignalProducer { (ob, _) in
+            
+        }
+//        fileManager
+//            .contents(for: .project(name: project))
+//            .flatMap(.latest, { (contents) -> SignalProducer<[UVTrackModel], Never> in
+//                SignalProducer { (observer, _) in
+//                    var result: [UVTrackModel] = []
+//                    contents.forEach { fileName in
+//                        self.fileManager.sampleURL(for: fileName, in: self.project)
+//                            .on(value: { value in
+//                                result.append(UVTrackModel(project: self.project, name: fileName, url: value))
+//                            })
+//                            .start()
+//                    }
+//                    observer.send(value: result)
+//                }
+//            })
     }()
 
     var contents: SignalProducer<[UVTrackModel], Never> {

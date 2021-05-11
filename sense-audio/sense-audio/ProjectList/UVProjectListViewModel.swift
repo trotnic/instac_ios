@@ -11,26 +11,24 @@ import Foundation
 import ReactiveSwift
 
 protocol UVProjectListViewModelType {
-    var contents: Signal<[String], Error> { get }
+    var contents: Signal<[String], Never> { get }
     
-//    var contents: SignalProducer<[String], Never> { get }
-
-    mutating func requestContents()
-    mutating func create(project name: String)
-    mutating func delete(at index: Int)
-
-    mutating func didSelect(itemAt index: Int)
+    func requestContents()
+    func create(project name: String)
+    func delete(at index: Int)
+    
+    func didSelect(itemAt index: Int)
 }
 
 final class UVProjectListViewModel {
     
-    var contents: Signal<[String], Error> { _contents }
+    var contents: Signal<[String], Never> { _contents.signal.map({ content in content.map({ $0.name }) }) }
 
     private let coordinator: UVCoordinatorType
+    
+    private let dataManager: UVDataManager = .shared
     private var fileManager: UVFileManagerType = UVFileManager()
-    private let (_contents, _contentsObserver) = Signal<[String], Error>.pipe()
-
-//    lazy var contents: SignalProducer<[String], Never> = { fileManager.contents(for: .projects) }()
+    private let _contents: MutableProperty<[UVProjectModel]> = MutableProperty([])
 
     init(coordinator: UVCoordinatorType) {
         self.coordinator = coordinator
@@ -40,48 +38,49 @@ final class UVProjectListViewModel {
 extension UVProjectListViewModel: UVProjectListViewModelType {
     
     func requestContents() {
-        fileManager.contents(for: .projects)
+        dataManager.get(.project(nil))
+            .observe(on: UIScheduler())
             .on(value: { contents in
-                self._contentsObserver.send(value: contents)
+                guard let contents = contents as? [UVProjectModel] else {
+                    return
+                }
+                self._contents.value = contents
             })
             .start()
     }
 
     func create(project name: String) {
-        do {
-            try fileManager.create(project: name)
-            requestContents()
-        } catch {
-            _contentsObserver.send(error: error)
-        }
-//        SignalProducer { (observer, _) in
-//            do {
-//                try self.fileManager.create(project: name)
-//                observer.send(value: ())
-//            } catch {
-//                observer.send(error: error)
-//            }
-//        }
+        dataManager.create(.project(UVProjectModel(name: name)))
+            .observe(on: UIScheduler())
+            .on(value: { [self] in
+                do {
+                    try fileManager.create(project: name)
+                    requestContents()
+                } catch {
+                    // MARK: ♻️ REFACTOR LATER ♻️
+                    print(error)
+                }
+            })
+            .start()
     }
 
     func delete(at index: Int) {
-//        contents
-//            .map { (contents) -> String in
-//                contents[index]
-//            }
-//            .flatMap(.merge, { (projectName) -> SignalProducer<Void, Error> in
-//                SignalProducer { (observer, _) in
-//                    do {
-//                        try self.fileManager.delete(project: projectName)
-//                        observer.send(value: ())
-//                    } catch {
-//                        observer.send(error: error)
-//                    }
-//                }
-//            })
+        let project = _contents.value[index]
+        dataManager.delete(.project(project))
+            .on(value: { [self] in
+                do {
+                    try fileManager.delete(project: project.name)
+                    requestContents()
+                } catch {
+                    // MARK: ♻️ REFACTOR LATER ♻️
+                    print(error)
+                }
+            })
+            .start()
     }
 
     func didSelect(itemAt index: Int) {
+        
 //        contents
 //            .map { (contents) -> String in contents[index] }
 //            .on(value: { self.coordinator.show(route: .projectPipeline(project: $0)) })

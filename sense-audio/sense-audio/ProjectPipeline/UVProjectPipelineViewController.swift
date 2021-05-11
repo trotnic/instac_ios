@@ -158,7 +158,7 @@ extension UVProjectPipelineViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as? UVPipelineTrackTableCell {
             let track = contents.value[indexPath.row]
-            track.isOn <~ cell.switcher
+//            track.isOn <~ cell.switcher
 
             cell.trackLabel.text = track.name
 

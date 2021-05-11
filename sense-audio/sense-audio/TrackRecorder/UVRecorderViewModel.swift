@@ -100,8 +100,8 @@ extension UVRecorderViewModel: UVRecorderViewModelType {
             /**
              store in CoreData
              */
-            let track = UVTrackModel(project: project, name: url.lastPathComponent, url: url)
-            coordinator.show(route: .projectTrackEditor(project: project, track: track))
+//            let track = UVTrackModel(project: project, name: url.lastPathComponent, url: url)
+//            coordinator.show(route: .projectTrackEditor(project: project, track: track))
         })
         .start()
 

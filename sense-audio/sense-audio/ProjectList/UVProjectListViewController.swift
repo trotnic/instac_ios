@@ -134,7 +134,7 @@ private extension UVProjectListViewController {
             
         }))
         actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-            
+            self.listViewModel.delete(at: index)
         }))
         
         present(actionSheet, animated: true)
@@ -170,8 +170,7 @@ private extension UVProjectListViewController {
 extension UVProjectListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        // MARK: ♻️ REFACTOR LATER ♻️
-//        listViewModel.didSelect(itemAt: indexPath.row)
+        listViewModel.didSelect(itemAt: indexPath.row)
     }
 }
 

@@ -86,6 +86,8 @@ struct UVFileManager {
     }
 }
 
+// MARK: - UVFileManagerType
+
 extension UVFileManager: UVFileManagerType {
     func contents(for: UVDirectories) -> SignalProducer<[String], Never> {
         SignalProducer { (observer, _) in

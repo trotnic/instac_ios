@@ -208,12 +208,12 @@ private extension UVEditor {
 extension UVEditor: UVEditorType {
     func play() {
         DispatchQueue.audioQueue.sync { [self] in
-            if let audioFile = try? AVAudioFile(forReading: track.url) {
-                try? engine.start()
-                playerNode.scheduleFile(audioFile, at: nil, completionHandler: nil)
-
-                playerNode.play()
-            }
+//            if let audioFile = try? AVAudioFile(forReading: track.url) {
+//                try? engine.start()
+//                playerNode.scheduleFile(audioFile, at: nil, completionHandler: nil)
+//
+//                playerNode.play()
+//            }
         }
     }
     

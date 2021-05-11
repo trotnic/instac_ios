@@ -1,5 +1,5 @@
 //
-//  UVCDTrack+CoreDataClass.swift
+//  UVCDProject+CoreDataClass.swift
 //
 //  Project: 
 // 
@@ -11,7 +11,6 @@
 import Foundation
 import CoreData
 
-
-class UVCDTrack: NSManagedObject {
+class UVCDProject: NSManagedObject {
 
 }
