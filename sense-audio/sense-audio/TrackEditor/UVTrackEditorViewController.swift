@@ -43,7 +43,7 @@ class UVTrackEditorViewController: UIViewController {
     }
 
     // MARK: - Properties
-
+    
     @IBOutlet weak var mainStackView: UIStackView!
     @IBOutlet weak var equalizerToolButton: UIButton!
     @IBOutlet weak var distortionToolButton: UIButton!
@@ -67,6 +67,7 @@ class UVTrackEditorViewController: UIViewController {
             .observeValues { _ in
                 self.keep(tool: .none)
             }
+        
         return controller
     }()
     
@@ -138,10 +139,10 @@ private extension UVTrackEditorViewController {
             .observeValues { [self] _ in
                 switch playerState {
                 case .playing:
-                    editorViewModel?.play().start()
+                    editorViewModel?.pause().start()
                     playerState = .paused
                 case .paused:
-                    editorViewModel?.pause().start()
+                    editorViewModel?.play().start()
                     playerState = .playing
                 }
             }

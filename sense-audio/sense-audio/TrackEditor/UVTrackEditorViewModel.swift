@@ -38,8 +38,7 @@ final class UVTrackEditorViewModel {
         self.track = track
         fileManager = manager
         
-        
-        editor.load(asset: track.url)
+        self.editor.bind(to: toolbox)
     }
 }
 
@@ -48,6 +47,7 @@ final class UVTrackEditorViewModel {
 extension UVTrackEditorViewModel: UVTrackEditorViewModelType {
     func play() -> SignalProducer<Void, Never> {
         SignalProducer { [self] (observer, _) in
+            editor.play()
             observer.send(value: ())
         }
     }
@@ -57,5 +57,6 @@ extension UVTrackEditorViewModel: UVTrackEditorViewModelType {
             print("paused!")
             observer.send(value: ())
         }
+        
     }
 }
