@@ -16,6 +16,7 @@ protocol UVProjectListViewModelType {
     func requestContents()
     func create(project name: String)
     func delete(at index: Int)
+    func rename(at index: Int, with name: String)
     
     func didSelect(itemAt index: Int)
 }
@@ -78,12 +79,26 @@ extension UVProjectListViewModel: UVProjectListViewModelType {
             })
             .start()
     }
+    
+    func rename(at index: Int, with name: String) {
+        var project = _contents.value[index]
+        let oldName = project.name
+        project.name = name
+        dataManager.update(.project(project))
+            .on(value: { [self] in
+                do {
+                    try fileManager.rename(project: oldName, to: name)
+                    requestContents()
+                } catch {
+                    // MARK: ♻️ REFACTOR LATER ♻️
+                    print(error)
+                }
+            })
+            .start()
+    }
 
     func didSelect(itemAt index: Int) {
-        
-//        contents
-//            .map { (contents) -> String in contents[index] }
-//            .on(value: { self.coordinator.show(route: .projectPipeline(project: $0)) })
-//            .start()
+        let project = _contents.value[index]
+        coordinator.show(route: .projectPipeline(project: project))
     }
 }

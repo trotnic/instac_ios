@@ -11,11 +11,20 @@ import Foundation
 import ReactiveSwift
 
 struct UVProjectModel {
+    let id: UUID
     var name: String
     var tracks: [UVTrackModel] = []
 }
 
+extension UVProjectModel {
+    init(name: String) {
+        self.init(id: UUID(), name: name)
+    }
+}
+
 struct UVTrackModel {
+    let id: UUID = UUID()
+    
     let project: String
     var name: String
     

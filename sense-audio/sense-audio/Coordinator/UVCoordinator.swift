@@ -17,7 +17,7 @@ protocol UVCoordinatorType {
 
 enum Route {
     case projectList
-    case projectPipeline(project: String)
+    case projectPipeline(project: UVProjectModel)
     case projectTrackRecorder(project: String)
     case projectTrackEditor(project: String, track: UVTrackModel)
 }

@@ -127,11 +127,11 @@ private extension UVProjectListViewController {
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         actionSheet.addAction(UIAlertAction(title: "Rename", style: .default, handler: { [self] _ in
             dismiss(animated: true) {
-                showRenameProjectDialog(for: project)
+                showRenameProjectDialog(for: index)
             }
         }))
         actionSheet.addAction(UIAlertAction(title: "Export", style: .default, handler: { _ in
-            
+            // MARK: ♻️ REFACTOR LATER ♻️
         }))
         actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
             self.listViewModel.delete(at: index)
@@ -140,9 +140,11 @@ private extension UVProjectListViewController {
         present(actionSheet, animated: true)
     }
     
-    func showRenameProjectDialog(for project: String) {
-        let creationDialog = UIAlertController(title: "New project",
-                                               message: "Select a name for your project",
+    func showRenameProjectDialog(for index: Int) {
+        let project = contents.value[index]
+        
+        let creationDialog = UIAlertController(title: "Rename \(project)",
+                                               message: "Select a new name for your project",
                                                preferredStyle: .alert)
 
         creationDialog.addTextField { (textField) in
@@ -153,9 +155,9 @@ private extension UVProjectListViewController {
 
         }))
         
-        creationDialog.addAction(UIAlertAction(title: "Create", style: .default, handler: { _ in
+        creationDialog.addAction(UIAlertAction(title: "Save", style: .default, handler: { _ in
             if let projectName = creationDialog.textFields?.first?.text {
-                self.listViewModel?.create(project: projectName)
+                self.listViewModel?.rename(at: index, with: projectName)
             }
         }))
 

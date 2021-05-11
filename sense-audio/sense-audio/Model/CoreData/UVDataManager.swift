@@ -48,8 +48,9 @@ extension UVDataManager {
                     do {
                         let rawResult = try context.fetch(request)
                         let result = rawResult.compactMap { project_model -> UVProjectModel? in
-                            if let name = project_model.name {
-                                return UVProjectModel(name: name, tracks: [])
+                            if let name = project_model.name,
+                               let uuid = project_model.id {
+                                return UVProjectModel(id: uuid, name: name)
                             }
                             return nil
                         }
@@ -78,6 +79,7 @@ extension UVDataManager {
                         let project_model = CDProject(context: context)
                         project_model.name = project.name
                         project_model.tracks = NSSet()
+                        project_model.id = project.id
                         try context.save()
                         observer.send(value: ())
                     } catch {
@@ -98,6 +100,35 @@ extension UVDataManager {
         }
     }
     
+    func update(_ entity: EntityType) -> SignalProducer<Void, Error> {
+        SignalProducer { [self] (observer, _) in
+            switch entity {
+            case .project(let project):
+                guard let project = project else {
+                    observer.sendCompleted()
+                    return
+                }
+                persistentContainer.performBackgroundTask { context in
+                    let request: NSFetchRequest<CDProject> = CDProject.fetchRequest()
+                    request.predicate = NSPredicate(format: "id == %@", project.id.uuidString)
+                    do {
+                        // MARK: ♻️ REFACTOR LATER ♻️
+                        let models = try context.fetch(request)
+                        models.forEach { project_model in
+                            project_model.name = project.name
+                        }
+                        try context.save()
+                        observer.send(value: ())
+                    } catch {
+                        observer.send(error: error)
+                    }
+                }
+            case .track(let track):
+                break
+            }
+        }
+    }
+    
     func delete(_ entity: EntityType) -> SignalProducer<Void, Error> {
         SignalProducer { [self] (observer, _) in
             switch entity {
@@ -108,7 +139,7 @@ extension UVDataManager {
                 }
                 persistentContainer.performBackgroundTask { context in
                     let request: NSFetchRequest<CDProject> = CDProject.fetchRequest()
-                    request.predicate = NSPredicate(format: "name == %@", project.name)
+                    request.predicate = NSPredicate(format: "id == %@", project.id.uuidString)
                     do {
                         let models = try context.fetch(request)
                         models.forEach({ context.delete($0) })

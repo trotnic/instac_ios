@@ -60,7 +60,7 @@ final class UVProjectPipelineViewModel {
 //            })
     }
 
-    private var project: String
+    private var project: UVProjectModel
 
 //    private lazy var composition: AVCompositionTrack = {
 //
@@ -68,29 +68,30 @@ final class UVProjectPipelineViewModel {
 
     // MARK: - Initialization
 
-    init(coordinator: UVCoordinatorType, pipeline: UVPipelineManagerType, fileManager: UVFileManagerType, project name: String) {
+    init(coordinator: UVCoordinatorType, pipeline: UVPipelineManagerType, fileManager: UVFileManagerType, project: UVProjectModel) {
         self.coordinator = coordinator
         self.fileManager = fileManager
         pipelineManager = pipeline
-        project = name
-        fileManager.contents(for: .project(name: project))
-            .on(value: { [self] tracks in
-                tracks.forEach { track in
-                    fileManager.sampleURL(for: track, in: project)
-                        .on(value: { _ in
-
-//                            if let audioFile = try? AVAudioFile(forReading: audioURL) {
-//                                print(audioFile)
-//                            }
-////                            print(composition)
-//                            AVCompositionTrack
-//                            AVComposition(url: AVURLAsset(url: value).url)
-                        })
-                        .start()
-                }
-//                .fo
-            })
-            .start()
+        self.project = project
+        // MARK: 🗑 DELETE LATER 🗑
+//        fileManager.contents(for: .project(name: project))
+//            .on(value: { [self] tracks in
+//                tracks.forEach { track in
+//                    fileManager.sampleURL(for: track, in: project)
+//                        .on(value: { _ in
+//
+////                            if let audioFile = try? AVAudioFile(forReading: audioURL) {
+////                                print(audioFile)
+////                            }
+//////                            print(composition)
+////                            AVCompositionTrack
+////                            AVComposition(url: AVURLAsset(url: value).url)
+//                        })
+//                        .start()
+//                }
+////                .fo
+//            })
+//            .start()
 //        AVComposition(url: )
     }
 }
@@ -102,8 +103,8 @@ extension UVProjectPipelineViewModel: UVProjectPipelineViewModelType {
     func addTrack() -> SignalProducer<Void, Never> {
         // MARK: ♻️ REFACTOR LATER ♻️
         SignalProducer { [coordinator, project] (observer, _) in
-            coordinator.show(route: .projectTrackRecorder(project: project))
-            observer.send(value: ())
+//            coordinator.show(route: .projectTrackRecorder(project: project))
+//            observer.send(value: ())
         }
     }
 
@@ -112,12 +113,13 @@ extension UVProjectPipelineViewModel: UVProjectPipelineViewModelType {
             .map { (contents) -> String in contents[index].name }
             .flatMap(.latest, { track -> SignalProducer<Void, Error> in
                 SignalProducer { [self] (observer, _) in
-                    do {
-                        try fileManager.delete(track: track, in: project)
-                        observer.send(value: ())
-                    } catch {
-                        observer.send(error: error)
-                    }
+                    // MARK: ♻️ REFACTOR LATER ♻️
+//                    do {
+//                        try fileManager.delete(track: track, in: project)
+//                        observer.send(value: ())
+//                    } catch {
+//                        observer.send(error: error)
+//                    }
                 }
             })
     }
@@ -126,7 +128,8 @@ extension UVProjectPipelineViewModel: UVProjectPipelineViewModelType {
         assets
             .map({ $0[index] })
             .on(value: { [self] track in
-                coordinator.show(route: .projectTrackEditor(project: project, track: track))
+                // MARK: ♻️ REFACTOR LATER ♻️
+//                coordinator.show(route: .projectTrackEditor(project: project, track: track))
             })
             .start()
     }

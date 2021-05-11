@@ -25,6 +25,7 @@
 		7327616D26481A6700445A29 /* UVDistortionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7327616C26481A6700445A29 /* UVDistortionViewController.xib */; };
 		7327617026481A7800445A29 /* UVDelayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7327616F26481A7800445A29 /* UVDelayViewController.xib */; };
 		7327617326481A8400445A29 /* UVReverbViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7327617226481A8400445A29 /* UVReverbViewController.xib */; };
+		73446011264A90FD000EA35A /* UVProjectPipelineViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73446010264A90FD000EA35A /* UVProjectPipelineViewController.xib */; };
 		7347598F264919FD00866496 /* UIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7347598E264919FD00866496 /* UIHelpers.swift */; };
 		738606C6264957B400A51270 /* UVToolModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738606C5264957B400A51270 /* UVToolModels.swift */; };
 		738606C926495A7D00A51270 /* UVDistortionPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738606C826495A7D00A51270 /* UVDistortionPreset.swift */; };
@@ -80,6 +81,7 @@
 		7327616C26481A6700445A29 /* UVDistortionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVDistortionViewController.xib; sourceTree = "<group>"; };
 		7327616F26481A7800445A29 /* UVDelayViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVDelayViewController.xib; sourceTree = "<group>"; };
 		7327617226481A8400445A29 /* UVReverbViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVReverbViewController.xib; sourceTree = "<group>"; };
+		73446010264A90FD000EA35A /* UVProjectPipelineViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVProjectPipelineViewController.xib; sourceTree = "<group>"; };
 		7347598E264919FD00866496 /* UIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelpers.swift; sourceTree = "<group>"; };
 		738606C5264957B400A51270 /* UVToolModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVToolModels.swift; sourceTree = "<group>"; };
 		738606C826495A7D00A51270 /* UVDistortionPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVDistortionPreset.swift; sourceTree = "<group>"; };
@@ -169,9 +171,9 @@
 			children = (
 				738606C4264957A900A51270 /* Tool Models */,
 				732761532648101300445A29 /* Tool Controllers */,
+				73180E65263ECB210084957B /* UVTrackEditorViewController.swift */,
 				73180E68263ECB2A0084957B /* UVTrackEditorViewModel.swift */,
 				73276150264801DE00445A29 /* UVTrackEditorViewController.xib */,
-				73180E65263ECB210084957B /* UVTrackEditorViewController.swift */,
 			);
 			path = TrackEditor;
 			sourceTree = "<group>";
@@ -383,6 +385,7 @@
 				73BBF9EC264653F80064CD21 /* PipelineViews */,
 				CA4B49C72626F8D200EE35D3 /* UVProjectPipelineViewController.swift */,
 				CA4B49C42626F8C600EE35D3 /* UVProjectPipelineViewModel.swift */,
+				73446010264A90FD000EA35A /* UVProjectPipelineViewController.xib */,
 			);
 			path = ProjectPipeline;
 			sourceTree = "<group>";
@@ -475,6 +478,7 @@
 				73860713264A43DB00A51270 /* UVProjectListTableCell.xib in Resources */,
 				7327615D2648175A00445A29 /* UVEqualizerViewController.xib in Resources */,
 				73276151264801DE00445A29 /* UVTrackEditorViewController.xib in Resources */,
+				73446011264A90FD000EA35A /* UVProjectPipelineViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
