@@ -78,9 +78,7 @@ extension UVDataManager {
                 persistentContainer.performBackgroundTask { context in
                     do {
                         let project_model = CDProject(context: context)
-                        project_model.name = project.name
-                        project_model.tracks = NSSet()
-                        project_model.id = project.id
+                        project_model.attach(project)
                         try context.save()
                         observer.send(value: ())
                     } catch {
@@ -88,15 +86,25 @@ extension UVDataManager {
                     }
                 }
             case .track(let track):
-                // MARK: ♻️ REFACTOR LATER ♻️
                 guard let track = track else {
                     observer.sendCompleted()
                     return
                 }
                 persistentContainer.performBackgroundTask { context in
-                    let track_model = CDTrack(context: context)
-//                    track_model.isOn_EQ = track.isOn.value
-//                    track_model.globalGain_EQ = track.
+                    let request: NSFetchRequest<CDProject> = CDProject.fetchRequest()
+                    do {
+                        let project_models = try context.fetch(request)
+                        
+                        project_models.forEach { project_model in
+                            let track_model = CDTrack(context: context)
+                            track_model.attach(track)
+                            project_model.addToTracks(track_model)
+                        }
+                        try context.save()
+                        observer.send(value: ())
+                    } catch {
+                        observer.send(error: error)
+                    }
                 }
             }
         }
@@ -126,7 +134,22 @@ extension UVDataManager {
                     }
                 }
             case .track(let track):
-                break
+                guard let track = track else {
+                    observer.sendCompleted()
+                    return
+                }
+                persistentContainer.performBackgroundTask { context in
+                    let request: NSFetchRequest<CDTrack> = CDTrack.fetchRequest()
+                    request.predicate = NSPredicate(format: "id = %@", track.id.uuidString)
+                    do {
+                        let models = try context.fetch(request)
+                        models.forEach { $0.attach(track) }
+                        try context.save()
+                        observer.send(value: ())
+                    } catch {
+                        observer.send(error: error)
+                    }
+                }
             }
         }
     }

@@ -40,16 +40,19 @@ final class UVRecorderViewModel {
     let time: MutableProperty<String> = MutableProperty("00:00")
 
     private var recorder: UVVoiceRecorder
-    private var fileManager: UVFileManagerType
     private let coordinator: UVCoordinatorType
     private let project: UVProjectModel
 
+    private var fileManager: UVFileManagerType = UVFileManager()
+    private let dataManager: UVDataManager = UVDataManager.shared
+    
     private(set) var audioFileName: String?
 
-    init(coordinator: UVCoordinatorType, recorder: UVVoiceRecorder, project: UVProjectModel, fileManager: UVFileManagerType = UVFileManager()) {
+    init(coordinator: UVCoordinatorType,
+         recorder: UVVoiceRecorder,
+         project: UVProjectModel) {
         self.coordinator = coordinator
         self.recorder = recorder
-        self.fileManager = fileManager
         self.project = project
         
         setupBindings()
@@ -73,8 +76,6 @@ private extension UVRecorderViewModel {
             .observeValues {
                 self._playbackEndObserver.send(value: ())
             }
-        
-        
     }
 }
 
@@ -92,7 +93,6 @@ extension UVRecorderViewModel: UVRecorderViewModelType {
         } catch {
             // MARK: ♻️ REFACTOR LATER ♻️
             print(error)
-//            observer.send(error: error)
         }
     }
 
@@ -131,32 +131,42 @@ extension UVRecorderViewModel: UVRecorderViewModelType {
             })
             .start()
     }
+    
+    // - save in the file system
+    // - save to the core data
 
     func saveRecord() {
-//        SignalProducer<String?, Error> { [self] (observer, _) in
-//            observer.send(value: audioFileName)
-//        }
-//        .skipNil()
-//        .flatMap(.latest, { self.fileManager.temporizedURL(for: $0) })
-//        .flatMap(.latest) { [self] (fileURL) -> SignalProducer<URL, Error> in
-//            SignalProducer { (observer, _) in
-//                do {
-//                    try fileManager.move(fileAt: fileURL, to: project)
-//                    observer.send(value: fileURL)
-//                } catch {
-//                    observer.send(error: error)
-//                }
-//            }
-//        }
-//        .on(value: { [self] url in
-//            // MARK: ♻️ REFACTOR LATER ♻️
-//            /**
-//             store in CoreData
-//             */
-////            let track = UVTrackModel(project: project, name: url.lastPathComponent, url: url)
-////            coordinator.show(route: .projectTrackEditor(project: project, track: track))
-//        })
-//        .start()
+        
+        
+        SignalProducer<String?, Error> { [self] (observer, _) in
+            observer.send(value: audioFileName)
+        }
+        .skipNil()
+        .flatMap(.latest, { self.fileManager.temporizedURL(for: $0) })
+        .flatMap(.latest) { [self] (fileURL) -> SignalProducer<String, Error> in
+            SignalProducer { (observer, _) in
+                do {
+                    try fileManager.move(fileAt: fileURL, to: project.name)
+                    observer.send(value: fileURL.lastPathComponent)
+                } catch {
+                    observer.send(error: error)
+                }
+            }
+        }
+        .on(value: { [self] track in
+            // MARK: ♻️ REFACTOR LATER ♻️
+            /**
+             store in CoreData
+             */
+            let track = UVTrackModel(project: project.id, name: track)
+            dataManager.create(.track(track))
+                .observe(on: QueueScheduler.main)
+                .on(value: {
+                    coordinator.back()
+                })
+                .start()
+        })
+        .start()
 
         // MARK: ♻️ REFACTOR LATER ♻️
 //        if let audioFileURL = audioFileURL {

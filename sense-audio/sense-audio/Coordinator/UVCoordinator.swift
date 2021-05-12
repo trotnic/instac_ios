@@ -13,6 +13,7 @@ import UIKit
 
 protocol UVCoordinatorType {
     func show(route: Route)
+    func back()
 }
 
 enum Route {
@@ -35,5 +36,9 @@ extension UVCoordinator: UVCoordinatorType {
     func show(route: Route) {
 
         navigationController.pushViewController(factory.block(for: route, coordinator: self), animated: true)
+    }
+    
+    func back() {
+        navigationController.popViewController(animated: true)
     }
 }
