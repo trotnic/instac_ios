@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UVTrackRecorderViewController" customModule="sense_audio" customModuleProvider="target">
+            <connections>
+                <outlet property="deleteButton" destination="d0q-bf-H5M" id="r1l-qs-c7T"/>
+                <outlet property="playButton" destination="NHE-Sz-Reu" id="qCs-nk-dQz"/>
+                <outlet property="recordButton" destination="ZUJ-3D-f4q" id="qKT-mR-rpO"/>
+                <outlet property="saveButton" destination="OaC-OJ-RdI" id="wNm-ha-9YA"/>
+                <outlet property="timeLabel" destination="W1i-nW-7y2" id="aOx-10-sdW"/>
+                <outlet property="view" destination="iN0-l3-epB" id="oIl-lH-B6M"/>
+                <outlet property="waveformView" destination="ujq-wV-xFB" id="1xu-Gb-ATW"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ujq-wV-xFB" customClass="FDWaveformView" customModule="FDWaveformView">
+                    <rect key="frame" x="10" y="54" width="394" height="262.5"/>
+                    <color key="backgroundColor" systemColor="systemTealColor"/>
+                </view>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="QLn-3h-ZzA">
+                    <rect key="frame" x="10" y="326.5" width="394" height="525.5"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z4u-GX-ZTl">
+                            <rect key="frame" x="0.0" y="0.0" width="394" height="105"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W1i-nW-7y2">
+                                    <rect key="frame" x="0.0" y="0.0" width="394" height="105"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="2w5-sj-shz">
+                            <rect key="frame" x="0.0" y="105" width="394" height="105.5"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleAspectFit" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d0q-bf-H5M">
+                                    <rect key="frame" x="0.0" y="0.0" width="92.5" height="105.5"/>
+                                    <inset key="imageEdgeInsets" minX="15" minY="20" maxX="15" maxY="20"/>
+                                    <state key="normal">
+                                        <imageReference key="image" image="trash" symbolScale="large"/>
+                                    </state>
+                                </button>
+                                <button opaque="NO" contentMode="scaleAspectFit" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NHE-Sz-Reu">
+                                    <rect key="frame" x="100.5" y="0.0" width="92.5" height="105.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                    <inset key="imageEdgeInsets" minX="15" minY="20" maxX="15" maxY="20"/>
+                                    <state key="normal">
+                                        <imageReference key="image" image="play" symbolScale="large" renderingMode="template"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium"/>
+                                    </state>
+                                </button>
+                                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZUJ-3D-f4q">
+                                    <rect key="frame" x="201" y="0.0" width="92.5" height="105.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                    <inset key="imageEdgeInsets" minX="15" minY="20" maxX="15" maxY="20"/>
+                                    <state key="normal">
+                                        <imageReference key="image" image="record" symbolScale="large" renderingMode="template"/>
+                                    </state>
+                                </button>
+                                <button opaque="NO" contentMode="scaleAspectFit" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OaC-OJ-RdI">
+                                    <rect key="frame" x="301.5" y="0.0" width="92.5" height="105.5"/>
+                                    <inset key="imageEdgeInsets" minX="15" minY="20" maxX="15" maxY="20"/>
+                                    <state key="normal">
+                                        <imageReference key="image" image="file-check" symbolScale="large"/>
+                                    </state>
+                                </button>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Onn-xw-LSd">
+                            <rect key="frame" x="0.0" y="210.5" width="394" height="105"/>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t6Z-m4-LWi">
+                            <rect key="frame" x="0.0" y="315.5" width="394" height="105"/>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xFR-ZK-pf5">
+                            <rect key="frame" x="0.0" y="420.5" width="394" height="105"/>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemGray4Color"/>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="ujq-wV-xFB" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="3xd-wm-nVU"/>
+                <constraint firstItem="ujq-wV-xFB" firstAttribute="height" secondItem="QLn-3h-ZzA" secondAttribute="height" multiplier="0.5" id="BxI-HX-GI7"/>
+                <constraint firstItem="ujq-wV-xFB" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="Ij2-Wj-FL7"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="QLn-3h-ZzA" secondAttribute="trailing" constant="10" id="Q5i-DT-YSa"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="QLn-3h-ZzA" secondAttribute="bottom" constant="10" id="SZO-ju-9Pf"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="ujq-wV-xFB" secondAttribute="trailing" constant="10" id="fyN-78-4Wd"/>
+                <constraint firstItem="QLn-3h-ZzA" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="jcf-26-6xV"/>
+                <constraint firstItem="QLn-3h-ZzA" firstAttribute="top" secondItem="ujq-wV-xFB" secondAttribute="bottom" constant="10" id="vAz-r7-orS"/>
+            </constraints>
+            <point key="canvasLocation" x="46" y="97"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="file-check" width="80" height="80"/>
+        <image name="play" width="80" height="80"/>
+        <image name="record" width="80" height="80"/>
+        <image name="trash" width="80" height="80"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemTealColor">
+            <color red="0.35294117647058826" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

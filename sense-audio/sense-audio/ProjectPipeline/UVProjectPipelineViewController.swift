@@ -72,12 +72,7 @@ private extension UVProjectPipelineViewController {
         createTrackButton.reactive
             .controlEvents(.touchUpInside)
             .observeValues { _ in
-                self.pipelineViewModel
-                    .addTrack()
-                    .on(value: { _ in
-                        // MARK: ♻️ REFACTOR LATER ♻️
-                    })
-                    .start()
+                self.pipelineViewModel.addTrack()
             }
         
         playButton.reactive

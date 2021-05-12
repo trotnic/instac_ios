@@ -29,10 +29,10 @@ struct UVCoordinatorFactory {
             let controller = UVProjectPipelineViewController.instantiate(pipelineViewModel)
             return controller
         case let .projectTrackRecorder(project):
-            let recorder = VoiceRecorder()
+            let recorder = UVVoiceRecorder()
             let recorderViewModel = UVRecorderViewModel(coordinator: coordinator, recorder: recorder, project: project)
             let playerViewModel = UVPlayerViewModel()
-            let controller = UVTrackRecorderViewController(recorder: recorderViewModel, player: playerViewModel)
+            let controller = UVTrackRecorderViewController.instantiate(recorderViewModel: recorderViewModel, playerViewModel: playerViewModel)
             return controller
         case let .projectTrackEditor(project, track):
             let editor = UVEditor(track: track)

@@ -26,6 +26,7 @@
 		7327617026481A7800445A29 /* UVDelayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7327616F26481A7800445A29 /* UVDelayViewController.xib */; };
 		7327617326481A8400445A29 /* UVReverbViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7327617226481A8400445A29 /* UVReverbViewController.xib */; };
 		73446011264A90FD000EA35A /* UVProjectPipelineViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73446010264A90FD000EA35A /* UVProjectPipelineViewController.xib */; };
+		73446015264AA3FC000EA35A /* UVTrackRecorderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73446014264AA3FC000EA35A /* UVTrackRecorderViewController.xib */; };
 		7347598F264919FD00866496 /* UIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7347598E264919FD00866496 /* UIHelpers.swift */; };
 		738606C6264957B400A51270 /* UVToolModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738606C5264957B400A51270 /* UVToolModels.swift */; };
 		738606C926495A7D00A51270 /* UVDistortionPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738606C826495A7D00A51270 /* UVDistortionPreset.swift */; };
@@ -40,6 +41,7 @@
 		73BBFA352646FA3E0064CD21 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73BBFA342646FA3E0064CD21 /* AudioToolbox.framework */; };
 		73BBFA3B264724FE0064CD21 /* UVAudioSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BBFA3A264724FE0064CD21 /* UVAudioSettings.swift */; };
 		73C53EBB2643BF8600033839 /* Editor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C53EBA2643BF8600033839 /* Editor.swift */; };
+		73ED772D264AE4BC0027C8A5 /* FDWaveformView in Frameworks */ = {isa = PBXBuildFile; productRef = 73ED772C264AE4BC0027C8A5 /* FDWaveformView */; };
 		CA0326C626144C2D002A9B30 /* Recorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0326C526144C2D002A9B30 /* Recorder.swift */; };
 		CA1E3C6B26258FA000D9958D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1E3C6A26258FA000D9958D /* Player.swift */; };
 		CA268F592624865C004C4D35 /* ReactiveCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = CA268F582624865C004C4D35 /* ReactiveCocoa */; };
@@ -82,6 +84,7 @@
 		7327616F26481A7800445A29 /* UVDelayViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVDelayViewController.xib; sourceTree = "<group>"; };
 		7327617226481A8400445A29 /* UVReverbViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVReverbViewController.xib; sourceTree = "<group>"; };
 		73446010264A90FD000EA35A /* UVProjectPipelineViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVProjectPipelineViewController.xib; sourceTree = "<group>"; };
+		73446014264AA3FC000EA35A /* UVTrackRecorderViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UVTrackRecorderViewController.xib; sourceTree = "<group>"; };
 		7347598E264919FD00866496 /* UIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelpers.swift; sourceTree = "<group>"; };
 		738606C5264957B400A51270 /* UVToolModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVToolModels.swift; sourceTree = "<group>"; };
 		738606C826495A7D00A51270 /* UVDistortionPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVDistortionPreset.swift; sourceTree = "<group>"; };
@@ -121,6 +124,7 @@
 			files = (
 				CA324C79261EE9FD00B80798 /* ReactiveSwift in Frameworks */,
 				CA268F592624865C004C4D35 /* ReactiveCocoa in Frameworks */,
+				73ED772D264AE4BC0027C8A5 /* FDWaveformView in Frameworks */,
 				73BBFA352646FA3E0064CD21 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -397,6 +401,7 @@
 				CA3E77AE2615E39F003F0AF3 /* UVRecorderViewModel.swift */,
 				CA3E77B52615E905003F0AF3 /* UVPlayerViewModel.swift */,
 				CA2DD24326282E6000CF2F7E /* UVProjectTrackViewModel.swift */,
+				73446014264AA3FC000EA35A /* UVTrackRecorderViewController.xib */,
 			);
 			path = TrackRecorder;
 			sourceTree = "<group>";
@@ -421,6 +426,7 @@
 			packageProductDependencies = (
 				CA324C78261EE9FD00B80798 /* ReactiveSwift */,
 				CA268F582624865C004C4D35 /* ReactiveCocoa */,
+				73ED772C264AE4BC0027C8A5 /* FDWaveformView */,
 			);
 			productName = "sense-audio";
 			productReference = 73148B0725C0A48E00F91119 /* sense-audio.app */;
@@ -452,6 +458,7 @@
 			packageReferences = (
 				CA324C77261EE9FD00B80798 /* XCRemoteSwiftPackageReference "ReactiveSwift" */,
 				CA268F572624865C004C4D35 /* XCRemoteSwiftPackageReference "ReactiveCocoa" */,
+				73ED772B264AE4BC0027C8A5 /* XCRemoteSwiftPackageReference "FDWaveformView" */,
 			);
 			productRefGroup = 73148B0825C0A48E00F91119 /* Products */;
 			projectDirPath = "";
@@ -479,6 +486,7 @@
 				7327615D2648175A00445A29 /* UVEqualizerViewController.xib in Resources */,
 				73276151264801DE00445A29 /* UVTrackEditorViewController.xib in Resources */,
 				73446011264A90FD000EA35A /* UVProjectPipelineViewController.xib in Resources */,
+				73446015264AA3FC000EA35A /* UVTrackRecorderViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -747,6 +755,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		73ED772B264AE4BC0027C8A5 /* XCRemoteSwiftPackageReference "FDWaveformView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/fulldecent/FDWaveformView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
 		CA268F572624865C004C4D35 /* XCRemoteSwiftPackageReference "ReactiveCocoa" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveCocoa/ReactiveCocoa.git";
@@ -766,6 +782,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		73ED772C264AE4BC0027C8A5 /* FDWaveformView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 73ED772B264AE4BC0027C8A5 /* XCRemoteSwiftPackageReference "FDWaveformView" */;
+			productName = FDWaveformView;
+		};
 		CA268F582624865C004C4D35 /* ReactiveCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CA268F572624865C004C4D35 /* XCRemoteSwiftPackageReference "ReactiveCocoa" */;

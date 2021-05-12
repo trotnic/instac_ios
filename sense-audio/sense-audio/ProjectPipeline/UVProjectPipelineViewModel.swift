@@ -14,7 +14,7 @@ import ReactiveSwift
 protocol UVProjectPipelineViewModelType {
     var contents: SignalProducer<[UVTrackModel], Never> { get }
 
-    func addTrack() -> SignalProducer<Void, Never>
+    func addTrack()
     func deleteTrack(at index: Int) -> SignalProducer<Void, Error>
     func editTrack(at index: Int)
 //    func didSelect(at index: Int) -> SignalProducer<Void, Never>
@@ -100,12 +100,8 @@ final class UVProjectPipelineViewModel {
 
 extension UVProjectPipelineViewModel: UVProjectPipelineViewModelType {
 
-    func addTrack() -> SignalProducer<Void, Never> {
-        // MARK: ♻️ REFACTOR LATER ♻️
-        SignalProducer { [coordinator, project] (observer, _) in
-//            coordinator.show(route: .projectTrackRecorder(project: project))
-//            observer.send(value: ())
-        }
+    func addTrack() {
+        coordinator.show(route: .projectTrackRecorder(project: project))
     }
 
     func deleteTrack(at index: Int) -> SignalProducer<Void, Error> {
