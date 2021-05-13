@@ -149,6 +149,16 @@ private extension UVTrackEditorViewController {
             .observeValues({
                 self.stopPlayback()
             })
+        
+        editorViewModel?.savingStart
+            .observe(on: QueueScheduler.main)
+            .observeValues({ [self] in
+                playButton.isEnabled = false
+                cancelButton.isEnabled = false
+                equalizerToolButton.isEnabled = false
+                distortionToolButton.isEnabled = false
+                reverbToolButton.isEnabled = false
+            })
     }
 
     func bindViews() {

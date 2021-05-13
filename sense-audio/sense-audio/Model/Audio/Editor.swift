@@ -26,12 +26,14 @@ import ReactiveSwift
 
 protocol UVEditorType {
     var playbackEnd: Signal<Void, Never> { get }
+    var startSaving: Signal<Void, Never> { get }
+    var endSaving: Signal<URL?, Error> { get }
 
     func load(track url: URL)
     func bind(to toolbox: UVToolbox)
     func play()
     func pause()
-    func save() -> SignalProducer<Void, Never>
+    func save()
 }
 
 final class UVEditor: UVAudioSettings {
@@ -42,6 +44,8 @@ final class UVEditor: UVAudioSettings {
         engine.attach(mixerNode2)
         engine.attach(mixerNode3)
         engine.attach(mixerNode4)
+        
+        engine.attach(mixerSinkNode)
 
         engine.attach(playerNode)
 
@@ -62,19 +66,25 @@ final class UVEditor: UVAudioSettings {
 //        engine.connect(delayNode, to: mixerNode3, fromBus: 0, toBus: 0, format: format)
         engine.connect(distortionNode, to: mixerNode4, fromBus: 0, toBus: 0, format: format)
 
-        engine.connect(mixerNode1, to: engine.mainMixerNode, format: format)
-        engine.connect(mixerNode2, to: engine.mainMixerNode, format: format)
+        engine.connect(mixerNode1, to: mixerSinkNode, format: format)
+        engine.connect(mixerNode2, to: mixerSinkNode, format: format)
 //        engine.connect(mixerNode3, to: engine.mainMixerNode, format: format)
-        engine.connect(mixerNode4, to: engine.mainMixerNode, format: format)
+        engine.connect(mixerNode4, to: mixerSinkNode, format: format)
+        engine.connect(mixerSinkNode, to: engine.mainMixerNode, format: format)
 
         return engine
     }()
 
     var playbackEnd: Signal<Void, Never> { _playbackEnd }
+    var startSaving: Signal<Void, Never> { _startSaving }
+    var endSaving: Signal<URL?, Error> { _endSaving }
+    
     private let mixerNode1 = AVAudioMixerNode()
     private let mixerNode2 = AVAudioMixerNode()
     private let mixerNode3 = AVAudioMixerNode()
     private let mixerNode4 = AVAudioMixerNode()
+    
+    private let mixerSinkNode = AVAudioMixerNode()
 
     private let playerNode = AVAudioPlayerNode()
 
@@ -88,6 +98,8 @@ final class UVEditor: UVAudioSettings {
     private var lastRenderTime: AVAudioTime?
 
     private let (_playbackEnd, _playbackEndObserver) = Signal<Void, Never>.pipe()
+    private let (_startSaving, _startSavingObserver) = Signal<Void, Never>.pipe()
+    private let (_endSaving, _endSavingObserver) = Signal<URL?, Error>.pipe()
 
     init(track: UVTrackModel) {
         self.track = track
@@ -251,12 +263,50 @@ extension UVEditor: UVEditorType {
         }
     }
 
-    func save() -> SignalProducer<Void, Never> {
-        // MARK: ⚠️ DEVELOP ZONE ⚠️
-        SignalProducer { (observer, _) in
-            observer.send(value: ())
+    func save() {
+        // MARK: ♻️ REFACTOR LATER ♻️
+        
+        try? AVAudioSession.shared.setCategory(.playback)
+        try? AVAudioSession.shared.setActive(true, options: [.notifyOthersOnDeactivation])
+
+        guard let sourceFile = audioFile else {
+            return
+        }
+        
+        var outputFile: AVAudioFile?
+        do {
+            let documentsURL = FileManager.default.temporaryDirectory
+            let outputURL = documentsURL.appendingPathComponent(sourceFile.url.lastPathComponent)
+            if FileManager.default.fileExists(atPath: outputURL.path) {
+                try FileManager.default.removeItem(at: outputURL)
+            }
+
+            outputFile = try AVAudioFile(forWriting: outputURL, settings: format.settings)
+        } catch {
+            print(error)
+            _endSavingObserver.send(error: error)
+            return
         }
 
+        mixerSinkNode.installTap(onBus: 0, bufferSize: bufferSize, format: format) { (pcmBuffer, _) in
+            try? outputFile?.write(from: pcmBuffer)
+        }
+        
+        playerNode.scheduleFile(sourceFile, at: nil, completionCallbackType: .dataPlayedBack) { [self] _ in
+            engine.stop()
+            mixerSinkNode.removeTap(onBus: 0)
+            _endSavingObserver.send(value: outputFile?.url)
+        }
+        
+        _startSavingObserver.send(value: ())
+        
+        if !engine.isRunning {
+            try? engine.start()
+        }
+        
+        playerNode.play(at: nil)
+        
+        
 //        SignalProducer { [self] (observer, _) in
 //
 //            try? AVAudioSession.shared.setCategory(.record)

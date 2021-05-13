@@ -12,6 +12,7 @@ import ReactiveSwift
 
 protocol UVTrackEditorViewModelType {
     var playbackEnd: Signal<Void, Never> { get }
+    var savingStart: Signal<Void, Never> { get }
 
     var toolbox: UVToolbox { get }
     var audioFileURL: SignalProducer<URL?, Never> { get }
@@ -24,6 +25,7 @@ protocol UVTrackEditorViewModelType {
 final class UVTrackEditorViewModel {
 
     var playbackEnd: Signal<Void, Never> { editor.playbackEnd }
+    var savingStart: Signal<Void, Never> { editor.startSaving }
     let toolbox: UVToolbox
     var audioFileURL: SignalProducer<URL?, Never> { _audioFileURL.producer }
 
@@ -46,6 +48,14 @@ final class UVTrackEditorViewModel {
         self.track = track
         self.toolbox = UVToolbox(model: track)
 
+        setupBindings()
+    }
+}
+
+// MARK: - Private interface
+
+private extension UVTrackEditorViewModel {
+    func setupBindings() {
         fileManager.sampleURL(for: track.name, in: project.name)
             .on(value: { [self] trackURL in
                 _audioFileURL.value = trackURL
@@ -53,6 +63,24 @@ final class UVTrackEditorViewModel {
                 editor.load(track: trackURL)
             })
             .start()
+        
+        editor.endSaving
+            .skipNil()
+            .observe { [self] event in
+                switch event {
+                case .value(let newFileURL):
+                    try? fileManager.delete(track: track.name, in: project.name)
+                    try? fileManager.move(fileAt: newFileURL, to: project.name)
+    
+                    dataManager.update(.track(toolbox.trackModel)).start()
+                    DispatchQueue.main.async {
+                        coordinator.back()
+                    }
+                default:
+                    // MARK: ♻️ REFACTOR LATER ♻️
+                    break
+                }
+            }
     }
 }
 
@@ -75,15 +103,16 @@ extension UVTrackEditorViewModel: UVTrackEditorViewModelType {
 
     func save() {
         editor.save()
-            .on(value: { [self] in
-
-                // MARK: ⚠️ DEVELOP ZONE ⚠️
+            
+//            .on(value: { [self] in
+//
+//                // MARK: ⚠️ DEVELOP ZONE ⚠️
 //                try? fileManager.delete(track: track.name, in: project.name)
 //                try? fileManager.move(fileAt: newFileURL, to: project.name)
-
-                dataManager.update(.track(toolbox.trackModel)).start()
-                coordinator.back()
-            })
-            .start()
+//
+//                dataManager.update(.track(toolbox.trackModel)).start()
+//                coordinator.back()
+//            })
+//            .start()
     }
 }
