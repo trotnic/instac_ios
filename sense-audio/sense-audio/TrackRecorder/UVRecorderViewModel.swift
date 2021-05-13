@@ -19,7 +19,7 @@ protocol UVRecorderViewModelType {
     var time: MutableProperty<String> { get }
     var audioFileURL: Signal<URL?, Never> { get }
     var playbackEnd: Signal<Void, Never> { get }
-    
+
     var audioFileName: String? { get }
 
     func startRecording()
@@ -30,10 +30,10 @@ protocol UVRecorderViewModelType {
 }
 
 final class UVRecorderViewModel {
-    
+
     var audioFileURL: Signal<URL?, Never> { _audioFileURL }
     private let (_audioFileURL, _audioFileURLObserver) = Signal<URL?, Never>.pipe()
-    
+
     var playbackEnd: Signal<Void, Never> { _playbackEnd }
     private let (_playbackEnd, _playbackEndObserver) = Signal<Void, Never>.pipe()
 
@@ -45,7 +45,7 @@ final class UVRecorderViewModel {
 
     private var fileManager: UVFileManagerType = UVFileManager()
     private let dataManager: UVDataManager = .shared
-    
+
     private(set) var audioFileName: String?
 
     init(coordinator: UVCoordinatorType,
@@ -54,7 +54,7 @@ final class UVRecorderViewModel {
         self.coordinator = coordinator
         self.recorder = recorder
         self.project = project
-        
+
         setupBindings()
     }
 }
@@ -70,7 +70,7 @@ private extension UVRecorderViewModel {
             .observeValues({ playbackTime in
                 self.time.value = .formatted(time: playbackTime)
             })
-        
+
         recorder.playbackEnd
             .observe(on: QueueScheduler.main)
             .observeValues {
@@ -120,7 +120,7 @@ extension UVRecorderViewModel: UVRecorderViewModelType {
         }
         .start()
     }
-    
+
     func playRecord() {
         guard let fileName = audioFileName else {
             return
@@ -131,13 +131,8 @@ extension UVRecorderViewModel: UVRecorderViewModelType {
             })
             .start()
     }
-    
-    // - save in the file system
-    // - save to the core data
 
     func saveRecord() {
-        
-        
         SignalProducer<String?, Error> { [self] (observer, _) in
             observer.send(value: audioFileName)
         }
@@ -167,29 +162,6 @@ extension UVRecorderViewModel: UVRecorderViewModelType {
                 .start()
         })
         .start()
-
-        // MARK: ♻️ REFACTOR LATER ♻️
-//        if let audioFileURL = audioFileURL {
-//            try?
-//        }
-//        if let audioFileURL = audioFileURL,
-//           let destinationFileURL = documentsURL?.appendingPathComponent(audioFileURL.lastPathComponent) {
-//            try? FileManager.default.copyItem(at: audioFileURL, to: destinationFileURL)
-//            try? FileManager.default.removeItem(at: audioFileURL)
-//            self.audioFileURL = destinationFileURL
-//        }
-        //        if let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
-        //           let fileURL = recorder.assetURL {
-        //            let newFileURL = directoryURL.appendingPathComponent(fileURL.lastPathComponent)
-        ////            print(directoryURL)
-        ////            FileManager.default.copy
-        //            print(fileURL)
-        //            try? FileManager.default.copyItem(at: fileURL, to: newFileURL)
-        //            try? FileManager.default.removeItem(at: fileURL)
-        //            print(newFileURL)
-        ////           let contents = try? FileManager.default.contentsOfDirectory(atPath: directoryURL.path) {
-        ////            self.contents.append(contentsOf: contents.compactMap({ URL(string: $0) }))
-        //        }
     }
 
     func deleteRecord() {

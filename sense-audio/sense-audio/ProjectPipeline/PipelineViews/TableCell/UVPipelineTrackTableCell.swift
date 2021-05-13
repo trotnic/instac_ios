@@ -15,14 +15,14 @@ class UVPipelineTrackTableCell: UITableViewCell {
     @IBOutlet weak var trackSwitch: UISwitch!
     @IBOutlet weak var trackLabel: UILabel!
     @IBOutlet weak var editButton: UIButton!
-    
+
     lazy var switcher: Property<Bool> = Property(initial: false, then: trackSwitch.reactive.isOnValues)
 }
 
 // MARK: - Public interface
 
 extension UVPipelineTrackTableCell {
-    
+
     static func instantiateNib() -> UINib {
         return UINib(nibName: String(describing: self), bundle: nil)
     }
@@ -31,7 +31,7 @@ extension UVPipelineTrackTableCell {
 // MARK: - UITableViewCell overrides
 
 extension UVPipelineTrackTableCell {
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
     }

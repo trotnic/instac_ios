@@ -13,15 +13,15 @@ import ReactiveSwift
 protocol RecorderType {
     var playbackEnd: Signal<Void, Never> { get }
     var playbackTime: Signal<Float, Never> { get }
-    
+
     func record(_ fileURL: URL) throws
     func stop()
-    
+
     func play(_ fileURL: URL)
 }
 
 final class UVVoiceRecorder: UVAudioSettings {
-    
+
     private lazy var recordEngine: AVAudioEngine = {
         let engine = AVAudioEngine()
         engine.attach(mixerNode)
@@ -42,10 +42,10 @@ final class UVVoiceRecorder: UVAudioSettings {
 
     var playbackEnd: Signal<Void, Never> { _playbackEnd }
     var playbackTime: Signal<Float, Never> { _playbackTime }
-    
+
     private let (_playbackEnd, _playbackEndObserver) = Signal<Void, Never>.pipe()
     private let (_playbackTime, _playbackTimeObserver) = Signal<Float, Never>.pipe()
-    
+
     var audioFile: AVAudioFile? {
       didSet {
         if let audioFile = audioFile {
@@ -55,7 +55,6 @@ final class UVVoiceRecorder: UVAudioSettings {
       }
     }
 
-    
     var audioSampleRate: Float = 44100
     var audioLengthSeconds: Float = 0
     var audioLengthSamples: AVAudioFramePosition = 0
@@ -69,7 +68,6 @@ final class UVVoiceRecorder: UVAudioSettings {
     }
     var currentPosition: AVAudioFramePosition = 0
 
-    
     // MARK: -
 
     init() {
@@ -95,7 +93,7 @@ extension UVVoiceRecorder: RecorderType {
         if recordEngine.isRunning {
             recordEngine.stop()
         }
-        
+
         let audioFile = try AVAudioFile(forWriting: fileURL, settings: format.settings)
         mixerNode.installTap(onBus: 0, bufferSize: bufferSize, format: format) { (pcmBuffer, _) in
             try? audioFile.write(from: pcmBuffer)
@@ -108,7 +106,7 @@ extension UVVoiceRecorder: RecorderType {
         recordEngine.stop()
         mixerNode.removeTap(onBus: 0)
     }
-    
+
     func play(_ fileURL: URL) {
         guard let audioFile = try? AVAudioFile(forReading: fileURL) else {
             return
@@ -120,13 +118,13 @@ extension UVVoiceRecorder: RecorderType {
         if playerNode.isPlaying {
             playerNode.stop()
         }
-        
+
         let (timeSignal, timeObserver) = Signal<Void, Never>.pipe()
-        
+
         timeSignal
             .observe { [self] event in
                 switch event {
-                case .value(_):
+                case .value:
                     currentPosition = currentFrame
                     currentPosition = max(currentPosition, 0)
                     currentPosition = min(currentPosition, audioLengthSamples)
@@ -139,13 +137,13 @@ extension UVVoiceRecorder: RecorderType {
                     break
                 }
             }
-        
+
         let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
             timeObserver.send(value: ())
         }
-        
+
         RunLoop.current .add(timer, forMode: .common)
-                
+
         playerNode.scheduleFile(audioFile, at: nil, completionCallbackType: .dataPlayedBack) { [self] _ in
             _playbackEndObserver.send(value: ())
             timer.invalidate()

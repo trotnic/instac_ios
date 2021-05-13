@@ -40,7 +40,7 @@ protocol UVFileManagerType {
     mutating func delete(temporized track: String) throws
     mutating func delete(project name: String) throws
     mutating func delete(track: String, in project: String) throws
-    
+
     mutating func rename(project oldName: String, to newName: String) throws
 }
 
@@ -162,7 +162,7 @@ extension UVFileManager: UVFileManagerType {
         // MARK: ♻️ REFACTOR LATER ♻️
         try fileManager.removeItem(at: Constants.projectsFolderURL.appendingPathComponent(name))
     }
-    
+
     mutating func delete(track: String, in project: String) throws {
         let destinationFileURL = Constants.projectsFolderURL
             .appendingPathComponent(project)
@@ -170,11 +170,11 @@ extension UVFileManager: UVFileManagerType {
 
         try fileManager.removeItem(at: destinationFileURL)
     }
-   
+
     func delete(temporized track: String) throws {
         let destinationFileURL = Constants.backingStoreFolderURL
             .appendingPathComponent(track)
-        
+
         try fileManager.removeItem(at: destinationFileURL)
     }
 
@@ -194,11 +194,11 @@ extension UVFileManager: UVFileManagerType {
         try fileManager.copyItem(at: url, to: destinationFileURL)
         try fileManager.removeItem(at: url)
     }
- 
+
     func rename(project oldName: String, to newName: String) throws {
         let oldURL = Constants.projectsFolderURL.appendingPathComponent(oldName)
         let newURL = Constants.projectsFolderURL.appendingPathComponent(newName)
-        
+
         try fileManager.moveItem(at: oldURL, to: newURL)
     }
 }

@@ -18,15 +18,15 @@ class UVProjectListViewController: UIViewController {
     }
 
     // MARK: - Props
-    
+
     @IBOutlet weak var tableView: UITableView!
-    
+
     private let addTrackButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.setImage(UIImage(.newTrack, point: 20), for: .normal)
         return button
     }()
-    
+
     private let numberOfItems: MutableProperty<Int> = MutableProperty(0)
     private let contents: MutableProperty<[String]> = MutableProperty([])
 
@@ -53,7 +53,7 @@ extension UVProjectListViewController {
         setupTableView()
         setupAppearance()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         listViewModel.requestContents()
@@ -77,7 +77,7 @@ private extension UVProjectListViewController {
                 }
             })
     }
-    
+
     func bindViews() {
         addTrackButton.reactive
             .controlEvents(.touchUpInside)
@@ -85,17 +85,18 @@ private extension UVProjectListViewController {
                 self.showNewProjectModal()
             }
     }
-    
+
     func setupAppearance() {
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(customView: addTrackButton)
         ]
+        navigationItem.title = "Projects"
     }
-    
+
     func setupTableView() {
         tableView.register(UVProjectListTableCell.instantiateNib(), forCellReuseIdentifier: Constants.reuseIdentifier)
     }
-    
+
     func showNewProjectModal() {
         let creationDialog = UIAlertController(title: "New project",
                                                message: "Select a name for your project",
@@ -108,22 +109,21 @@ private extension UVProjectListViewController {
         creationDialog.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
 
         }))
-        
+
         creationDialog.addAction(UIAlertAction(title: "Create", style: .default, handler: { _ in
             if let projectName = creationDialog.textFields?.first?.text {
                 self.listViewModel?.create(project: projectName)
             }
         }))
 
-
         present(creationDialog, animated: true)
     }
-    
+
     func showProjectActionSheet(for index: Int) {
         let project = contents.value[index]
-        
+
         let actionSheet = UIAlertController(title: "Select option for '\(project)'", message: "", preferredStyle: .actionSheet)
-        
+
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         actionSheet.addAction(UIAlertAction(title: "Rename", style: .default, handler: { [self] _ in
             dismiss(animated: true) {
@@ -136,13 +136,13 @@ private extension UVProjectListViewController {
         actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
             self.listViewModel.delete(at: index)
         }))
-        
+
         present(actionSheet, animated: true)
     }
-    
+
     func showRenameProjectDialog(for index: Int) {
         let project = contents.value[index]
-        
+
         let creationDialog = UIAlertController(title: "Rename \(project)",
                                                message: "Select a new name for your project",
                                                preferredStyle: .alert)
@@ -154,16 +154,15 @@ private extension UVProjectListViewController {
         creationDialog.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
 
         }))
-        
+
         creationDialog.addAction(UIAlertAction(title: "Save", style: .default, handler: { _ in
             if let projectName = creationDialog.textFields?.first?.text {
                 self.listViewModel?.rename(at: index, with: projectName)
             }
         }))
 
-
         present(creationDialog, animated: true)
- 
+
     }
 }
 
@@ -182,7 +181,7 @@ extension UVProjectListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         numberOfItems.value
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.reuseIdentifier, for: indexPath) as? UVProjectListTableCell {
             cell.projectLabel.text = contents.value[indexPath.row]
@@ -196,4 +195,3 @@ extension UVProjectListViewController: UITableViewDataSource {
         return UITableViewCell()
     }
 }
-

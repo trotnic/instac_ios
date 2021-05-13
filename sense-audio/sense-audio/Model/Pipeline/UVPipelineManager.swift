@@ -19,6 +19,8 @@ import ReactiveSwift
  and notify user if he leaves them unsaved
  */
 
+// MARK: OBSOLETE
+
 protocol UVPipelineManagerType {
     func attach(files: [UVTrackModel])
     func play()
@@ -51,9 +53,9 @@ final class UVPipelineManager {
 
 extension UVPipelineManager: UVPipelineManagerType {
     func attach(files: [UVTrackModel]) {
-        let format = mixerNode.inputFormat(forBus: 0)
+//        let format = mixerNode.inputFormat(forBus: 0)
 
-        files.forEach { model in
+//        files.forEach { _ in
 //            if let file = try? AVAudioFile(forReading: model.url) {
 ////                playerNode.schedule
 //                let playerNode = AVAudioPlayerNode()
@@ -75,7 +77,7 @@ extension UVPipelineManager: UVPipelineManagerType {
 //                playerNodes.append(playerNode)
 //
 //            }
-        }
+//        }
 
 //        engine.attach(anotherPlayerNode)
 //        engine.connect(anotherPlayerNode, to: mixerNode, format: playerNode.outputFormat(forBus: 0))

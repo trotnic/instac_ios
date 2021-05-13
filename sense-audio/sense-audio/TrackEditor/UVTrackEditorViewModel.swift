@@ -11,24 +11,30 @@ import Foundation
 import ReactiveSwift
 
 protocol UVTrackEditorViewModelType {
+    var playbackEnd: Signal<Void, Never> { get }
+
     var toolbox: UVToolbox { get }
     var audioFileURL: SignalProducer<URL?, Never> { get }
-    
+
     func play() -> SignalProducer<Void, Never>
     func pause() -> SignalProducer<Void, Never>
+    func save()
 }
 
 final class UVTrackEditorViewModel {
-    
+
+    var playbackEnd: Signal<Void, Never> { _playbackEnd }
     let toolbox: UVToolbox
     var audioFileURL: SignalProducer<URL?, Never> { _audioFileURL.producer }
-    
+
     private let coordinator: UVCoordinatorType
     private let editor: UVEditorType
     private let project: UVProjectModel
-    private let track: UVTrackModel
-    private let fileManager: UVFileManagerType = UVFileManager()
+    private var track: UVTrackModel
+    private let dataManager: UVDataManager = .shared
+    private var fileManager: UVFileManagerType = UVFileManager()
     private let _audioFileURL: MutableProperty<URL?> = MutableProperty(nil)
+    private let (_playbackEnd, _playbackEndObserver) = Signal<Void, Never>.pipe()
 
     init(coordinator: UVCoordinatorType,
          editor: UVEditorType,
@@ -40,8 +46,7 @@ final class UVTrackEditorViewModel {
         self.project = project
         self.track = track
         self.toolbox = UVToolbox(model: track)
-        
-        
+
         fileManager.sampleURL(for: track.name, in: project.name)
             .on(value: { [self] trackURL in
                 _audioFileURL.value = trackURL
@@ -64,9 +69,22 @@ extension UVTrackEditorViewModel: UVTrackEditorViewModelType {
 
     func pause() -> SignalProducer<Void, Never> {
         SignalProducer { (observer, _) in
-            print("paused!")
+            self.editor.pause()
             observer.send(value: ())
         }
-        
+    }
+
+    func save() {
+        editor.save()
+            .on(value: { [self] in
+
+                // MARK: ⚠️ DEVELOP ZONE ⚠️
+//                try? fileManager.delete(track: track.name, in: project.name)
+//                try? fileManager.move(fileAt: newFileURL, to: project.name)
+
+                dataManager.update(.track(toolbox.trackModel)).start()
+                coordinator.back()
+            })
+            .start()
     }
 }

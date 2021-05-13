@@ -16,7 +16,7 @@ extension UIStackView {
             removeArrangedSubview($0)
         }
     }
-    
+
     func removeArrangedSubviews(_ view: UIView) {
         removeArrangedSubview(view)
         NSLayoutConstraint.deactivate(view.constraints)
@@ -29,23 +29,22 @@ extension String {
         static let secsPerMin = 60
         static let secsPerHour = TimeConstant.secsPerMin * 60
     }
-    
-    
+
     static func formatted(time: Float) -> String {
         var secs = Int(ceil(time))
         var hours = 0
         var mins = 0
-        
+
         if secs > TimeConstant.secsPerHour {
             hours = secs / TimeConstant.secsPerHour
             secs -= hours * TimeConstant.secsPerHour
         }
-        
+
         if secs > TimeConstant.secsPerMin {
             mins = secs / TimeConstant.secsPerMin
             secs -= mins * TimeConstant.secsPerMin
         }
-        
+
         var formattedString = ""
         if hours > 0 {
             formattedString = "\(String(format: "%02d", hours)):"
@@ -57,16 +56,16 @@ extension String {
 
 extension UIImage {
     enum Asset: String {
-        case save = "file-check"
-        case newTrack = "new-section"
+        case save = "checkmark"
+        case newTrack = "plus"
         case pause
         case play
-        case record
+        case record = "record.circle"
         case stop
         case trash
     }
-    
-    convenience init?(_ asset: Asset) {
-        self.init(named: asset.rawValue)
+
+    convenience init?(_ asset: Asset, point size: CGFloat) {
+        self.init(systemName: asset.rawValue, withConfiguration: UIImage.SymbolConfiguration(pointSize: size, weight: .regular, scale: .large))
     }
 }

@@ -16,12 +16,12 @@ final class UVDataManager {
         case project(UVProjectModel?)
         case track(UVTrackModel?)
     }
-    
+
     var viewContext: NSManagedObjectContext { persistentContainer.viewContext }
     var newBackgroundContext: NSManagedObjectContext { persistentContainer.newBackgroundContext() }
-    
+
     private let persistentContainer: NSPersistentContainer
-    
+
     static let shared: UVDataManager = UVDataManager()
 
     init(completion: ((Error?) -> Void)? = nil) {
@@ -30,7 +30,7 @@ final class UVDataManager {
             if let error = error {
                 fatalError("Failed to load Core Data stack: \(error)")
             }
-            
+
             completion?(error)
         }
     }
@@ -53,7 +53,7 @@ extension UVDataManager {
             }
         }
     }
-    
+
     func getTracks(for project: UUID) -> SignalProducer<[UVTrackModel], Error> {
         SignalProducer { (observer, _) in
             self.persistentContainer.performBackgroundTask { context in
@@ -73,7 +73,7 @@ extension UVDataManager {
             }
         }
     }
-    
+
 //    func get(_ entity: EntityType) -> SignalProducer<[Any], Error> {
 //        SignalProducer { [self] (observer, _) in
 //            switch entity {
@@ -101,7 +101,7 @@ extension UVDataManager {
 //            }
 //        }
 //    }
-    
+
     func create(_ entity: EntityType) -> SignalProducer<Void, Error> {
         SignalProducer { [self] (observer, _) in
             switch entity {
@@ -129,7 +129,7 @@ extension UVDataManager {
                     let request: NSFetchRequest<CDProject> = CDProject.fetchRequest()
                     do {
                         let project_models = try context.fetch(request)
-                        
+
                         project_models.forEach { project_model in
                             let track_model = CDTrack(context: context)
                             track_model.attach(track)
@@ -144,7 +144,7 @@ extension UVDataManager {
             }
         }
     }
-    
+
     func update(_ entity: EntityType) -> SignalProducer<Void, Error> {
         SignalProducer { [self] (observer, _) in
             switch entity {
@@ -188,7 +188,7 @@ extension UVDataManager {
             }
         }
     }
-    
+
     func delete(_ entity: EntityType) -> SignalProducer<Void, Error> {
         SignalProducer { [self] (observer, _) in
             switch entity {
@@ -209,7 +209,7 @@ extension UVDataManager {
                         observer.send(error: error)
                     }
                 }
-            case .track(let track):
+            case .track:
                 break
             }
         }
@@ -219,5 +219,5 @@ extension UVDataManager {
 // MARK: - Private interface
 
 private extension UVDataManager {
-    
+
 }

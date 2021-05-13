@@ -16,7 +16,7 @@ protocol UVProjectPipelineViewModelType {
 //    var contents: SignalProducer<[UVTrackModel], Never> { get }
 
     func requestContents()
-    
+
     func addTrack()
     func deleteTrack(at index: Int) -> SignalProducer<Void, Error>
     func editTrack(at index: Int)
@@ -28,7 +28,7 @@ protocol UVProjectPipelineViewModelType {
 final class UVProjectPipelineViewModel {
 
     // MARK: - Properties
-    
+
     var contents: Signal<[UVTrackModel], Never> { _contents.signal }
 
     private let coordinator: UVCoordinatorType
@@ -56,7 +56,7 @@ final class UVProjectPipelineViewModel {
 // MARK: - Private interface
 
 private extension UVProjectPipelineViewModel {
-    
+
 }
 
 // MARK: - UVProjectPipelineViewModelType
@@ -71,14 +71,14 @@ extension UVProjectPipelineViewModel: UVProjectPipelineViewModelType {
             })
             .start()
     }
-    
+
     func addTrack() {
         coordinator.show(route: .projectTrackRecorder(project: project))
     }
 
     func deleteTrack(at index: Int) -> SignalProducer<Void, Error> {
         let track = _contents.value[index]
-        
+
         return dataManager.delete(.track(track))
             .on(value: { [self] in
                 try? fileManager.delete(track: track.name, in: project.name)

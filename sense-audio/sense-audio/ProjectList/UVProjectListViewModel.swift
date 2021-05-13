@@ -12,21 +12,21 @@ import ReactiveSwift
 
 protocol UVProjectListViewModelType {
     var contents: Signal<[String], Never> { get }
-    
+
     func requestContents()
     func create(project name: String)
     func delete(at index: Int)
     func rename(at index: Int, with name: String)
-    
+
     func didSelect(itemAt index: Int)
 }
 
 final class UVProjectListViewModel {
-    
+
     var contents: Signal<[String], Never> { _contents.signal.map({ content in content.map({ $0.name }) }) }
 
     private let coordinator: UVCoordinatorType
-    
+
     private let dataManager: UVDataManager = .shared
     private var fileManager: UVFileManagerType = UVFileManager()
     private let _contents: MutableProperty<[UVProjectModel]> = MutableProperty([])
@@ -37,7 +37,7 @@ final class UVProjectListViewModel {
 }
 
 extension UVProjectListViewModel: UVProjectListViewModelType {
-    
+
     func requestContents() {
         dataManager.getProjects()
             .observe(on: QueueScheduler.main)
@@ -75,7 +75,7 @@ extension UVProjectListViewModel: UVProjectListViewModelType {
             })
             .start()
     }
-    
+
     func rename(at index: Int, with name: String) {
         var project = _contents.value[index]
         let oldName = project.name

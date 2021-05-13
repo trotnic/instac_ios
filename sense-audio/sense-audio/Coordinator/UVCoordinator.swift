@@ -37,7 +37,7 @@ extension UVCoordinator: UVCoordinatorType {
 
         navigationController.pushViewController(factory.block(for: route, coordinator: self), animated: true)
     }
-    
+
     func back() {
         navigationController.popViewController(animated: true)
     }

@@ -52,7 +52,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="92.5" height="105.5"/>
                                     <inset key="imageEdgeInsets" minX="15" minY="20" maxX="15" maxY="20"/>
                                     <state key="normal">
-                                        <imageReference key="image" image="trash" symbolScale="large"/>
+                                        <imageReference key="image" image="trash" catalog="system" symbolScale="large"/>
                                     </state>
                                 </button>
                                 <button opaque="NO" contentMode="scaleAspectFit" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NHE-Sz-Reu">
@@ -60,7 +60,7 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                     <inset key="imageEdgeInsets" minX="15" minY="20" maxX="15" maxY="20"/>
                                     <state key="normal">
-                                        <imageReference key="image" image="play" symbolScale="large" renderingMode="template"/>
+                                        <imageReference key="image" image="play" catalog="system" symbolScale="large" renderingMode="template"/>
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium"/>
                                     </state>
                                 </button>
@@ -68,15 +68,16 @@
                                     <rect key="frame" x="201" y="0.0" width="92.5" height="105.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                     <inset key="imageEdgeInsets" minX="15" minY="20" maxX="15" maxY="20"/>
+                                    <size key="titleShadowOffset" width="1" height="0.0"/>
                                     <state key="normal">
-                                        <imageReference key="image" image="record" symbolScale="large" renderingMode="template"/>
+                                        <imageReference key="image" image="record.circle" catalog="system" symbolScale="large" renderingMode="template"/>
                                     </state>
                                 </button>
                                 <button opaque="NO" contentMode="scaleAspectFit" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OaC-OJ-RdI">
                                     <rect key="frame" x="301.5" y="0.0" width="92.5" height="105.5"/>
                                     <inset key="imageEdgeInsets" minX="15" minY="20" maxX="15" maxY="20"/>
                                     <state key="normal">
-                                        <imageReference key="image" image="file-check" symbolScale="large"/>
+                                        <imageReference key="image" image="checkmark.circle" catalog="system" symbolScale="large"/>
                                     </state>
                                 </button>
                             </subviews>
@@ -91,7 +92,7 @@
                             <rect key="frame" x="0.0" y="420.5" width="394" height="105"/>
                         </stackView>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemGray4Color"/>
+                    <color key="backgroundColor" systemColor="systemGray6Color"/>
                 </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
@@ -110,15 +111,15 @@
         </view>
     </objects>
     <resources>
-        <image name="file-check" width="80" height="80"/>
-        <image name="play" width="80" height="80"/>
-        <image name="record" width="80" height="80"/>
-        <image name="trash" width="80" height="80"/>
+        <image name="checkmark.circle" catalog="system" width="128" height="121"/>
+        <image name="play" catalog="system" width="120" height="128"/>
+        <image name="record.circle" catalog="system" width="128" height="121"/>
+        <image name="trash" catalog="system" width="121" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
-        <systemColor name="systemGray4Color">
-            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemTealColor">
             <color red="0.35294117647058826" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

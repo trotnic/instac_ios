@@ -16,7 +16,7 @@ protocol UVAudioSettings {
 
 extension UVAudioSettings {
     var format: AVAudioFormat {
-        AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 44100, channels: 1, interleaved: false)!
+        AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 44100, channels: 1, interleaved: true)!
     }
 
     var bufferSize: AVAudioFrameCount { 4096 }

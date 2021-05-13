@@ -30,7 +30,7 @@ class UVTrackRecorderViewController: UIViewController {
     }
 
     // MARK: - Properties
-    
+
     @IBOutlet weak var waveformView: FDWaveformView!
 
     @IBOutlet weak var timeLabel: UILabel!
@@ -38,14 +38,12 @@ class UVTrackRecorderViewController: UIViewController {
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
-    
+
     private var recorderState: RecorderState = .stopped
     private var playerState: PlayerState = .stopped
 
     private var recorderViewModel: UVRecorderViewModelType!
     private var playerViewModel: UVPlayerViewModelType!
-
-    // MARK: - Initialization
 
 }
 
@@ -63,14 +61,13 @@ extension UVTrackRecorderViewController {
 // MARK: - UIViewController overrides
 
 extension UVTrackRecorderViewController {
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         bindToViewModel()
         bindViews()
         setupAppearance()
-        
-        
+
     }
 }
 
@@ -83,7 +80,7 @@ private extension UVTrackRecorderViewController {
             .observeValues { time in
                 self.timeLabel.text = time
             }
-        
+
         recorderViewModel.audioFileURL
             .skipNil()
             .observe(on: QueueScheduler.main)
@@ -92,13 +89,13 @@ private extension UVTrackRecorderViewController {
                     waveformView.audioURL = fileURL
                 }
             }
-        
+
         recorderViewModel.playbackEnd
             .observeValues {
                 self.stopPlaying(auto: true)
             }
     }
-    
+
     func bindViews() {
         playButton.reactive
             .controlEvents(.touchUpInside)
@@ -110,7 +107,7 @@ private extension UVTrackRecorderViewController {
                     startPlaying()
                 }
             }
-        
+
         recordButton.reactive
             .controlEvents(.touchUpInside)
             .observeValues { [self] _ in
@@ -121,82 +118,82 @@ private extension UVTrackRecorderViewController {
                     stopRecording()
                 }
             }
-        
+
         deleteButton.reactive
             .controlEvents(.touchUpInside)
             .observeValues { _ in
                 self.deleteRecording()
             }
-        
+
         saveButton.reactive
             .controlEvents(.touchUpInside)
             .observeValues { _ in
                 self.saveRecording()
             }
     }
-    
+
     // MARK: - UI
-    
+
     func setupAppearance() {
         view.backgroundColor = .systemBackground
-        
-        playButton.imageView?.contentMode = .scaleAspectFit
-        deleteButton.imageView?.contentMode = .scaleAspectFit
-        recordButton.imageView?.contentMode = .scaleAspectFit
-        saveButton.imageView?.contentMode = .scaleAspectFit
+
+        playButton.setImage(UIImage(.play, point: 25), for: .normal)
+        deleteButton.setImage(UIImage(.trash, point: 25), for: .normal)
+        recordButton.setImage(UIImage(.record, point: 25), for: .normal)
+        saveButton.setImage(UIImage(.save, point: 25), for: .normal)
     }
-    
+
     func animateTransition(of view: UIView, callback: @escaping () -> Void) {
         UIView.transition(with: view, duration: Constants.fadeDuration, options: [.transitionCrossDissolve]) {
             callback()
         }
     }
-    
+
     // MARK: - Playback & Recording events
-    
+
     func startPlaying() {
         recorderViewModel.playRecord()
         playerState = .playing
-        
+
         animateTransition(of: playButton) {
-            self.playButton.setImage(UIImage(.pause), for: .normal)
+            self.playButton.setImage(UIImage(.pause, point: 25), for: .normal)
         }
-        
+
         animateTransition(of: saveButton) {
             self.saveButton.isEnabled = false
         }
-        
+
         animateTransition(of: deleteButton) {
             self.deleteButton.isEnabled = false
         }
     }
-    
+
     func stopPlaying(auto: Bool) {
         if !auto {
             recorderViewModel.playRecord()
         }
-        
+
         playerState = .stopped
-        
+
         animateTransition(of: playButton) {
-            self.playButton.setImage(UIImage(.play), for: .normal)
+            self.playButton.setImage(UIImage(.play, point: 25), for: .normal)
         }
-        
+
         animateTransition(of: saveButton) {
             self.saveButton.isEnabled = true
         }
-        
+
         animateTransition(of: deleteButton) {
             self.deleteButton.isEnabled = true
         }
     }
-    
+
     func startRecording() {
         recorderViewModel.startRecording()
         recorderState = .recording
-        
+
         animateTransition(of: recordButton) {
-            self.recordButton.setImage(UIImage(.stop), for: .normal)
+            self.recordButton.setImage(UIImage(.stop, point: 25), for: .normal)
         }
         animateTransition(of: deleteButton) {
             self.deleteButton.isEnabled = false
@@ -205,49 +202,49 @@ private extension UVTrackRecorderViewController {
             self.saveButton.isEnabled = false
         }
     }
-    
+
     func stopRecording() {
         recorderViewModel.stopRecording()
         recorderState = .stopped
-        
+
         animateTransition(of: recordButton) { [self] in
-            recordButton.setImage(UIImage(.record), for: .normal)
+            recordButton.setImage(UIImage(.record, point: 25), for: .normal)
             recordButton.isEnabled = false
         }
-        
+
         animateTransition(of: deleteButton) {
             self.deleteButton.isEnabled = true
         }
-        
+
         animateTransition(of: saveButton) {
             self.saveButton.isEnabled = true
         }
-        
+
         animateTransition(of: playButton) {
             self.playButton.isEnabled = true
         }
     }
-    
+
     func deleteRecording() {
         recorderViewModel.deleteRecord()
-        
+
         animateTransition(of: deleteButton) {
             self.deleteButton.isEnabled = false
         }
-        
+
         animateTransition(of: saveButton) {
             self.saveButton.isEnabled = false
         }
-        
+
         animateTransition(of: playButton) {
             self.playButton.isEnabled = false
         }
-        
+
         animateTransition(of: recordButton) {
             self.recordButton.isEnabled = true
         }
     }
-    
+
     func saveRecording() {
         recorderViewModel.saveRecord()
     }

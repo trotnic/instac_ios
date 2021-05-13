@@ -132,7 +132,7 @@ extension AVAudioUnitDistortionPreset {
             self = .speechWaves
         }
     }
-    
+
     init(_ pos: Int16) {
         switch pos {
         case 0:
@@ -183,7 +183,7 @@ extension AVAudioUnitDistortionPreset {
             fatalError()
         }
     }
-    
+
     var representation: UVDistortionPreset {
         switch self {
         case .drumsBitBrush:
@@ -233,5 +233,57 @@ extension AVAudioUnitDistortionPreset {
         @unknown default:
             fatalError()
         }
+    }
+
+    var numeric: Int16 {
+        switch self {
+        case .drumsBitBrush:
+            return 0
+        case .drumsBufferBeats:
+            return 1
+        case .drumsLoFi:
+            return 2
+        case .multiBrokenSpeaker:
+            return 3
+        case .multiCellphoneConcert:
+            return 4
+        case .multiDecimated1:
+            return 5
+        case .multiDecimated2:
+            return 6
+        case .multiDecimated3:
+            return 7
+        case .multiDecimated4:
+            return 8
+        case .multiDistortedFunk:
+            return 9
+        case .multiDistortedCubed:
+            return 10
+        case .multiDistortedSquared:
+            return 11
+        case .multiEcho1:
+            return 12
+        case .multiEcho2:
+            return 13
+        case .multiEchoTight1:
+            return 14
+        case .multiEchoTight2:
+            return 15
+        case .multiEverythingIsBroken:
+            return 16
+        case .speechAlienChatter:
+            return 17
+        case .speechCosmicInterference:
+            return 18
+        case .speechGoldenPi:
+            return 19
+        case .speechRadioTower:
+            return 20
+        case .speechWaves:
+            return 21
+        @unknown default:
+            fatalError()
+        }
+
     }
 }
