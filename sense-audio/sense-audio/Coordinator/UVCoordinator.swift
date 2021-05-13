@@ -13,13 +13,14 @@ import UIKit
 
 protocol UVCoordinatorType {
     func show(route: Route)
+    func back()
 }
 
 enum Route {
     case projectList
-    case projectPipeline(project: String)
-    case projectTrackRecorder(project: String)
-    case projectTrackEditor(project: String, track: UVTrackModel)
+    case projectPipeline(project: UVProjectModel)
+    case projectTrackRecorder(project: UVProjectModel)
+    case projectTrackEditor(project: UVProjectModel, track: UVTrackModel)
 }
 
 struct UVCoordinator {
@@ -35,5 +36,9 @@ extension UVCoordinator: UVCoordinatorType {
     func show(route: Route) {
 
         navigationController.pushViewController(factory.block(for: route, coordinator: self), animated: true)
+    }
+    
+    func back() {
+        navigationController.popViewController(animated: true)
     }
 }

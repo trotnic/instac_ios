@@ -37,8 +37,11 @@ protocol UVFileManagerType {
     mutating func temporize(fileAt url: URL) throws
     mutating func move(fileAt url: URL, to project: String) throws
     mutating func create(project name: String) throws
+    mutating func delete(temporized track: String) throws
     mutating func delete(project name: String) throws
     mutating func delete(track: String, in project: String) throws
+    
+    mutating func rename(project oldName: String, to newName: String) throws
 }
 
 enum UVDirectories {
@@ -83,6 +86,8 @@ struct UVFileManager {
         static let temporaryFolderURL: URL = { FileManager.default.temporaryDirectory }()
     }
 }
+
+// MARK: - UVFileManagerType
 
 extension UVFileManager: UVFileManagerType {
     func contents(for: UVDirectories) -> SignalProducer<[String], Never> {
@@ -157,6 +162,21 @@ extension UVFileManager: UVFileManagerType {
         // MARK: ♻️ REFACTOR LATER ♻️
         try fileManager.removeItem(at: Constants.projectsFolderURL.appendingPathComponent(name))
     }
+    
+    mutating func delete(track: String, in project: String) throws {
+        let destinationFileURL = Constants.projectsFolderURL
+            .appendingPathComponent(project)
+            .appendingPathComponent(track)
+
+        try fileManager.removeItem(at: destinationFileURL)
+    }
+   
+    func delete(temporized track: String) throws {
+        let destinationFileURL = Constants.backingStoreFolderURL
+            .appendingPathComponent(track)
+        
+        try fileManager.removeItem(at: destinationFileURL)
+    }
 
     mutating func temporize(fileAt url: URL) throws {
         let destinationFileURL = Constants.backingStoreFolderURL
@@ -174,12 +194,11 @@ extension UVFileManager: UVFileManagerType {
         try fileManager.copyItem(at: url, to: destinationFileURL)
         try fileManager.removeItem(at: url)
     }
-
-    mutating func delete(track: String, in project: String) throws {
-        let destinationFileURL = Constants.projectsFolderURL
-            .appendingPathComponent(project)
-            .appendingPathComponent(track)
-
-        try fileManager.removeItem(at: destinationFileURL)
+ 
+    func rename(project oldName: String, to newName: String) throws {
+        let oldURL = Constants.projectsFolderURL.appendingPathComponent(oldName)
+        let newURL = Constants.projectsFolderURL.appendingPathComponent(newName)
+        
+        try fileManager.moveItem(at: oldURL, to: newURL)
     }
 }

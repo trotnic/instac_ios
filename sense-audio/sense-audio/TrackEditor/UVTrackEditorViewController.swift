@@ -10,10 +10,11 @@
 import UIKit
 import ReactiveCocoa
 import ReactiveSwift
+import FDWaveformView
 
 /**
  This one is responsible
- for presentint editor interface
+ for presenting editor interface
  */
 
 protocol UVTrackToolController {
@@ -44,10 +45,13 @@ class UVTrackEditorViewController: UIViewController {
 
     // MARK: - Properties
     
+    @IBOutlet weak var waveformView: FDWaveformView!
+    @IBOutlet weak var playbackTimeLabel: UILabel!
+    
     @IBOutlet weak var mainStackView: UIStackView!
     @IBOutlet weak var equalizerToolButton: UIButton!
     @IBOutlet weak var distortionToolButton: UIButton!
-    @IBOutlet weak var delayToolButton: UIButton!
+//    @IBOutlet weak var delayToolButton: UIButton!
     @IBOutlet weak var reverbToolButton: UIButton!
     
     @IBOutlet weak var playButton: UIButton!
@@ -100,22 +104,20 @@ class UVTrackEditorViewController: UIViewController {
             }
         return controller
     }()
-
-//    private let playButton: UIButton = {
-//        let view = UVButton()
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        view.setImage(UIImage(systemName: Constants.playIM), for: .normal)
-//        view.addTarget(self, action: #selector(playBackAction(_:)), for: .touchUpInside)
-//        return view
-//    }()
-
+    
     private var editorViewModel: UVTrackEditorViewModelType?
     private var playerState: State = .paused
     private var toolboxState: ToolboxState = .hidden
     private var currentTool: Tool = .none
+}
 
-    func attach(editor: UVTrackEditorViewModelType) {
-        editorViewModel = editor
+// MARK: - Public interface
+
+extension UVTrackEditorViewController {
+    static func instantiate(_ viewModel: UVTrackEditorViewModelType) -> UVTrackEditorViewController {
+        let controller = UVTrackEditorViewController(nibName: String(describing: self), bundle: nil)
+        controller.editorViewModel = viewModel
+        return controller
     }
 }
 
@@ -124,15 +126,30 @@ class UVTrackEditorViewController: UIViewController {
 extension UVTrackEditorViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        bindViews()
-        setupAppearance()
+        bindToViewModel()
         bindToolButtons()
+        bindViews()        
+        setupAppearance()
     }
 }
 
 // MARK: - Private interface
 
 private extension UVTrackEditorViewController {
+    func bindToViewModel() {
+        editorViewModel?.audioFileURL
+            .observe(on: QueueScheduler.main)
+            .on(value: { fileURL in
+                self.waveformView.audioURL = fileURL
+            })
+            .start()
+//            .observeValues({ [self] fileURL in
+//                animateTransition(of: waveformView) {
+//                    waveformView.audioURL = fileURL
+//                }
+//            })
+    }
+    
     func bindViews() {
         playButton.reactive
             .controlEvents(.touchUpInside)
@@ -161,11 +178,11 @@ private extension UVTrackEditorViewController {
                 self.keep(tool: .distortion)
             }
 
-        delayToolButton.reactive
-            .controlEvents(.touchUpInside)
-            .observeValues { _ in
-                self.keep(tool: .delay)
-            }
+//        delayToolButton.reactive
+//            .controlEvents(.touchUpInside)
+//            .observeValues { _ in
+//                self.keep(tool: .delay)
+//            }
 
         reverbToolButton.reactive
             .controlEvents(.touchUpInside)

@@ -22,116 +22,99 @@ class UVProjectPipelineViewController: UIViewController {
     private let numberOfItems: MutableProperty<Int> = MutableProperty(0)
     private let contents: MutableProperty<[UVTrackModel]> = MutableProperty([])
 
-    private var pipelineViewModel: UVProjectPipelineViewModelType
+    private var pipelineViewModel: UVProjectPipelineViewModelType!
 
-    private lazy var createTrackButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(systemName: "plus.circle"), style: .plain, target: self, action: #selector(createTrack(_:)))
+    private lazy var createTrackButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "plus.circle"), for: .normal)
         return button
     }()
 
-    private lazy var playButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(systemName: "play"), style: .plain, target: self, action: #selector(play))
+    private lazy var playButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "play"), for: .normal)
         return button
     }()
 
-    private lazy var tableView: UITableView = {
-        let view = UITableView(frame: .zero, style: .insetGrouped)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.delegate = self
-        view.dataSource = self
-        view.register(UVPipelineTrackTableCell.instantiateNib(), forCellReuseIdentifier: Constants.cellIdentifier)
-        return view
-    }()
+    @IBOutlet weak var tableView: UITableView!
+}
 
-    // MARK: - Initialization
+// MARK: - Public interface
 
-    init(pipeline pipeViewModel: UVProjectPipelineViewModelType) {
-        pipelineViewModel = pipeViewModel
-        super.init(nibName: nil, bundle: nil)
+extension UVProjectPipelineViewController {
+    static func instantiate(_ viewModel: UVProjectPipelineViewModelType) -> UVProjectPipelineViewController {
+        let controller = UVProjectPipelineViewController(nibName: String(describing: self), bundle: nil)
+        controller.pipelineViewModel = viewModel
+        return controller
     }
+}
 
-    required init?(coder: NSCoder) {
-        fatalError("not implemented")
-    }
+// MARK: - UIViewController overrides
 
-    // MARK: -
-
+extension UVProjectPipelineViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupAppearance()
         bindToViewModel()
+        bindViews()
+        setupAppearance()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        pipelineViewModel.requestContents()
     }
-
 }
+
+// MARK: - Private interface
 
 private extension UVProjectPipelineViewController {
     func bindToViewModel() {
-        contents <~ pipelineViewModel.contents
-        numberOfItems <~ pipelineViewModel.contents.map({ $0.count })
+        pipelineViewModel
+            .contents
+            .observeResult({ [self] result in
+                switch result {
+                case .failure(let error):
+                    print(error)
+                case .success(let value):
+                    numberOfItems.value = value.count
+                    contents.value = value
+                    tableView.reloadSections(IndexSet([0]), with: .automatic)
+                }
+            })
+    }
+    
+    func bindViews() {
+        createTrackButton.reactive
+            .controlEvents(.touchUpInside)
+            .observeValues { _ in
+                self.pipelineViewModel.addTrack()
+            }
+        
+        playButton.reactive
+            .controlEvents(.touchUpInside)
+            .observeValues { _ in
+                self.pipelineViewModel.play()
+            }
     }
 
     func setupAppearance() {
         navigationItem.rightBarButtonItems = [
-            playButton,
-            createTrackButton
+            UIBarButtonItem(customView: playButton),
+            UIBarButtonItem(customView: createTrackButton)
         ]
-        layoutTableView()
+        setupTableView()
     }
 
-    func layoutTableView() {
-        view.addSubview(tableView)
-
-        NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
-
-    @objc func createTrack(_ sender: UIBarButtonItem) {
-        pipelineViewModel
-            .addTrack()
-            .on(value: { _ in
-                print("checkcheck")
-            })
-            .start()
-    }
-
-    @objc func play() {
-        pipelineViewModel.play()
+    func setupTableView() {
+        tableView.register(UVPipelineTrackTableCell.instantiateNib(), forCellReuseIdentifier: Constants.cellIdentifier)
     }
 }
 
 // MARK: - UITableViewDelegate
 
 extension UVProjectPipelineViewController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [pipelineViewModel] (_, _, completion) in
-//            // MARK: ♻️ REFACTOR LATER ♻️
-//            self.pipelineViewModel
-//                .delete(at: indexPath.row)
-//                .combineLatest(with: pipelineViewModel.contents.promoteError())
-//                .on(value: { _, contents in
-//                    self.dataSource.contents = contents
-//                    tableView.reloadSections(IndexSet([0]), with: .fade)
-//                    completion(true)
-//                })
-//                .start()
-//        }
-//
-//        return UISwipeActionsConfiguration(actions: [deleteAction])
-//    }
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-//        pipelineViewModel
-//            .didSelect(at: indexPath.row)
-//            .start()
+        pipelineViewModel.editTrack(at: indexPath.row)
     }
 }
 
@@ -145,7 +128,6 @@ extension UVProjectPipelineViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as? UVPipelineTrackTableCell {
             let track = contents.value[indexPath.row]
-            track.isOn <~ cell.switcher
 
             cell.trackLabel.text = track.name
 

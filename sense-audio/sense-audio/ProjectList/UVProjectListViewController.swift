@@ -14,98 +14,89 @@ import ReactiveCocoa
 class UVProjectListViewController: UIViewController {
 
     private struct Constants {
-
+        static let reuseIdentifier = "cell"
     }
 
     // MARK: - Props
-
-    private var listViewModel: UVProjectListViewModelType
-    private var dataSource: UVProjectListDatasourceType
-
-    private lazy var tableView: UITableView = {
-        let view = UITableView(frame: .zero, style: .insetGrouped)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.delegate = self
-        return view
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    private let addTrackButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        return button
     }()
+    
+    private let numberOfItems: MutableProperty<Int> = MutableProperty(0)
+    private let contents: MutableProperty<[String]> = MutableProperty([])
 
-    // MARK: - Initialization
-
-    init(list lViewModel: UVProjectListViewModelType, data source: UVProjectListDatasourceType) {
-        listViewModel = lViewModel
-        dataSource = source
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    // MARK: -
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupAppearance()
-
-        dataSource.setup(tableView: tableView)
-
-        listViewModel
-            .contents
-            .on(value: { (contents) in
-                self.dataSource.contents = contents
-                self.tableView.reloadData()
-            })
-            .start()
-
-    }
-
-    private func setupAppearance() {
-        layoutTableView()
-        navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(createProject(_:)))
-        ]
-    }
-
-    private func layoutTableView() {
-        view.addSubview(tableView)
-        NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
+    private var listViewModel: UVProjectListViewModelType!
 }
 
-extension UVProjectListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        // MARK: ♻️ REFACTOR LATER ♻️
-        listViewModel.didSelect(itemAt: indexPath.row)
-    }
-
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [listViewModel, dataSource, tableView] (_, _, completion) in
-
-            self.listViewModel
-                .delete(at: indexPath.row)
-                .combineLatest(with: listViewModel.contents.promoteError())
-                .on(value: { _, contents in
-                    dataSource.contents = contents
-                    tableView.reloadSections(IndexSet([0]), with: .automatic)
-                    completion(true)
-                })
-                .start()
-        }
-
-        return UISwipeActionsConfiguration(actions: [deleteAction])
-    }
-}
+// MARK: - Public interface
 
 extension UVProjectListViewController {
-    @objc func createProject(_ sender: UIBarButtonItem) {
-        // MARK: ♻️ REFACTOR LATER ♻️
+    static func instantiate(_ viewModel: UVProjectListViewModelType) -> UVProjectListViewController {
+        let controller = UVProjectListViewController(nibName: String(describing: self), bundle: nil)
+        controller.listViewModel = viewModel
+        return controller
+    }
+}
 
+// MARK: - UIViewController overrides
+
+extension UVProjectListViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        bindToViewModel()
+        bindViews()
+        setupTableView()
+        setupAppearance()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        listViewModel.requestContents()
+    }
+}
+
+// MARK: - Private interface
+
+private extension UVProjectListViewController {
+    func bindToViewModel() {
+        listViewModel
+            .contents
+            .observeResult({ [self] result in
+                switch result {
+                case .failure(let error):
+                    print(error)
+                case .success(let value):
+                    numberOfItems.value = value.count
+                    contents.value = value
+                    tableView.reloadSections(IndexSet([0]), with: .automatic)
+                }
+            })
+    }
+    
+    func bindViews() {
+        addTrackButton.reactive
+            .controlEvents(.touchUpInside)
+            .observeValues { _ in
+                self.showNewProjectModal()
+            }
+    }
+    
+    func setupAppearance() {
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(customView: addTrackButton)
+        ]
+    }
+    
+    func setupTableView() {
+        tableView.register(UVProjectListTableCell.instantiateNib(), forCellReuseIdentifier: Constants.reuseIdentifier)
+    }
+    
+    func showNewProjectModal() {
         let creationDialog = UIAlertController(title: "New project",
                                                message: "Select a name for your project",
                                                preferredStyle: .alert)
@@ -114,25 +105,95 @@ extension UVProjectListViewController {
             textField.placeholder = "Project name"
         }
 
-        creationDialog.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
+        creationDialog.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
 
         }))
-
-        creationDialog.addAction(UIAlertAction(title: "Create", style: .default,
-                                               handler: { [listViewModel, dataSource, tableView] (_) in
+        
+        creationDialog.addAction(UIAlertAction(title: "Create", style: .default, handler: { _ in
             if let projectName = creationDialog.textFields?.first?.text {
-                self.listViewModel.create(project: projectName)
-                    .producer
-                    .combineLatest(with: listViewModel.contents.promoteError())
-                    .on(value: { _, contents in
-                        dataSource.contents = contents
-                        tableView.reloadSections(IndexSet([0]), with: .fade)
-                    })
-                    .start()
-
+                self.listViewModel?.create(project: projectName)
             }
         }))
 
-        present(creationDialog, animated: true, completion: nil)
+
+        present(creationDialog, animated: true)
+    }
+    
+    func showProjectActionSheet(for index: Int) {
+        let project = contents.value[index]
+        
+        let actionSheet = UIAlertController(title: "Select option for '\(project)'", message: "", preferredStyle: .actionSheet)
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        actionSheet.addAction(UIAlertAction(title: "Rename", style: .default, handler: { [self] _ in
+            dismiss(animated: true) {
+                showRenameProjectDialog(for: index)
+            }
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Export", style: .default, handler: { _ in
+            // MARK: ♻️ REFACTOR LATER ♻️
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+            self.listViewModel.delete(at: index)
+        }))
+        
+        present(actionSheet, animated: true)
+    }
+    
+    func showRenameProjectDialog(for index: Int) {
+        let project = contents.value[index]
+        
+        let creationDialog = UIAlertController(title: "Rename \(project)",
+                                               message: "Select a new name for your project",
+                                               preferredStyle: .alert)
+
+        creationDialog.addTextField { (textField) in
+            textField.placeholder = "Project name"
+        }
+
+        creationDialog.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+
+        }))
+        
+        creationDialog.addAction(UIAlertAction(title: "Save", style: .default, handler: { _ in
+            if let projectName = creationDialog.textFields?.first?.text {
+                self.listViewModel?.rename(at: index, with: projectName)
+            }
+        }))
+
+
+        present(creationDialog, animated: true)
+ 
     }
 }
+
+// MARK: - UITableViewDelegate
+
+extension UVProjectListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        listViewModel.didSelect(itemAt: indexPath.row)
+    }
+}
+
+// MARK: - UITableViewDatasource
+
+extension UVProjectListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        numberOfItems.value
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.reuseIdentifier, for: indexPath) as? UVProjectListTableCell {
+            cell.projectLabel.text = contents.value[indexPath.row]
+            cell.editButton.reactive
+                .controlEvents(.touchUpInside)
+                .observeValues { _ in
+                    self.showProjectActionSheet(for: indexPath.row)
+                }
+            return cell
+        }
+        return UITableViewCell()
+    }
+}
+

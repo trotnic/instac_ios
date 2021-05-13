@@ -12,38 +12,71 @@ import ReactiveSwift
 
 
 final class UVToolbox {
-    let equalizer: UVEqualizer = UVEqualizer()
-    let distortion: UVDistortion = UVDistortion()
-    let delay: UVDelay = UVDelay()
-    let reverb: UVReverb = UVReverb()
+    let equalizer: UVEqualizer
+    let distortion: UVDistortion
+    let delay: UVDelay
+    let reverb: UVReverb
+    
+    init(model: UVTrackModel) {
+        self.equalizer = UVEqualizer(isOn: model.isOn_EQ, gain: model.globalGain_EQ)
+        self.distortion = UVDistortion(isOn: model.isOn_Dist, gain: model.preGain_Dist, wetDry: model.wetDryMix_Dist, preset: .init(model.preset_Dist))
+        self.delay = UVDelay(isOn: model.isOn_Del, delay: model.delayTime_Del, feedback: model.feedback_Del, cutoff: model.lowPassCutoff_Del, wetDry: model.wetDryMix_Del)
+        self.reverb = UVReverb(isOn: model.isOn_Rev, wetDry: model.wetDryMix_Rev, preset: .init(model.preset_Rev))
+    }
 }
 
 final class UVEqualizer {
-    let isOn: MutableProperty<Bool> = MutableProperty(false)
+    let isOn: MutableProperty<Bool>
     
-    let globalGain: MutableProperty<Float> = MutableProperty(0)
+    let globalGain: MutableProperty<Float>
+    
+    init(isOn: Bool, gain: Float) {
+        self.isOn = MutableProperty(isOn)
+        self.globalGain = MutableProperty(gain)
+    }
 }
 
 final class UVDistortion {
-    let isOn: MutableProperty<Bool> = MutableProperty(false)
+    let isOn: MutableProperty<Bool>
     
-    let preGain: MutableProperty<Float> = MutableProperty(-6)
-    let wetDryMix: MutableProperty<Float> = MutableProperty(50)
-    let preset: MutableProperty<AVAudioUnitDistortionPreset> = MutableProperty(.drumsBitBrush)
+    let preGain: MutableProperty<Float>
+    let wetDryMix: MutableProperty<Float>
+    let preset: MutableProperty<AVAudioUnitDistortionPreset>
+    
+    init(isOn: Bool, gain: Float, wetDry: Float, preset: AVAudioUnitDistortionPreset) {
+        self.isOn = MutableProperty(isOn)
+        self.preGain = MutableProperty(gain)
+        self.wetDryMix = MutableProperty(wetDry)
+        self.preset = MutableProperty(preset)
+    }
 }
 
 final class UVDelay {
-    let isOn: MutableProperty<Bool> = MutableProperty(false)
+    let isOn: MutableProperty<Bool>
     
-    let delayTime: MutableProperty<TimeInterval> = MutableProperty(1)
-    let feedback: MutableProperty<Float> = MutableProperty(0)
-    let lowPassCutoff: MutableProperty<Float> = MutableProperty(15000)
-    let wetDryMix: MutableProperty<Float> = MutableProperty(100)
+    let delayTime: MutableProperty<TimeInterval>
+    let feedback: MutableProperty<Float>
+    let lowPassCutoff: MutableProperty<Float>
+    let wetDryMix: MutableProperty<Float>
+    
+    init(isOn: Bool, delay: Float, feedback: Float, cutoff: Float, wetDry: Float) {
+        self.isOn = MutableProperty(isOn)
+        self.delayTime = MutableProperty(TimeInterval(delay))
+        self.feedback = MutableProperty(feedback)
+        self.lowPassCutoff = MutableProperty(cutoff)
+        self.wetDryMix = MutableProperty(wetDry)
+    }
 }
 
 final class UVReverb {
-    let isOn: MutableProperty<Bool> = MutableProperty(false)
+    let isOn: MutableProperty<Bool>
     
-    let wetDryMix: MutableProperty<Float> = MutableProperty(0)
-    let preset: MutableProperty<AVAudioUnitReverbPreset> = MutableProperty(.mediumHall)
+    let wetDryMix: MutableProperty<Float>
+    let preset: MutableProperty<AVAudioUnitReverbPreset>
+    
+    init(isOn: Bool, wetDry: Float, preset: AVAudioUnitReverbPreset) {
+        self.isOn = MutableProperty(isOn)
+        self.wetDryMix = MutableProperty(wetDry)
+        self.preset = MutableProperty(preset)
+    }
 }

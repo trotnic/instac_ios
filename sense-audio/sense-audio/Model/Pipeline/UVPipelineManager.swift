@@ -54,27 +54,27 @@ extension UVPipelineManager: UVPipelineManagerType {
         let format = mixerNode.inputFormat(forBus: 0)
 
         files.forEach { model in
-            if let file = try? AVAudioFile(forReading: model.url) {
-//                playerNode.schedule
-                let playerNode = AVAudioPlayerNode()
-
-                engine.attach(playerNode)
-                engine.connect(playerNode, to: mixerNode, format: format)
-
-                playerNode.scheduleFile(file, at: nil)
-
-                model.volume
-                    .producer
-                    .on(value: { print($0) })
-                    .on(value: { volume in
-                        print(volume)
-                        playerNode.volume = volume
-                    })
-                    .start()
-
-                playerNodes.append(playerNode)
-
-            }
+//            if let file = try? AVAudioFile(forReading: model.url) {
+////                playerNode.schedule
+//                let playerNode = AVAudioPlayerNode()
+//
+//                engine.attach(playerNode)
+//                engine.connect(playerNode, to: mixerNode, format: format)
+//
+//                playerNode.scheduleFile(file, at: nil)
+//
+//                model.volume
+//                    .producer
+//                    .on(value: { print($0) })
+//                    .on(value: { volume in
+//                        print(volume)
+//                        playerNode.volume = volume
+//                    })
+//                    .start()
+//
+//                playerNodes.append(playerNode)
+//
+//            }
         }
 
 //        engine.attach(anotherPlayerNode)

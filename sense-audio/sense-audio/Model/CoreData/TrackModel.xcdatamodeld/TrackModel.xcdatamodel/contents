@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D91" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="UVCDTrack" representedClassName=".UVCDTrack" syncable="YES">
-        <attribute name="isOn" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="name" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="url" optional="YES" attributeType="URI"/>
-        <attribute name="volume" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+    <entity name="UVCDProject" representedClassName=".CDProject" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="tracks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="UVCDTrack" inverseName="project" inverseEntity="UVCDTrack"/>
+    </entity>
+    <entity name="UVCDTrack" representedClassName=".CDTrack" syncable="YES" codeGenerationType="class">
+        <attribute name="delayTime_Del" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="feedback_Del" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="globalGain_EQ" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isOn_Del" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isOn_Dist" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isOn_EQ" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isOn_Rev" optional="YES" attributeType="Boolean" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="lowPassCutoff_Del" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="preGain_Dist" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="preset_Dist" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="preset_Rev" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="wetDryMix_Del" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="wetDryMix_Dist" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="wetDryMix_Rev" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="project" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UVCDProject" inverseName="tracks" inverseEntity="UVCDProject"/>
     </entity>
     <elements>
-        <element name="UVCDTrack" positionX="-63" positionY="-18" width="128" height="89"/>
+        <element name="UVCDProject" positionX="-63" positionY="9" width="128" height="74"/>
+        <element name="UVCDTrack" positionX="378.0850830078125" positionY="22" width="128" height="284"/>
     </elements>
 </model>

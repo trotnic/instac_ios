@@ -8,19 +8,21 @@
 //
 
 import AVFoundation
+import ReactiveSwift
 
 protocol RecorderType {
+    var playbackEnd: Signal<Void, Never> { get }
+    var playbackTime: Signal<Float, Never> { get }
+    
     func record(_ fileURL: URL) throws
-    func pause()
-    func resume() throws
     func stop()
+    
+    func play(_ fileURL: URL)
 }
 
-final class VoiceRecorder: UVAudioSettings {
-
-    // MARK: - Private Props
-
-    private lazy var engine: AVAudioEngine = {
+final class UVVoiceRecorder: UVAudioSettings {
+    
+    private lazy var recordEngine: AVAudioEngine = {
         let engine = AVAudioEngine()
         engine.attach(mixerNode)
         engine.connect(engine.inputNode, to: mixerNode, format: format)
@@ -28,180 +30,127 @@ final class VoiceRecorder: UVAudioSettings {
         return engine
     }()
 
-    private let mixerNode = AVAudioMixerNode()
-    private var audioFile: AVAudioFile?
+    private lazy var playerEngine: AVAudioEngine = {
+        let engine = AVAudioEngine()
+        engine.attach(playerNode)
+        engine.connect(playerNode, to: engine.mainMixerNode, format: format)
+        return engine
+    }()
 
+    private let mixerNode = AVAudioMixerNode()
+    private let playerNode = AVAudioPlayerNode()
+
+    var playbackEnd: Signal<Void, Never> { _playbackEnd }
+    var playbackTime: Signal<Float, Never> { _playbackTime }
+    
+    private let (_playbackEnd, _playbackEndObserver) = Signal<Void, Never>.pipe()
+    private let (_playbackTime, _playbackTimeObserver) = Signal<Float, Never>.pipe()
+    
+    var audioFile: AVAudioFile? {
+      didSet {
+        if let audioFile = audioFile {
+          audioLengthSamples = audioFile.length
+          audioLengthSeconds = Float(audioLengthSamples) / audioSampleRate
+        }
+      }
+    }
+
+    
+    var audioSampleRate: Float = 44100
+    var audioLengthSeconds: Float = 0
+    var audioLengthSamples: AVAudioFramePosition = 0
+    var currentFrame: AVAudioFramePosition {
+      guard let lastRenderTime = playerNode.lastRenderTime,
+        let playerTime = playerNode.playerTime(forNodeTime: lastRenderTime) else {
+          return 0
+      }
+
+      return playerTime.sampleTime
+    }
+    var currentPosition: AVAudioFramePosition = 0
+
+    
     // MARK: -
 
     init() {
-        engine.prepare()
-        setupSession()
+        recordEngine.prepare()
+        playerEngine.prepare()
     }
+}
 
-    // MARK: - Private Methods
+// MARK: - Private interface
 
-    private func setupSession() {
+private extension UVVoiceRecorder {
+    func setupSession() {
         let session = AVAudioSession.shared
         try? session.setCategory(.playAndRecord)
         try? session.setActive(true, options: .notifyOthersOnDeactivation)
     }
 }
 
-extension VoiceRecorder: RecorderType {
+// MARK: - RecorderType
+
+extension UVVoiceRecorder: RecorderType {
     func record(_ fileURL: URL) throws {
-        audioFile = try AVAudioFile(forWriting: fileURL, settings: format.settings)
-        mixerNode.installTap(onBus: 0, bufferSize: bufferSize, format: format) { [self] (pcmBuffer, _) in
-            // MARK: ⚠️ DEVELOP ZONE ⚠️
-            print(pcmBuffer)
-            try? audioFile?.write(from: pcmBuffer)
+        if recordEngine.isRunning {
+            recordEngine.stop()
+        }
+        
+        let audioFile = try AVAudioFile(forWriting: fileURL, settings: format.settings)
+        mixerNode.installTap(onBus: 0, bufferSize: bufferSize, format: format) { (pcmBuffer, _) in
+            try? audioFile.write(from: pcmBuffer)
         }
 
-        try? engine.start()
-    }
-
-    func pause() {
-        engine.pause()
-    }
-
-    func resume() throws {
-        try engine.start()
+        try? recordEngine.start()
     }
 
     func stop() {
-
-        engine.stop()
-        let tapNode: AVAudioMixerNode = mixerNode
-        tapNode.removeTap(onBus: 0) // ❗️
-        // MARK: ⚠️ DEVELOP ZONE ⚠️
-        print(audioFile?.length as Any)
+        recordEngine.stop()
+        mixerNode.removeTap(onBus: 0)
+    }
+    
+    func play(_ fileURL: URL) {
+        guard let audioFile = try? AVAudioFile(forReading: fileURL) else {
+            return
+        }
+        self.audioFile = audioFile
+        if !playerEngine.isRunning {
+            try? playerEngine.start()
+        }
+        if playerNode.isPlaying {
+            playerNode.stop()
+        }
+        
+        let (timeSignal, timeObserver) = Signal<Void, Never>.pipe()
+        
+        timeSignal
+            .observe { [self] event in
+                switch event {
+                case .value(_):
+                    currentPosition = currentFrame
+                    currentPosition = max(currentPosition, 0)
+                    currentPosition = min(currentPosition, audioLengthSamples)
+                    let time = Float(currentPosition) / audioSampleRate
+                    _playbackTimeObserver.send(value: time)
+                case .completed:
+                    currentPosition = 0
+                    _playbackTimeObserver.send(value: 0)
+                default:
+                    break
+                }
+            }
+        
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+            timeObserver.send(value: ())
+        }
+        
+        RunLoop.current .add(timer, forMode: .common)
+                
+        playerNode.scheduleFile(audioFile, at: nil, completionCallbackType: .dataPlayedBack) { [self] _ in
+            _playbackEndObserver.send(value: ())
+            timer.invalidate()
+            timeObserver.sendCompleted()
+        }
+        playerNode.play()
     }
 }
-
-// class Recorder {
-//    enum State {
-//        case recording, paused, stopped
-//    }
-//    
-//    var onTimeChange: ((Double) -> ())?
-//    
-//    private var engine: AVAudioEngine!
-//    private var mixerNode: AVAudioMixerNode!
-//    private var playerNode: AVAudioPlayerNode!
-//    private var state: State = .stopped
-//    
-//    // MARK: ⚠️ DEVELOP ZONE ⚠️
-//    private var fileURL: URL?
-//    var assetURL: URL? { fileURL }
-//    
-//    init() {
-//        setupSession()
-//        setupEngine()
-//    }
-//    
-//    func startRecording() throws {
-//        let tapNode: AVAudioNode = mixerNode
-//        let format = tapNode.outputFormat(forBus: 0)
-////        if tapNode.engine == nil {
-////            engine.attach(mixerNode)
-////            
-////        }
-//        // MARK: ⚠️ DEVELOP ZONE ⚠️
-//        
-//        fileURL = URL(string: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)?.appendingPathComponent("\(Date().timeIntervalSince1970).m4a")
-//        guard let fileURL = fileURL else { return }
-//        print(fileURL)
-//        let outputAudioFile = try AVAudioFile(forWriting: fileURL, settings: format.settings)
-//        
-//        
-//        tapNode.installTap(onBus: 0, bufferSize: 128, format: format) { (buffer, audioTime) in
-//            print(buffer.frameCapacity)
-//            try? outputAudioFile.write(from: buffer)
-//            let time = Double(audioTime.sampleTime) / audioTime.sampleRate
-//            self.onTimeChange?(time)
-////            print("🔊 - \(time)")
-//        }
-//        state = .recording
-//        
-//        try engine.start()
-//    }
-//    
-//    func resumeRecording() throws {
-//        try engine.start()
-//        state = .recording
-//    }
-//    
-//    func pauseRecording() {
-//        engine.pause()
-//        state = .paused
-//    }
-//    
-//    func stopRecording() {
-//        engine.stop()
-//        mixerNode.removeTap(onBus: 0)
-////        engine.detach(mixerNode)
-//        state = .stopped
-//        try? AVAudioSession.shared.setActive(false, options: .notifyOthersOnDeactivation)
-//    }
-//    
-//    func togglePlay() throws {
-//        if (playerNode.isPlaying) {
-//            engine.stop()
-//            playerNode.stop()
-//            
-//        } else {
-//            mixerNode.volume = 1
-//            try schedulePlayerContent()
-//            try engine.start()
-//            playerNode.play()
-//        }
-//    }
-//    
-//    func deleteRecording() throws {
-//        guard let fileURL = fileURL,
-//              !engine.isRunning else { return }
-//        try FileManager.default.removeItem(at: fileURL)
-//    }
-//    
-//    fileprivate func schedulePlayerContent() throws {
-//        if let recordingFile = try createPlaybackFile() {
-//            playerNode.scheduleFile(recordingFile, at: nil)
-//        }
-//    }
-//    
-//    fileprivate func createPlaybackFile() throws -> AVAudioFile? {
-//        guard let fileURL = fileURL else { return nil }
-//        return try AVAudioFile(forReading: fileURL)
-//    }
-//    
-//    fileprivate func setupSession() {
-//        let session = AVAudioSession.shared
-//        try? session.setCategory(.record)
-//        try? session.setActive(true, options: .notifyOthersOnDeactivation)
-//    }
-//    
-//    fileprivate func setupEngine() {
-//        engine = AVAudioEngine()
-//        mixerNode = AVAudioMixerNode()
-//        playerNode = AVAudioPlayerNode()
-//        
-//        engine.attach(mixerNode)
-//        engine.attach(playerNode)
-//        
-//        makeConnections()
-//        
-//        engine.prepare()
-//    }
-//    
-//    fileprivate func makeConnections() {
-//        let inputNode = engine.inputNode
-//        let inputFormat = inputNode.outputFormat(forBus: 0)
-//        engine.connect(inputNode, to: mixerNode, format: inputFormat)
-//        
-//        let mainMixerNode = engine.mainMixerNode
-//        let mixerFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: inputFormat.sampleRate, channels: 1, interleaved: false)
-//        engine.connect(mixerNode, to: mainMixerNode, format: mixerFormat)
-//        
-//        engine.connect(playerNode, to: mixerNode, format: mixerFormat)
-//    }
-// }
-//

@@ -4,13 +4,14 @@
 //  Project: 
 // 
 //  Author:  Uladzislau Volchyk
-//  On:      09.05.2021
+//  On:      11.05.2021
 //
 //
 
 import Foundation
 import CoreData
 
-public class UVCDTrack: NSManagedObject {
+
+class UVCDTrack: NSManagedObject {
 
 }

@@ -12,20 +12,28 @@ import ReactiveCocoa
 import ReactiveSwift
 
 class UVPipelineTrackTableCell: UITableViewCell {
-
-    lazy var switcher: Property<Bool> = Property(initial: false, then: trackSwitch.reactive.isOnValues)
-
     @IBOutlet weak var trackSwitch: UISwitch!
     @IBOutlet weak var trackLabel: UILabel!
     @IBOutlet weak var editButton: UIButton!
+    
+    lazy var switcher: Property<Bool> = Property(initial: false, then: trackSwitch.reactive.isOnValues)
+}
 
+// MARK: - Public interface
+
+extension UVPipelineTrackTableCell {
+    
     static func instantiateNib() -> UINib {
-        return UINib(nibName: "UVPipelineTrackTableCell", bundle: nil)
+        return UINib(nibName: String(describing: self), bundle: nil)
     }
+}
 
+// MARK: - UITableViewCell overrides
+
+extension UVPipelineTrackTableCell {
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-
     }
 
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
@@ -33,8 +41,6 @@ class UVPipelineTrackTableCell: UITableViewCell {
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
-//        super.setSelected(selected, animated: animated)
 
     }
-
 }

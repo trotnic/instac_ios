@@ -87,7 +87,40 @@ extension AVAudioUnitReverbPreset {
             self = .largeHall2
         }
     }
-    
+
+    init(_ pos: Int16) {
+        switch pos {
+        case 0:
+            self = .smallRoom
+        case 1:
+            self = .mediumRoom
+        case 2:
+            self = .largeRoom
+        case 3:
+            self = .mediumHall
+        case 4:
+            self = .largeHall
+        case 5:
+            self = .plate
+        case 6:
+            self = .mediumChamber
+        case 7:
+            self = .largeChamber
+        case 8:
+            self = .cathedral
+        case 9:
+            self = .largeRoom2
+        case 10:
+            self = .mediumHall2
+        case 11:
+            self = .mediumHall3
+        case 12:
+            self = .largeHall2
+        default:
+            fatalError()
+        }
+    }
+
     var representation: UVReverbPresset {
         switch self {
         case .smallRoom:

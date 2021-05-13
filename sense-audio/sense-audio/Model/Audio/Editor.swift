@@ -25,6 +25,7 @@ import ReactiveSwift
  */
 
 protocol UVEditorType {
+    func load(track url: URL)
     func play()
     func bind(to toolbox: UVToolbox)
 }
@@ -77,8 +78,8 @@ final class UVEditor: UVAudioSettings {
     private let delayNode = AVAudioUnitDelay()
     private let reverbNode = AVAudioUnitReverb()
     
-    
     private let track: UVTrackModel
+    private var audioFile: AVAudioFile?
     
     init(track: UVTrackModel) {
         self.track = track
@@ -206,20 +207,28 @@ private extension UVEditor {
 // MARK: - UVEditorType
 
 extension UVEditor: UVEditorType {
+    func load(track url: URL) {
+        audioFile = try? AVAudioFile(forReading: url)
+    }
+    
     func play() {
+        
         DispatchQueue.audioQueue.sync { [self] in
-            if let audioFile = try? AVAudioFile(forReading: track.url) {
+//            if let audioFile = try? AVAudioFile(forReading: track.url) {
+            guard let audioFile = audioFile else {
+                return
+            }
                 try? engine.start()
                 playerNode.scheduleFile(audioFile, at: nil, completionHandler: nil)
 
                 playerNode.play()
-            }
+//            }
         }
     }
     
     func bind(to toolbox: UVToolbox) {
         bindEQ(toolbox.equalizer)
-        bindDelay(toolbox.delay)
+//        bindDelay(toolbox.delay)
         bindReverb(toolbox.reverb)
         bindDistortion(toolbox.distortion)
     }
