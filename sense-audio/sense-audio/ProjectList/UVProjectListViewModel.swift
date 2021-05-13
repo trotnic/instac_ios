@@ -39,12 +39,9 @@ final class UVProjectListViewModel {
 extension UVProjectListViewModel: UVProjectListViewModelType {
     
     func requestContents() {
-        dataManager.get(.project(nil))
+        dataManager.getProjects()
             .observe(on: QueueScheduler.main)
             .on(value: { contents in
-                guard let contents = contents as? [UVProjectModel] else {
-                    return
-                }
                 self._contents.value = contents
             })
             .start()
@@ -52,7 +49,6 @@ extension UVProjectListViewModel: UVProjectListViewModelType {
 
     func create(project name: String) {
         dataManager.create(.project(UVProjectModel(name: name)))
-            .observe(on: QueueScheduler.main)
             .on(value: { [self] in
                 do {
                     try fileManager.create(project: name)

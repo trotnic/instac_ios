@@ -39,33 +39,68 @@ final class UVDataManager {
 // MARK: - Public interface
 
 extension UVDataManager {
-    func get(_ entity: EntityType) -> SignalProducer<[Any], Error> {
-        SignalProducer { [self] (observer, _) in
-            switch entity {
-            case .project(_):
-                persistentContainer.performBackgroundTask { context in
-                    let request: NSFetchRequest<CDProject> = CDProject.fetchRequest()
-                    do {
-                        let rawResult = try context.fetch(request)
-                        let result = rawResult.compactMap { project_model -> UVProjectModel? in
-                            if let name = project_model.name,
-                               let uuid = project_model.id {
-                                return UVProjectModel(id: uuid, name: name)
-                            }
-                            return nil
-                        }
-                        observer.send(value: result)
-                    } catch {
-                        observer.send(error: error)
-                    }
+    func getProjects() -> SignalProducer<[UVProjectModel], Error> {
+        SignalProducer { (observer, _) in
+            self.persistentContainer.performBackgroundTask { context in
+                let request: NSFetchRequest<CDProject> = CDProject.fetchRequest()
+                do {
+                    let rawResult = try context.fetch(request)
+                    let result = rawResult.compactMap { UVProjectModel($0) }
+                    observer.send(value: result)
+                } catch {
+                    observer.send(error: error)
                 }
-                break
-            case .track(_):
-                // MARK: ♻️ REFACTOR LATER ♻️
-                break
             }
         }
     }
+    
+    func getTracks(for project: UUID) -> SignalProducer<[UVTrackModel], Error> {
+        SignalProducer { (observer, _) in
+            self.persistentContainer.performBackgroundTask { context in
+                let request: NSFetchRequest<CDProject> = CDProject.fetchRequest()
+                do {
+                    let rawResult = try context.fetch(request)
+                    let result = rawResult.flatMap { project_model -> [UVTrackModel] in
+                        if let tracks = project_model.tracks?.allObjects as? [CDTrack] {
+                            return tracks.map({ UVTrackModel($0) })
+                        }
+                        return []
+                    }
+                    observer.send(value: result)
+                } catch {
+                    observer.send(error: error)
+                }
+            }
+        }
+    }
+    
+//    func get(_ entity: EntityType) -> SignalProducer<[Any], Error> {
+//        SignalProducer { [self] (observer, _) in
+//            switch entity {
+//            case .project(_):
+//                persistentContainer.performBackgroundTask { context in
+//                    let request: NSFetchRequest<CDProject> = CDProject.fetchRequest()
+//                    do {
+//                        let rawResult = try context.fetch(request)
+//                        let result = rawResult.compactMap { project_model -> UVProjectModel? in
+//                            if let name = project_model.name,
+//                               let uuid = project_model.id {
+//                                return UVProjectModel(id: uuid, name: name)
+//                            }
+//                            return nil
+//                        }
+//                        observer.send(value: result)
+//                    } catch {
+//                        observer.send(error: error)
+//                    }
+//                }
+//                break
+//            case .track(_):
+//                // MARK: ♻️ REFACTOR LATER ♻️
+//                break
+//            }
+//        }
+//    }
     
     func create(_ entity: EntityType) -> SignalProducer<Void, Error> {
         SignalProducer { [self] (observer, _) in

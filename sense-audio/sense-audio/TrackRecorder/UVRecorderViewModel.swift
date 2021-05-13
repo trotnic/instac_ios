@@ -44,7 +44,7 @@ final class UVRecorderViewModel {
     private let project: UVProjectModel
 
     private var fileManager: UVFileManagerType = UVFileManager()
-    private let dataManager: UVDataManager = UVDataManager.shared
+    private let dataManager: UVDataManager = .shared
     
     private(set) var audioFileName: String?
 

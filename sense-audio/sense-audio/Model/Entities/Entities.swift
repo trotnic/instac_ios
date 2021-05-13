@@ -62,16 +62,6 @@ struct UVTrackModel {
     let isOn_Rev: Bool
     let wetDryMix_Rev: Float
     let preset_Rev: Int16
-
-//    init(project: String, name: String, isOn: Bool = true, volume: Float = 0.5) {
-//        self.project = project
-//        self.name = name
-//        self.url = url
-//        self.isOn = MutableProperty(isOn)
-//        self.volume = MutableProperty(volume)
-//
-//        self.isOn.signal.observeValues({ print($0) })
-//    }
 }
 
 extension UVTrackModel {
@@ -108,13 +98,35 @@ extension UVTrackModel {
                   isOn_Dist: model.isOn_Dist,
                   preGain_Dist: model.preGain_Dist,
                   wetDryMix_Dist: model.wetDryMix_Dist,
-                  preset_Dist: model.preset_Dist, isOn_Del: model.isOn_Del, delayTime_Del: model.delayTime_Del, feedback_Del: model.feedback_Del, lowPassCutoff_Del: model.lowPassCutoff_Del, wetDryMix_Del: model.wetDryMix_Del, isOn_Rev: model.isOn_Rev, wetDryMix_Rev: model.wetDryMix_Rev, preset_Rev: model.preset_Rev)
+                  preset_Dist: model.preset_Dist,
+                  isOn_Del: model.isOn_Del,
+                  delayTime_Del: model.delayTime_Del,
+                  feedback_Del: model.feedback_Del,
+                  lowPassCutoff_Del: model.lowPassCutoff_Del,
+                  wetDryMix_Del: model.wetDryMix_Del,
+                  isOn_Rev: model.isOn_Rev,
+                  wetDryMix_Rev: model.wetDryMix_Rev,
+                  preset_Rev: model.preset_Rev)
     }
 }
 
 extension CDTrack {
     func attach(_ track: UVTrackModel) {
         id = track.id
-        
+        name = track.name
+        isOn_EQ = track.isOn_EQ
+        globalGain_EQ = track.globalGain_EQ
+        isOn_Dist = track.isOn_Dist
+        preGain_Dist = track.preGain_Dist
+        wetDryMix_Dist = track.wetDryMix_Dist
+        preGain_Dist = track.preGain_Dist
+        isOn_Del = track.isOn_Del
+        delayTime_Del = track.delayTime_Del
+        feedback_Del = track.feedback_Del
+        lowPassCutoff_Del = track.lowPassCutoff_Del
+        wetDryMix_Del = track.wetDryMix_Del
+        isOn_Rev = track.isOn_Rev
+        wetDryMix_Rev = track.wetDryMix_Rev
+        preset_Rev = track.preset_Rev
     }
 }

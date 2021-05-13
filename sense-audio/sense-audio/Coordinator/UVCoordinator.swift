@@ -20,7 +20,7 @@ enum Route {
     case projectList
     case projectPipeline(project: UVProjectModel)
     case projectTrackRecorder(project: UVProjectModel)
-    case projectTrackEditor(project: String, track: UVTrackModel)
+    case projectTrackEditor(project: UVProjectModel, track: UVTrackModel)
 }
 
 struct UVCoordinator {

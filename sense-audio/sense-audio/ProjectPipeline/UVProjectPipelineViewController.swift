@@ -58,14 +58,29 @@ extension UVProjectPipelineViewController {
         bindViews()
         setupAppearance()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        pipelineViewModel.requestContents()
+    }
 }
 
 // MARK: - Private interface
 
 private extension UVProjectPipelineViewController {
     func bindToViewModel() {
-        contents <~ pipelineViewModel.contents
-        numberOfItems <~ pipelineViewModel.contents.map({ $0.count })
+        pipelineViewModel
+            .contents
+            .observeResult({ [self] result in
+                switch result {
+                case .failure(let error):
+                    print(error)
+                case .success(let value):
+                    numberOfItems.value = value.count
+                    contents.value = value
+                    tableView.reloadSections(IndexSet([0]), with: .automatic)
+                }
+            })
     }
     
     func bindViews() {
@@ -99,10 +114,7 @@ private extension UVProjectPipelineViewController {
 
 extension UVProjectPipelineViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-//        pipelineViewModel
-//            .didSelect(at: indexPath.row)
-//            .start()
+        pipelineViewModel.editTrack(at: indexPath.row)
     }
 }
 

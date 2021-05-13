@@ -133,6 +133,57 @@ extension AVAudioUnitDistortionPreset {
         }
     }
     
+    init(_ pos: Int16) {
+        switch pos {
+        case 0:
+            self = .drumsBitBrush
+        case 1:
+            self = .drumsBufferBeats
+        case 2:
+            self = .drumsLoFi
+        case 3:
+            self = .multiBrokenSpeaker
+        case 4:
+            self = .multiCellphoneConcert
+        case 5:
+            self = .multiDecimated1
+        case 6:
+            self = .multiDecimated2
+        case 7:
+            self = .multiDecimated3
+        case 8:
+            self = .multiDecimated4
+        case 9:
+            self = .multiDistortedCubed
+        case 10:
+            self = .multiDistortedSquared
+        case 11:
+            self = .multiDistortedFunk
+        case 12:
+            self = .multiEcho1
+        case 13:
+            self = .multiEcho2
+        case 14:
+            self = .multiEchoTight1
+        case 15:
+            self = .multiEchoTight2
+        case 16:
+            self = .multiEverythingIsBroken
+        case 17:
+            self = .speechAlienChatter
+        case 18:
+            self = .speechCosmicInterference
+        case 19:
+            self = .speechGoldenPi
+        case 20:
+            self = .speechRadioTower
+        case 21:
+            self = .speechWaves
+        default:
+            fatalError()
+        }
+    }
+    
     var representation: UVDistortionPreset {
         switch self {
         case .drumsBitBrush:

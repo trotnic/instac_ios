@@ -12,8 +12,11 @@ import AVFoundation
 import ReactiveSwift
 
 protocol UVProjectPipelineViewModelType {
-    var contents: SignalProducer<[UVTrackModel], Never> { get }
+    var contents: Signal<[UVTrackModel], Never> { get }
+//    var contents: SignalProducer<[UVTrackModel], Never> { get }
 
+    func requestContents()
+    
     func addTrack()
     func deleteTrack(at index: Int) -> SignalProducer<Void, Error>
     func editTrack(at index: Int)
@@ -25,40 +28,14 @@ protocol UVProjectPipelineViewModelType {
 final class UVProjectPipelineViewModel {
 
     // MARK: - Properties
+    
+    var contents: Signal<[UVTrackModel], Never> { _contents.signal }
 
-    let coordinator: UVCoordinatorType
+    private let coordinator: UVCoordinatorType
     private var fileManager: UVFileManagerType
+    private let dataManager: UVDataManager = .shared
     private let pipelineManager: UVPipelineManagerType
-    private lazy var assets: SignalProducer<[UVTrackModel], Never> = {
-        SignalProducer { (ob, _) in
-            
-        }
-//        fileManager
-//            .contents(for: .project(name: project))
-//            .flatMap(.latest, { (contents) -> SignalProducer<[UVTrackModel], Never> in
-//                SignalProducer { (observer, _) in
-//                    var result: [UVTrackModel] = []
-//                    contents.forEach { fileName in
-//                        self.fileManager.sampleURL(for: fileName, in: self.project)
-//                            .on(value: { value in
-//                                result.append(UVTrackModel(project: self.project, name: fileName, url: value))
-//                            })
-//                            .start()
-//                    }
-//                    observer.send(value: result)
-//                }
-//            })
-    }()
-
-    var contents: SignalProducer<[UVTrackModel], Never> {
-        assets
-//            .on(value: { contents in
-//                self.pipelineManager.attach(files: contents)
-//            })
-//            .map({ (contents) -> [String] in
-//                contents.map({ $0.name })
-//            })
-    }
+    private let _contents: MutableProperty<[UVTrackModel]> = MutableProperty([])
 
     private var project: UVProjectModel
 
@@ -73,61 +50,44 @@ final class UVProjectPipelineViewModel {
         self.fileManager = fileManager
         pipelineManager = pipeline
         self.project = project
-        // MARK: 🗑 DELETE LATER 🗑
-//        fileManager.contents(for: .project(name: project))
-//            .on(value: { [self] tracks in
-//                tracks.forEach { track in
-//                    fileManager.sampleURL(for: track, in: project)
-//                        .on(value: { _ in
-//
-////                            if let audioFile = try? AVAudioFile(forReading: audioURL) {
-////                                print(audioFile)
-////                            }
-//////                            print(composition)
-////                            AVCompositionTrack
-////                            AVComposition(url: AVURLAsset(url: value).url)
-//                        })
-//                        .start()
-//                }
-////                .fo
-//            })
-//            .start()
-//        AVComposition(url: )
     }
+}
+
+// MARK: - Private interface
+
+private extension UVProjectPipelineViewModel {
+    
 }
 
 // MARK: - UVProjectPipelineViewModelType
 
 extension UVProjectPipelineViewModel: UVProjectPipelineViewModelType {
 
+    func requestContents() {
+        dataManager.getTracks(for: project.id)
+            .observe(on: QueueScheduler.main)
+            .on(value: { contents in
+                self._contents.value = contents
+            })
+            .start()
+    }
+    
     func addTrack() {
         coordinator.show(route: .projectTrackRecorder(project: project))
     }
 
     func deleteTrack(at index: Int) -> SignalProducer<Void, Error> {
-        assets
-            .map { (contents) -> String in contents[index].name }
-            .flatMap(.latest, { track -> SignalProducer<Void, Error> in
-                SignalProducer { [self] (observer, _) in
-                    // MARK: ♻️ REFACTOR LATER ♻️
-//                    do {
-//                        try fileManager.delete(track: track, in: project)
-//                        observer.send(value: ())
-//                    } catch {
-//                        observer.send(error: error)
-//                    }
-                }
+        let track = _contents.value[index]
+        
+        return dataManager.delete(.track(track))
+            .on(value: { [self] in
+                try? fileManager.delete(track: track.name, in: project.name)
             })
     }
 
     func editTrack(at index: Int) {
-        assets
-            .map({ $0[index] })
-            .on(value: { [self] track in
-                // MARK: ♻️ REFACTOR LATER ♻️
-//                coordinator.show(route: .projectTrackEditor(project: project, track: track))
-            })
-            .start()
+        let track = _contents.value[index]
+        coordinator.show(route: .projectTrackEditor(project: project, track: track))
     }
 
 //    func didSelect(at index: Int) -> SignalProducer<Void, Never> {
@@ -142,11 +102,8 @@ extension UVProjectPipelineViewModel: UVProjectPipelineViewModelType {
 //    }
 
     func play() {
-        contents.on(value: { [self] contents in
-            pipelineManager.attach(files: contents)
-            pipelineManager.play()
-        })
-        .start()
+        pipelineManager.attach(files: _contents.value)
+        pipelineManager.play()
     }
 }
 
