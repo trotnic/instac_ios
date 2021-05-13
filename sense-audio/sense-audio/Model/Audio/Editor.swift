@@ -47,7 +47,7 @@ final class UVEditor: UVAudioSettings {
 
         engine.attach(equalizerNode)
         engine.attach(distortionNode)
-        engine.attach(delayNode)
+//        engine.attach(delayNode)
         engine.attach(reverbNode)
 
         let distortionPoint = AVAudioConnectionPoint(node: distortionNode, bus: 0)
@@ -55,16 +55,16 @@ final class UVEditor: UVAudioSettings {
         let reverbPoint = AVAudioConnectionPoint(node: reverbNode, bus: 0)
         let equalizerPoint = AVAudioConnectionPoint(node: equalizerNode, bus: 0)
 
-        engine.connect(playerNode, to: [distortionPoint], fromBus: 0, format: format)
+        engine.connect(playerNode, to: [distortionPoint, reverbPoint, equalizerPoint], fromBus: 0, format: format)
 
         engine.connect(reverbNode, to: mixerNode1, fromBus: 0, toBus: 0, format: format)
         engine.connect(equalizerNode, to: mixerNode2, fromBus: 0, toBus: 0, format: format)
-        engine.connect(delayNode, to: mixerNode3, fromBus: 0, toBus: 0, format: format)
+//        engine.connect(delayNode, to: mixerNode3, fromBus: 0, toBus: 0, format: format)
         engine.connect(distortionNode, to: mixerNode4, fromBus: 0, toBus: 0, format: format)
 
         engine.connect(mixerNode1, to: engine.mainMixerNode, format: format)
         engine.connect(mixerNode2, to: engine.mainMixerNode, format: format)
-        engine.connect(mixerNode3, to: engine.mainMixerNode, format: format)
+//        engine.connect(mixerNode3, to: engine.mainMixerNode, format: format)
         engine.connect(mixerNode4, to: engine.mainMixerNode, format: format)
 
         return engine
@@ -221,7 +221,7 @@ extension UVEditor: UVEditorType {
 
     func bind(to toolbox: UVToolbox) {
         bindEQ(toolbox.equalizer)
-        bindDelay(toolbox.delay)
+//        bindDelay(toolbox.delay)
         bindReverb(toolbox.reverb)
         bindDistortion(toolbox.distortion)
     }

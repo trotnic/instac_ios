@@ -23,7 +23,7 @@ class UVProjectListViewController: UIViewController {
 
     private let addTrackButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(.newTrack, point: 20), for: .normal)
+        button.setImage(UIImage(.newTrack, point: .navigationButton), for: .normal)
         return button
     }()
 

@@ -64,8 +64,14 @@ extension UIImage {
         case stop
         case trash
     }
+    
+    enum Context: Int {
+        case largeButton = 40
+        case ordinaryButton = 25
+        case navigationButton = 20
+    }
 
-    convenience init?(_ asset: Asset, point size: CGFloat) {
-        self.init(systemName: asset.rawValue, withConfiguration: UIImage.SymbolConfiguration(pointSize: size, weight: .regular, scale: .large))
+    convenience init?(_ asset: Asset, point size: Context) {
+        self.init(systemName: asset.rawValue, withConfiguration: UIImage.SymbolConfiguration(pointSize: CGFloat(size.rawValue), weight: .regular, scale: .large))
     }
 }

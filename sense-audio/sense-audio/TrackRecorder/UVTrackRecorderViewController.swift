@@ -137,10 +137,10 @@ private extension UVTrackRecorderViewController {
     func setupAppearance() {
         view.backgroundColor = .systemBackground
 
-        playButton.setImage(UIImage(.play, point: 25), for: .normal)
-        deleteButton.setImage(UIImage(.trash, point: 25), for: .normal)
-        recordButton.setImage(UIImage(.record, point: 25), for: .normal)
-        saveButton.setImage(UIImage(.save, point: 25), for: .normal)
+        playButton.setImage(UIImage(.play, point: .ordinaryButton), for: .normal)
+        deleteButton.setImage(UIImage(.trash, point: .ordinaryButton), for: .normal)
+        recordButton.setImage(UIImage(.record, point: .ordinaryButton), for: .normal)
+        saveButton.setImage(UIImage(.save, point: .ordinaryButton), for: .normal)
     }
 
     func animateTransition(of view: UIView, callback: @escaping () -> Void) {
@@ -156,7 +156,7 @@ private extension UVTrackRecorderViewController {
         playerState = .playing
 
         animateTransition(of: playButton) {
-            self.playButton.setImage(UIImage(.pause, point: 25), for: .normal)
+            self.playButton.setImage(UIImage(.pause, point: .ordinaryButton), for: .normal)
         }
 
         animateTransition(of: saveButton) {
@@ -176,7 +176,7 @@ private extension UVTrackRecorderViewController {
         playerState = .stopped
 
         animateTransition(of: playButton) {
-            self.playButton.setImage(UIImage(.play, point: 25), for: .normal)
+            self.playButton.setImage(UIImage(.play, point: .ordinaryButton), for: .normal)
         }
 
         animateTransition(of: saveButton) {
@@ -193,7 +193,7 @@ private extension UVTrackRecorderViewController {
         recorderState = .recording
 
         animateTransition(of: recordButton) {
-            self.recordButton.setImage(UIImage(.stop, point: 25), for: .normal)
+            self.recordButton.setImage(UIImage(.stop, point: .ordinaryButton), for: .normal)
         }
         animateTransition(of: deleteButton) {
             self.deleteButton.isEnabled = false
@@ -208,7 +208,7 @@ private extension UVTrackRecorderViewController {
         recorderState = .stopped
 
         animateTransition(of: recordButton) { [self] in
-            recordButton.setImage(UIImage(.record, point: 25), for: .normal)
+            recordButton.setImage(UIImage(.record, point: .ordinaryButton), for: .normal)
             recordButton.isEnabled = false
         }
 

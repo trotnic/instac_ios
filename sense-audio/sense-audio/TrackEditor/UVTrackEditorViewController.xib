@@ -14,7 +14,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UVTrackEditorViewController" customModule="sense_audio" customModuleProvider="target">
             <connections>
                 <outlet property="cancelButton" destination="ODc-pD-qpe" id="uFh-5c-vul"/>
-                <outlet property="delayToolButton" destination="XYd-pd-bE3" id="r4o-Ia-BTW"/>
                 <outlet property="distortionToolButton" destination="Hlx-tp-aQA" id="BjR-tm-8Ba"/>
                 <outlet property="equalizerToolButton" destination="gKp-Wa-hGR" id="GQ4-HZ-j8L"/>
                 <outlet property="mainStackView" destination="Kp3-0f-3JY" id="QOZ-pY-jsg"/>
@@ -51,25 +50,21 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="394" height="104"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gKp-Wa-hGR">
-                                                            <rect key="frame" x="0.0" y="0.0" width="98.5" height="104"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="131.5" height="104"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <state key="normal" title="Equalizer">
                                                                 <color key="titleColor" systemColor="systemBlueColor"/>
                                                             </state>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hlx-tp-aQA">
-                                                            <rect key="frame" x="98.5" y="0.0" width="98.5" height="104"/>
+                                                            <rect key="frame" x="131.5" y="0.0" width="131" height="104"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <state key="normal" title="Distortion">
                                                                 <color key="titleColor" systemColor="systemBlueColor"/>
                                                             </state>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XYd-pd-bE3">
-                                                            <rect key="frame" x="197" y="0.0" width="98.5" height="104"/>
-                                                            <state key="normal" title="Delay"/>
-                                                        </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZpE-Bp-iuG">
-                                                            <rect key="frame" x="295.5" y="0.0" width="98.5" height="104"/>
+                                                            <rect key="frame" x="262.5" y="0.0" width="131.5" height="104"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <state key="normal" title="Reverb">
                                                                 <color key="titleColor" systemColor="systemBlueColor"/>

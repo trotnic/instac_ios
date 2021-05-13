@@ -26,13 +26,13 @@ class UVProjectPipelineViewController: UIViewController {
 
     private lazy var createTrackButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(.newTrack, point: 20), for: .normal)
+        button.setImage(UIImage(.newTrack, point: .navigationButton), for: .normal)
         return button
     }()
 
     private lazy var playButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(.play, point: 20), for: .normal)
+        button.setImage(UIImage(.play, point: .navigationButton), for: .normal)
         return button
     }()
 

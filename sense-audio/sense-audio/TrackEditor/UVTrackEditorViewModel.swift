@@ -23,7 +23,7 @@ protocol UVTrackEditorViewModelType {
 
 final class UVTrackEditorViewModel {
 
-    var playbackEnd: Signal<Void, Never> { _playbackEnd }
+    var playbackEnd: Signal<Void, Never> { editor.playbackEnd }
     let toolbox: UVToolbox
     var audioFileURL: SignalProducer<URL?, Never> { _audioFileURL.producer }
 
@@ -34,7 +34,6 @@ final class UVTrackEditorViewModel {
     private let dataManager: UVDataManager = .shared
     private var fileManager: UVFileManagerType = UVFileManager()
     private let _audioFileURL: MutableProperty<URL?> = MutableProperty(nil)
-    private let (_playbackEnd, _playbackEndObserver) = Signal<Void, Never>.pipe()
 
     init(coordinator: UVCoordinatorType,
          editor: UVEditorType,

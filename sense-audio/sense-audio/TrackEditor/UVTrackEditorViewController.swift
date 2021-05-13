@@ -39,8 +39,6 @@ class UVTrackEditorViewController: UIViewController {
 
     private struct Constants {
         static let fadeDuration: TimeInterval = 0.3
-        static let playIM = "play"
-        static let recordStartIM = "record.circle"
     }
 
     // MARK: - Properties
@@ -51,7 +49,7 @@ class UVTrackEditorViewController: UIViewController {
     @IBOutlet weak var mainStackView: UIStackView!
     @IBOutlet weak var equalizerToolButton: UIButton!
     @IBOutlet weak var distortionToolButton: UIButton!
-    @IBOutlet weak var delayToolButton: UIButton!
+//    @IBOutlet weak var delayToolButton: UIButton!
     @IBOutlet weak var reverbToolButton: UIButton!
 
     @IBOutlet weak var saveButton: UIButton!
@@ -74,7 +72,6 @@ class UVTrackEditorViewController: UIViewController {
             .observeValues { _ in
                 self.keep(tool: .none)
             }
-
         return controller
     }()
 
@@ -142,16 +139,15 @@ private extension UVTrackEditorViewController {
     func bindToViewModel() {
         editorViewModel?.audioFileURL
             .observe(on: QueueScheduler.main)
-            .on(value: { fileURL in
-                self.waveformView.audioURL = fileURL
+            .on(value: {
+                self.waveformView.audioURL = $0
             })
             .start()
 
         editorViewModel?.playbackEnd
-            .observeValues({ [self] in
-                animateTransition(of: playButton) {
-                    playButton.setImage(UIImage(.play, point: 40), for: .normal)
-                }
+            .observe(on: QueueScheduler.main)
+            .observeValues({
+                self.stopPlayback()
             })
     }
 
@@ -162,16 +158,10 @@ private extension UVTrackEditorViewController {
                 switch playerState {
                 case .playing:
                     editorViewModel?.pause().start()
-                    animateTransition(of: playButton) {
-                        playButton.setImage(UIImage(.play, point: 40), for: .normal)
-                    }
-                    playerState = .paused
+                    stopPlayback()
                 case .paused:
                     editorViewModel?.play().start()
-                    animateTransition(of: playButton) {
-                        playButton.setImage(UIImage(.pause, point: 40), for: .normal)
-                    }
-                    playerState = .playing
+                    startPlayback()
                 }
             }
 
@@ -195,11 +185,11 @@ private extension UVTrackEditorViewController {
                 self.keep(tool: .distortion)
             }
 
-        delayToolButton.reactive
-            .controlEvents(.touchUpInside)
-            .observeValues { _ in
-                self.keep(tool: .delay)
-            }
+//        delayToolButton.reactive
+//            .controlEvents(.touchUpInside)
+//            .observeValues { _ in
+//                self.keep(tool: .delay)
+//            }
 
         reverbToolButton.reactive
             .controlEvents(.touchUpInside)
@@ -207,13 +197,27 @@ private extension UVTrackEditorViewController {
                 self.keep(tool: .reverb)
             }
     }
+    
+    func startPlayback() {
+        animateTransition(of: playButton) {
+            self.playButton.setImage(UIImage(.pause, point: .largeButton), for: .normal)
+        }
+        playerState = .playing
+    }
+    
+    func stopPlayback() {
+        animateTransition(of: playButton) {
+            self.playButton.setImage(UIImage(.play, point: .largeButton), for: .normal)
+        }
+        playerState = .paused
+    }
 
 }
 
 private extension UVTrackEditorViewController {
     func setupAppearance() {
         animateTransition(of: playButton) {
-            self.playButton.setImage(UIImage(.play, point: 40), for: .normal)
+            self.playButton.setImage(UIImage(.play, point: .largeButton), for: .normal)
         }
     }
 }
