@@ -25,9 +25,9 @@ class UVDelayViewController: UIViewController, UVTrackToolController {
 
     @IBOutlet private weak var saveButton: UIButton!
     @IBOutlet private weak var switcher: UISwitch!
-    
+
     private var delay: UVDelay!
-    
+
     var saveSignal: Signal<Void, Never> { _saveSignal }
     private let (_saveSignal, _saveObserver) = Signal<Void, Never>.pipe()
 
@@ -61,27 +61,27 @@ private extension UVDelayViewController {
         feedbackCurrentValueLabel.reactive.text <~ feedbackSlider.reactive.values.map({ "\($0)%" })
         cutoffCurrentVallueLabel.reactive.text <~ cutoffSlider.reactive.values.map({ "\($0) Hz" })
         wetDryCurrentValueLabel.reactive.text <~ wetDrySlider.reactive.values.map({ "\($0)%" })
-        
+
         saveButton.reactive
             .controlEvents(.touchUpInside)
             .observeValues { _ in
                 self._saveObserver.send(value: ())
             }
     }
-    
+
     func bindDelay() {
         switcher.reactive.isOn <~ delay.isOn
         delay.isOn <~ switcher.reactive.isOnValues
-        
+
         delayTimeSlider.reactive.value <~ delay.delayTime.map({ Float($0) })
         delay.delayTime <~ delayTimeSlider.reactive.values.map({ TimeInterval($0) })
-        
+
         feedbackSlider.reactive.value <~ delay.feedback
         delay.feedback <~ feedbackSlider.reactive.values
-        
+
         cutoffSlider.reactive.value <~ delay.lowPassCutoff
         delay.lowPassCutoff <~ cutoffSlider.reactive.values
-        
+
         wetDrySlider.reactive.value <~ delay.wetDryMix
         delay.wetDryMix <~ wetDrySlider.reactive.values
     }

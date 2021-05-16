@@ -11,7 +11,6 @@
 import Foundation
 import CoreData
 
-
 extension UVCDTrack {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<UVCDTrack> {

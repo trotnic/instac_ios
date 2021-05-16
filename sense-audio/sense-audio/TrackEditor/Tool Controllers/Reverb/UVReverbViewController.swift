@@ -31,10 +31,10 @@ class UVReverbViewController: UIViewController, UVTrackToolController {
 
     @IBOutlet private var mainViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet private var allPresetsTableViewLeadingConstraint: NSLayoutConstraint!
-    
+
     private let preset: MutableProperty<UVReverbPresset> = MutableProperty(.mediumHall)
     private var reverb: UVReverb!
-    
+
     var saveSignal: Signal<Void, Never> { _saveSignal }
     private let (_saveSignal, _saveObserver) = Signal<Void, Never>.pipe()
 
@@ -66,25 +66,24 @@ extension UVReverbViewController {
 private extension UVReverbViewController {
     func bindViews() {
         wetDryCurrentValueLabel.reactive.text <~ wetDrySlider.reactive.values.map({ "\($0)%" })
-        
+
         saveButton.reactive
             .controlEvents(.touchUpInside)
             .observeValues { _ in
                 self._saveObserver.send(value: ())
             }
     }
-    
+
     func bindReverb() {
         switcher.reactive.isOn <~ reverb.isOn
         reverb.isOn <~ switcher.reactive.isOnValues
-        
+
         preset.value = reverb.preset.value.representation
         reverb.preset <~ preset.map({ $0.representation })
-        
+
         wetDrySlider.reactive.value <~ reverb.wetDryMix
         reverb.wetDryMix <~ wetDrySlider.reactive.values
     }
-
 
     func setupTableViews() {
         presetTableView.register(UITableViewCell.self, forCellReuseIdentifier: Constants.reuseIdentifier)

@@ -24,7 +24,7 @@ protocol UVTrackToolController {
 class UVTrackEditorViewController: UIViewController {
 
     // MARK: ⚠️ DEVELOP ZONE ⚠️
-    
+
     private enum Tool {
         case equalizer, distortion, delay, reverb, none
     }
@@ -39,21 +39,22 @@ class UVTrackEditorViewController: UIViewController {
 
     private struct Constants {
         static let fadeDuration: TimeInterval = 0.3
-        static let playIM = "play"
-        static let recordStartIM = "record.circle"
     }
 
     // MARK: - Properties
-    
+
     @IBOutlet weak var waveformView: FDWaveformView!
     @IBOutlet weak var playbackTimeLabel: UILabel!
-    
+
     @IBOutlet weak var mainStackView: UIStackView!
     @IBOutlet weak var equalizerToolButton: UIButton!
     @IBOutlet weak var distortionToolButton: UIButton!
 //    @IBOutlet weak var delayToolButton: UIButton!
     @IBOutlet weak var reverbToolButton: UIButton!
-    
+
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+
     @IBOutlet weak var playButton: UIButton!
 
     @IBOutlet weak var toolboxMainViewHeightConstraint: NSLayoutConstraint!
@@ -63,7 +64,7 @@ class UVTrackEditorViewController: UIViewController {
     @IBOutlet weak var toolboxPresentedHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet var pageViewController: UIPageViewController!
-    
+
     private lazy var equalizerController: UVEqualizerViewController = {
         let controller = UVEqualizerViewController.instantiate(editorViewModel?.toolbox.equalizer)
 
@@ -71,40 +72,39 @@ class UVTrackEditorViewController: UIViewController {
             .observeValues { _ in
                 self.keep(tool: .none)
             }
-        
         return controller
     }()
-    
+
     private lazy var distortionController: UVDistortionViewController = {
         let controller = UVDistortionViewController.instantiate(editorViewModel?.toolbox.distortion)
-        
+
         controller.saveSignal
             .observeValues { _ in
                 self.keep(tool: .none)
             }
         return controller
     }()
-    
+
     private lazy var delayController: UVDelayViewController = {
         let controller = UVDelayViewController.instantiate(editorViewModel?.toolbox.delay)
-        
+
         controller.saveSignal
             .observeValues { _ in
                 self.keep(tool: .none)
             }
         return controller
     }()
-    
+
     private lazy var reverbController: UVReverbViewController = {
         let controller = UVReverbViewController.instantiate(editorViewModel?.toolbox.reverb)
-        
+
         controller.saveSignal
             .observeValues { _ in
                 self.keep(tool: .none)
             }
         return controller
     }()
-    
+
     private var editorViewModel: UVTrackEditorViewModelType?
     private var playerState: State = .paused
     private var toolboxState: ToolboxState = .hidden
@@ -128,7 +128,7 @@ extension UVTrackEditorViewController {
         super.viewDidLoad()
         bindToViewModel()
         bindToolButtons()
-        bindViews()        
+        bindViews()
         setupAppearance()
     }
 }
@@ -139,17 +139,28 @@ private extension UVTrackEditorViewController {
     func bindToViewModel() {
         editorViewModel?.audioFileURL
             .observe(on: QueueScheduler.main)
-            .on(value: { fileURL in
-                self.waveformView.audioURL = fileURL
+            .on(value: {
+                self.waveformView.audioURL = $0
             })
             .start()
-//            .observeValues({ [self] fileURL in
-//                animateTransition(of: waveformView) {
-//                    waveformView.audioURL = fileURL
-//                }
-//            })
+
+        editorViewModel?.playbackEnd
+            .observe(on: QueueScheduler.main)
+            .observeValues({
+                self.stopPlayback()
+            })
+
+        editorViewModel?.savingStart
+            .observe(on: QueueScheduler.main)
+            .observeValues({ [self] in
+                playButton.isEnabled = false
+                cancelButton.isEnabled = false
+                equalizerToolButton.isEnabled = false
+                distortionToolButton.isEnabled = false
+                reverbToolButton.isEnabled = false
+            })
     }
-    
+
     func bindViews() {
         playButton.reactive
             .controlEvents(.touchUpInside)
@@ -157,14 +168,20 @@ private extension UVTrackEditorViewController {
                 switch playerState {
                 case .playing:
                     editorViewModel?.pause().start()
-                    playerState = .paused
+                    stopPlayback()
                 case .paused:
                     editorViewModel?.play().start()
-                    playerState = .playing
+                    startPlayback()
                 }
             }
+
+        saveButton.reactive
+            .controlEvents(.touchUpInside)
+            .observeValues { _ in
+                self.editorViewModel?.save()
+            }
     }
-    
+
     func bindToolButtons() {
         equalizerToolButton.reactive
             .controlEvents(.touchUpInside)
@@ -191,45 +208,27 @@ private extension UVTrackEditorViewController {
             }
     }
 
-    @objc func playBackAction(_ sender: UIButton) {
-//        switch state {
-//        case .paused:
-//            editorViewModel?
-//                .play()
-//                .on(value: { [self] in
-//                    animateTransition(of: playButton) {
-//                        playButton.setImage(UIImage(systemName: "pause"), for: .normal)
-//                    }
-//                    state = .playing
-//                })
-//                .start()
-//        case .playing:
-//            editorViewModel?
-//                .pause()
-//                .on(value: { [self] in
-//                    animateTransition(of: playButton) {
-//                        playButton.setImage(UIImage(systemName: "play"), for: .normal)
-//                    }
-//                    state = .paused
-//                })
-//                .start()
-//        }
+    func startPlayback() {
+        animateTransition(of: playButton) {
+            self.playButton.setImage(UIImage(.pause, point: .largeButton), for: .normal)
+        }
+        playerState = .playing
+    }
+
+    func stopPlayback() {
+        animateTransition(of: playButton) {
+            self.playButton.setImage(UIImage(.play, point: .largeButton), for: .normal)
+        }
+        playerState = .paused
     }
 
 }
 
 private extension UVTrackEditorViewController {
     func setupAppearance() {
-//        view.backgroundColor = .systemBackground
-//
-//        view.addSubview(playButton)
-//
-//        NSLayoutConstraint.activate([
-//            playButton.heightAnchor.constraint(equalToConstant: 60),
-//            playButton.widthAnchor.constraint(equalToConstant: 60),
-//            playButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            playButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-//        ])
+        animateTransition(of: playButton) {
+            self.playButton.setImage(UIImage(.play, point: .largeButton), for: .normal)
+        }
     }
 }
 
@@ -251,13 +250,13 @@ private extension UVTrackEditorViewController {
                 self.pageViewController.view.alpha = 1
             }
         }
-        
+
         guard currentTool != tool else {
             return
         }
-        
+
         currentTool = tool
-        
+
         switch tool {
         case .equalizer:
             pageViewController.setViewControllers([equalizerController], direction: .forward, animated: false)

@@ -11,7 +11,6 @@
 import Foundation
 import CoreData
 
-
 extension UVCDProject {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<UVCDProject> {

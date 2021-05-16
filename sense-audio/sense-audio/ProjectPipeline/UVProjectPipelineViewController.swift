@@ -26,13 +26,13 @@ class UVProjectPipelineViewController: UIViewController {
 
     private lazy var createTrackButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "plus.circle"), for: .normal)
+        button.setImage(UIImage(.newTrack, point: .navigationButton), for: .normal)
         return button
     }()
 
     private lazy var playButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "play"), for: .normal)
+        button.setImage(UIImage(.play, point: .navigationButton), for: .normal)
         return button
     }()
 
@@ -58,7 +58,7 @@ extension UVProjectPipelineViewController {
         bindViews()
         setupAppearance()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         pipelineViewModel.requestContents()
@@ -82,14 +82,14 @@ private extension UVProjectPipelineViewController {
                 }
             })
     }
-    
+
     func bindViews() {
         createTrackButton.reactive
             .controlEvents(.touchUpInside)
             .observeValues { _ in
                 self.pipelineViewModel.addTrack()
             }
-        
+
         playButton.reactive
             .controlEvents(.touchUpInside)
             .observeValues { _ in
@@ -98,8 +98,10 @@ private extension UVProjectPipelineViewController {
     }
 
     func setupAppearance() {
+        let playBarItem = UIBarButtonItem(customView: playButton)
+        playButton.isEnabled = false
         navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(customView: playButton),
+            playBarItem,
             UIBarButtonItem(customView: createTrackButton)
         ]
         setupTableView()

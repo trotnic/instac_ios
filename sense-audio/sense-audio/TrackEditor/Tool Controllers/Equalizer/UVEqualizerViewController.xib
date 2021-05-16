@@ -53,14 +53,20 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bhB-7u-d64">
-                                    <rect key="frame" x="350" y="10" width="34" height="30"/>
-                                    <state key="normal" title="Save"/>
+                                    <rect key="frame" x="345" y="10" width="39" height="30"/>
+                                    <state key="normal" title="Close"/>
                                 </button>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EXu-da-5W8">
-                                    <rect key="frame" x="271" y="9.5" width="51" height="31"/>
+                                    <rect key="frame" x="266" y="9.5" width="51" height="31"/>
                                 </switch>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Global Gain" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sfl-n0-GpP">
                                     <rect key="frame" x="20" y="54.5" width="88" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Equalizer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1tO-Jp-C1K">
+                                    <rect key="frame" x="20" y="14.5" width="70" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -78,7 +84,9 @@
                                 <constraint firstItem="NXP-q4-36f" firstAttribute="top" secondItem="BT3-NM-1Am" secondAttribute="bottom" constant="5" id="a2b-wh-6Qd"/>
                                 <constraint firstItem="NXP-q4-36f" firstAttribute="leading" secondItem="ec3-Fk-52o" secondAttribute="leading" constant="20" id="aZD-XV-Fzm"/>
                                 <constraint firstItem="BT3-NM-1Am" firstAttribute="top" secondItem="sfl-n0-GpP" secondAttribute="bottom" constant="10" id="ccK-kL-Lg4"/>
+                                <constraint firstItem="1tO-Jp-C1K" firstAttribute="leading" secondItem="sfl-n0-GpP" secondAttribute="leading" id="dLz-TM-yam"/>
                                 <constraint firstItem="sfl-n0-GpP" firstAttribute="leading" secondItem="BT3-NM-1Am" secondAttribute="leading" id="eka-il-21j"/>
+                                <constraint firstItem="1tO-Jp-C1K" firstAttribute="centerY" secondItem="EXu-da-5W8" secondAttribute="centerY" id="f1T-M7-wL6"/>
                                 <constraint firstItem="bhB-7u-d64" firstAttribute="leading" secondItem="EXu-da-5W8" secondAttribute="trailing" constant="30" id="l8Q-0f-fes"/>
                                 <constraint firstAttribute="trailing" secondItem="bhB-7u-d64" secondAttribute="trailing" constant="30" id="nRp-fL-0Gu"/>
                                 <constraint firstItem="2MS-mK-neV" firstAttribute="top" secondItem="EXu-da-5W8" secondAttribute="bottom" constant="30" id="ujQ-wg-aCB"/>

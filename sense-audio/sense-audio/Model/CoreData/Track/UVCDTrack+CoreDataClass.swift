@@ -11,7 +11,6 @@
 import Foundation
 import CoreData
 
-
 class UVCDTrack: NSManagedObject {
 
 }

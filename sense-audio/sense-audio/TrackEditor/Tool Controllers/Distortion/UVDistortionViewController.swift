@@ -30,16 +30,16 @@ class UVDistortionViewController: UIViewController, UVTrackToolController {
     @IBOutlet private weak var mainView: UIView!
     @IBOutlet private var mainViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet private var allPresetsTableViewLeadingConstraint: NSLayoutConstraint!
-    
+
     @IBOutlet private weak var switcher: UISwitch!
     @IBOutlet private weak var saveButton: UIButton!
-    
+
     private let preset: MutableProperty<UVDistortionPreset> = MutableProperty(.drumsLoFi)
     private var distortion: UVDistortion!
-    
+
     var saveSignal: Signal<Void, Never> { _saveSignal }
     private let (_saveSignal, _saveObserver) = Signal<Void, Never>.pipe()
-    
+
 }
 
 // MARK: - Public interface
@@ -69,24 +69,24 @@ private extension UVDistortionViewController {
     func bindViews() {
         preGainCurrentValueLabel.reactive.text <~ preGainSlider.reactive.values.map({ "\($0)db" })
         wetDryMixCurrentValueLabel.reactive.text <~ wetDryMixSlider.reactive.values.map({ "\($0)%" })
-        
+
         saveButton.reactive
             .controlEvents(.touchUpInside)
             .observeValues { _ in
                 self._saveObserver.send(value: ())
             }
     }
-    
+
     func bindDistortion() {
         switcher.reactive.isOn <~ distortion.isOn
         distortion.isOn <~ switcher.reactive.isOnValues
-        
+
         preGainSlider.reactive.value <~ distortion.preGain
         distortion.preGain <~ preGainSlider.reactive.values
-        
+
         wetDryMixSlider.reactive.value <~ distortion.wetDryMix
         distortion.wetDryMix <~ wetDryMixSlider.reactive.values
-        
+
         preset.value = distortion.preset.value.representation
         distortion.preset <~ preset.map({ $0.representation })
     }

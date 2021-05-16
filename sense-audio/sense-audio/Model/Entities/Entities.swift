@@ -41,27 +41,27 @@ extension CDProject {
 
 struct UVTrackModel {
     let id: UUID
-    
+
     let projectId: UUID
     var name: String
-    
-    let isOn_EQ: Bool
-    let globalGain_EQ: Float
-    
-    let isOn_Dist: Bool
-    let preGain_Dist: Float
-    let wetDryMix_Dist: Float
-    let preset_Dist: Int16
-    
-    let isOn_Del: Bool
-    let delayTime_Del: Float
-    let feedback_Del: Float
-    let lowPassCutoff_Del: Float
-    let wetDryMix_Del: Float
-    
-    let isOn_Rev: Bool
-    let wetDryMix_Rev: Float
-    let preset_Rev: Int16
+
+    var isOn_EQ: Bool
+    var globalGain_EQ: Float
+
+    var isOn_Dist: Bool
+    var preGain_Dist: Float
+    var wetDryMix_Dist: Float
+    var preset_Dist: Int16
+
+    var isOn_Del: Bool
+    var delayTime_Del: Float
+    var feedback_Del: Float
+    var lowPassCutoff_Del: Float
+    var wetDryMix_Del: Float
+
+    var isOn_Rev: Bool
+    var wetDryMix_Rev: Float
+    var preset_Rev: Int16
 }
 
 extension UVTrackModel {
@@ -69,26 +69,26 @@ extension UVTrackModel {
         self.init(id: UUID(),
                   projectId: project,
                   name: name,
-                  
+
                   isOn_EQ: false,
                   globalGain_EQ: 0,
-                  
+
                   isOn_Dist: false,
                   preGain_Dist: -6,
                   wetDryMix_Dist: 50,
                   preset_Dist: 0,
-                  
+
                   isOn_Del: false,
                   delayTime_Del: 1,
                   feedback_Del: 50,
                   lowPassCutoff_Del: 15000,
                   wetDryMix_Del: 100,
-                  
+
                   isOn_Rev: false,
                   wetDryMix_Rev: 0,
                   preset_Rev: 3)
     }
-    
+
     init(_ model: CDTrack) {
         self.init(id: model.id!,
                   projectId: model.project!.id!,

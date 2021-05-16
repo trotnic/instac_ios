@@ -46,11 +46,11 @@
                             <rect key="frame" x="0.0" y="0.0" width="414" height="367.5"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KxC-b1-C7O">
-                                    <rect key="frame" x="350" y="10" width="34" height="30"/>
-                                    <state key="normal" title="Save"/>
+                                    <rect key="frame" x="345" y="10" width="39" height="30"/>
+                                    <state key="normal" title="Close"/>
                                 </button>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WGh-4D-Jud">
-                                    <rect key="frame" x="271" y="9.5" width="51" height="31"/>
+                                    <rect key="frame" x="266" y="9.5" width="51" height="31"/>
                                 </switch>
                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-20" maxValue="20" translatesAutoresizingMaskIntoConstraints="NO" id="jT5-bC-Klq">
                                     <rect key="frame" x="18" y="111.5" width="378" height="31"/>
@@ -117,6 +117,12 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distortion" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lsw-Yu-O3i">
+                                    <rect key="frame" x="20" y="14.5" width="75" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
@@ -149,6 +155,7 @@
                                 <constraint firstItem="jT5-bC-Klq" firstAttribute="top" secondItem="E17-J5-53J" secondAttribute="bottom" constant="5" id="qYl-2G-jqB"/>
                                 <constraint firstAttribute="trailing" secondItem="KxC-b1-C7O" secondAttribute="trailing" constant="30" id="rYV-oh-UPH"/>
                                 <constraint firstItem="IuC-Ot-IUv" firstAttribute="top" secondItem="WGh-4D-Jud" secondAttribute="bottom" constant="30" id="uzD-P0-tSB"/>
+                                <constraint firstItem="lsw-Yu-O3i" firstAttribute="centerY" secondItem="WGh-4D-Jud" secondAttribute="centerY" id="vqt-Jd-Afx"/>
                                 <constraint firstItem="KxC-b1-C7O" firstAttribute="top" secondItem="buU-XY-b8H" secondAttribute="top" constant="10" id="yyu-md-3sb"/>
                             </constraints>
                         </view>
@@ -167,6 +174,7 @@
                         <constraint firstItem="buU-XY-b8H" firstAttribute="trailing" secondItem="eOS-ut-but" secondAttribute="trailing" id="ekW-OB-IWd"/>
                         <constraint firstItem="v5S-nh-JnY" firstAttribute="leading" secondItem="E17-J5-53J" secondAttribute="leading" id="h9n-u5-dDv"/>
                         <constraint firstItem="eOS-ut-but" firstAttribute="leading" secondItem="buU-XY-b8H" secondAttribute="leading" id="hLL-Q8-t3c"/>
+                        <constraint firstItem="lsw-Yu-O3i" firstAttribute="leading" secondItem="v5S-nh-JnY" secondAttribute="leading" id="jKn-oa-Gav"/>
                     </constraints>
                     <viewLayoutGuide key="contentLayoutGuide" id="eOS-ut-but"/>
                     <viewLayoutGuide key="frameLayoutGuide" id="j0z-CF-jNL"/>
@@ -300,7 +308,7 @@
     </objects>
     <resources>
         <namedColor name="AccentColor">
-            <color red="1" green="0.58399999141693115" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

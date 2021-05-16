@@ -153,4 +153,38 @@ extension AVAudioUnitReverbPreset {
             fatalError()
         }
     }
+
+    var numeric: Int16 {
+        switch self {
+        case .smallRoom:
+            return 0
+        case .mediumRoom:
+            return 1
+        case .largeRoom:
+            return 2
+        case .mediumHall:
+            return 3
+        case .largeHall:
+            return 4
+        case .plate:
+            return 5
+        case .mediumChamber:
+            return 6
+        case .largeChamber:
+            return 7
+        case .cathedral:
+            return 8
+        case .largeRoom2:
+            return 9
+        case .mediumHall2:
+            return 10
+        case .mediumHall3:
+            return 11
+        case .largeHall2:
+            return 12
+        @unknown default:
+            fatalError()
+        }
+
+    }
 }
