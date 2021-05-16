@@ -64,7 +64,7 @@ extension UIImage {
         case stop
         case trash
     }
-    
+
     enum Context: Int {
         case largeButton = 40
         case ordinaryButton = 25

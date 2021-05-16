@@ -149,7 +149,7 @@ private extension UVTrackEditorViewController {
             .observeValues({
                 self.stopPlayback()
             })
-        
+
         editorViewModel?.savingStart
             .observe(on: QueueScheduler.main)
             .observeValues({ [self] in
@@ -207,14 +207,14 @@ private extension UVTrackEditorViewController {
                 self.keep(tool: .reverb)
             }
     }
-    
+
     func startPlayback() {
         animateTransition(of: playButton) {
             self.playButton.setImage(UIImage(.pause, point: .largeButton), for: .normal)
         }
         playerState = .playing
     }
-    
+
     func stopPlayback() {
         animateTransition(of: playButton) {
             self.playButton.setImage(UIImage(.play, point: .largeButton), for: .normal)

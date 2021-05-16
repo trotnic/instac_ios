@@ -44,7 +44,7 @@ final class UVEditor: UVAudioSettings {
         engine.attach(mixerNode2)
         engine.attach(mixerNode3)
         engine.attach(mixerNode4)
-        
+
         engine.attach(mixerSinkNode)
 
         engine.attach(playerNode)
@@ -78,12 +78,12 @@ final class UVEditor: UVAudioSettings {
     var playbackEnd: Signal<Void, Never> { _playbackEnd }
     var startSaving: Signal<Void, Never> { _startSaving }
     var endSaving: Signal<URL?, Error> { _endSaving }
-    
+
     private let mixerNode1 = AVAudioMixerNode()
     private let mixerNode2 = AVAudioMixerNode()
     private let mixerNode3 = AVAudioMixerNode()
     private let mixerNode4 = AVAudioMixerNode()
-    
+
     private let mixerSinkNode = AVAudioMixerNode()
 
     private let playerNode = AVAudioPlayerNode()
@@ -265,14 +265,14 @@ extension UVEditor: UVEditorType {
 
     func save() {
         // MARK: ♻️ REFACTOR LATER ♻️
-        
+
         try? AVAudioSession.shared.setCategory(.playback)
         try? AVAudioSession.shared.setActive(true, options: [.notifyOthersOnDeactivation])
 
         guard let sourceFile = audioFile else {
             return
         }
-        
+
         var outputFile: AVAudioFile?
         do {
             let documentsURL = FileManager.default.temporaryDirectory
@@ -291,22 +291,21 @@ extension UVEditor: UVEditorType {
         mixerSinkNode.installTap(onBus: 0, bufferSize: bufferSize, format: format) { (pcmBuffer, _) in
             try? outputFile?.write(from: pcmBuffer)
         }
-        
+
         playerNode.scheduleFile(sourceFile, at: nil, completionCallbackType: .dataPlayedBack) { [self] _ in
             engine.stop()
             mixerSinkNode.removeTap(onBus: 0)
             _endSavingObserver.send(value: outputFile?.url)
         }
-        
+
         _startSavingObserver.send(value: ())
-        
+
         if !engine.isRunning {
             try? engine.start()
         }
-        
+
         playerNode.play(at: nil)
-        
-        
+
 //        SignalProducer { [self] (observer, _) in
 //
 //            try? AVAudioSession.shared.setCategory(.record)

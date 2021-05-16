@@ -63,7 +63,7 @@ private extension UVTrackEditorViewModel {
                 editor.load(track: trackURL)
             })
             .start()
-        
+
         editor.endSaving
             .skipNil()
             .observe { [self] event in
@@ -71,7 +71,7 @@ private extension UVTrackEditorViewModel {
                 case .value(let newFileURL):
                     try? fileManager.delete(track: track.name, in: project.name)
                     try? fileManager.move(fileAt: newFileURL, to: project.name)
-    
+
                     dataManager.update(.track(toolbox.trackModel)).start()
                     DispatchQueue.main.async {
                         coordinator.back()
@@ -103,7 +103,7 @@ extension UVTrackEditorViewModel: UVTrackEditorViewModelType {
 
     func save() {
         editor.save()
-            
+
 //            .on(value: { [self] in
 //
 //                // MARK: ⚠️ DEVELOP ZONE ⚠️
